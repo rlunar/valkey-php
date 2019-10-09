@@ -3523,7 +3523,7 @@ generic_scan_cmd(INTERNAL_FUNCTION_PARAMETERS, REDIS_SCAN_TYPE type) {
     RedisSock *redis_sock;
     HashTable *hash;
     char *pattern = NULL, *cmd, *key = NULL;
-    int cmd_len, num_elements, key_free = 0;
+    int cmd_len, num_elements, key_free = 0, pattern_free = 0;
     size_t key_len = 0, pattern_len = 0;
     zend_long count = 0, iter;
 
@@ -3580,6 +3580,13 @@ generic_scan_cmd(INTERNAL_FUNCTION_PARAMETERS, REDIS_SCAN_TYPE type) {
         key_free = redis_key_prefix(redis_sock, &key, &key_len);
     }
 
+    if (redis_sock->prefix != NULL && pattern_len > 0 && (
+        ZSTR_LEN(redis_sock->prefix) != pattern_len ||
+        strncmp(ZSTR_VAL(redis_sock->prefix), pattern, pattern_len)
+    )) {
+        pattern_free = redis_key_prefix(redis_sock, &pattern, &pattern_len);
+    }
+
     /**
      * Redis can return to us empty keys, especially in the case where there
      * are a large number of keys to scan, and we're matching against a
@@ -3614,6 +3621,8 @@ generic_scan_cmd(INTERNAL_FUNCTION_PARAMETERS, REDIS_SCAN_TYPE type) {
         num_elements = zend_hash_num_elements(hash);
     } while(redis_sock->scan == REDIS_SCAN_RETRY && iter != 0 &&
             num_elements == 0);
+
+    if (pattern_free) efree(pattern);
 
     /* Free our key if it was prefixed */
     if(key_free) efree(key);
