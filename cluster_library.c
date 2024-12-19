@@ -1599,11 +1599,13 @@ PHP_REDIS_API short cluster_send_command(redisCluster *c, short slot, const char
 
     // If we've detected the cluster is down, throw an exception
     if (c->clusterdown) {
+        cluster_cache_clear(c);
         CLUSTER_THROW_EXCEPTION("The Redis Cluster is down (CLUSTERDOWN)", 0);
         return -1;
     } else if (timedout || resp == -1) {
         // Make sure the socket is reconnected, it such that it is in a clean state
         redis_sock_disconnect(c->cmd_sock, 1, 1);
+        cluster_cache_clear(c);
 
         if (timedout) {
             CLUSTER_THROW_EXCEPTION("Timed out attempting to find data in the correct node!", 0);
@@ -3113,6 +3115,13 @@ PHP_REDIS_API void cluster_cache_store(zend_string *hash, HashTable *nodes) {
     redisCachedCluster *cc = cluster_cache_create(hash, nodes);
 
     redis_register_persistent_resource(cc->hash, cc, le_cluster_slot_cache);
+}
+
+void cluster_cache_clear(redisCluster *c)
+{
+    if (c->cache_key) {
+        zend_hash_del(&EG(persistent_list), c->cache_key);
+    }
 }
 
 
