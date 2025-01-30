@@ -44,6 +44,7 @@ fold_item* redis_add_reply_callback(RedisSock *redis_sock);
 void redis_free_reply_callbacks(RedisSock *redis_sock);
 
 PHP_REDIS_API int redis_extract_auth_info(zval *ztest, zend_string **user, zend_string **pass);
+PHP_REDIS_API void redis_with_metadata(zval *zdst, zval *zsrc, zend_long length);
 
 int redis_cmd_init_sstr(smart_string *str, int num_args, char *keyword, int keyword_len);
 int redis_cmd_append_sstr(smart_string *str, char *append, int append_len);

@@ -248,6 +248,21 @@ class Redis_Cluster_Test extends Redis_Test {
         $this->assertTrue($this->redis->client($key, 'kill', $addr));
     }
 
+    public function testGetWithMeta() {
+        $this->redis->del('key');
+        $this->assertFalse($this->redis->get('key'));
+        $this->assertEquals([false, ['length' => -1]], $this->redis->getWithMeta('key'));
+
+        $this->assertEquals([true, ['value', ['length' => strlen('value')]]], $this->redis->multi()->set('key', 'value')->getWithMeta('key')->exec());
+
+        $serializer = $this->redis->getOption(Redis::OPT_SERIALIZER);
+        $this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
+        $this->assertTrue($this->redis->set('key', false));
+        $this->assertEquals([false, ['length' => strlen(serialize(false))]], $this->redis->getWithMeta('key'));
+        $this->assertFalse($this->redis->get('key'));
+        $this->redis->setOption(Redis::OPT_SERIALIZER, $serializer);
+    }
+
     public function testTime() {
         [$sec, $usec] = $this->redis->time(uniqid());
         $this->assertEquals(strval(intval($sec)), strval($sec));

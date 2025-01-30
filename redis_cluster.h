@@ -22,6 +22,7 @@
     _item->slot = slot; \
     _item->ctx = ctx; \
     _item->next = NULL; \
+    _item->flags = c->flags->flags; \
     if(c->multi_head == NULL) { \
         c->multi_head = _item; \
         c->multi_curr = _item; \

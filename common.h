@@ -152,6 +152,7 @@ typedef enum {
 #define PIPELINE 2
 
 #define PHPREDIS_DEBUG_LOGGING 0
+#define PHPREDIS_WITH_METADATA 1
 
 #if PHP_VERSION_ID < 80000
 #define Z_PARAM_ARRAY_HT_OR_NULL(dest) \
@@ -184,6 +185,7 @@ typedef enum {
 #define REDIS_SAVE_CALLBACK(callback, closure_context) do { \
     fold_item *fi = redis_add_reply_callback(redis_sock); \
     fi->fun = callback; \
+    fi->flags = redis_sock->flags; \
     fi->ctx = closure_context; \
 } while (0)
 
@@ -266,6 +268,9 @@ static inline int redis_strncmp(const char *s1, const char *s2, size_t n) {
 #define REDIS_ENABLE_MODE(redis_sock, m) (redis_sock->mode |= m)
 #define REDIS_DISABLE_MODE(redis_sock, m) (redis_sock->mode &= ~m)
 
+#define REDIS_ENABLE_FLAG(redis_sock, f) (redis_sock->flags |= f)
+#define REDIS_DISABLE_FLAG(redis_sock, f) (redis_sock->flags &= ~f)
+
 /* HOST_NAME_MAX doesn't exist everywhere */
 #ifndef HOST_NAME_MAX
     #if defined(_POSIX_HOST_NAME_MAX)
@@ -325,6 +330,7 @@ typedef struct {
     int                 sentinel;
     size_t              txBytes;
     size_t              rxBytes;
+    uint8_t             flags;
 } RedisSock;
 /* }}} */
 
@@ -334,6 +340,7 @@ typedef int (*FailableResultCallback)(INTERNAL_FUNCTION_PARAMETERS, RedisSock*, 
 
 typedef struct fold_item {
     FailableResultCallback fun;
+    uint8_t flags;
     void *ctx;
 } fold_item;
 

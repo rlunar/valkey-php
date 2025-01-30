@@ -275,11 +275,27 @@ PHP_METHOD(RedisCluster, close) {
     RETURN_TRUE;
 }
 
-/* {{{ proto string RedisCluster::get(string key) */
-PHP_METHOD(RedisCluster, get) {
+static void
+cluster_get_passthru(INTERNAL_FUNCTION_PARAMETERS)
+{
     CLUSTER_PROCESS_KW_CMD("GET", redis_key_cmd, cluster_bulk_resp, 1);
 }
+
+/* {{{ proto string RedisCluster::get(string key) */
+PHP_METHOD(RedisCluster, get) {
+    cluster_get_passthru(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
 /* }}} */
+
+/* {{{ proto array|false RedisCluster::getWithMeta(string key) */
+PHP_METHOD(RedisCluster, getWithMeta) {
+    redisCluster *c = GET_CONTEXT();
+    REDIS_ENABLE_FLAG(c->flags, PHPREDIS_WITH_METADATA);
+    cluster_get_passthru(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+    REDIS_DISABLE_FLAG(c->flags, PHPREDIS_WITH_METADATA);
+}
+/* }}} */
+
 
 /* {{{ proto bool RedisCluster::set(string key, string value) */
 PHP_METHOD(RedisCluster, set) {

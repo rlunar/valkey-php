@@ -2669,32 +2669,34 @@ PHP_REDIS_API int redis_string_response(INTERNAL_FUNCTION_PARAMETERS, RedisSock 
 
     char *response;
     int response_len;
+    zval z_unpacked, z_ret, *zv;
+    zend_bool ret;
 
-    if ((response = redis_sock_read(redis_sock, &response_len))
-                                    == NULL)
-    {
-        if (IS_ATOMIC(redis_sock)) {
-            RETVAL_FALSE;
-        } else {
-            add_next_index_bool(z_tab, 0);
-        }
-        return FAILURE;
-    }
-    if (IS_ATOMIC(redis_sock)) {
-        if (!redis_unpack(redis_sock, response, response_len, return_value)) {
-            RETVAL_STRINGL_FAST(response, response_len);
-        }
+    if ((response = redis_sock_read(redis_sock, &response_len)) == NULL) {
+        ZVAL_FALSE(&z_unpacked);
+        ret = FAILURE;
     } else {
-        zval z_unpacked;
-        if (redis_unpack(redis_sock, response, response_len, &z_unpacked)) {
-            add_next_index_zval(z_tab, &z_unpacked);
-        } else {
-            redis_add_next_index_stringl(z_tab, response, response_len);
+        if (!redis_unpack(redis_sock, response, response_len, &z_unpacked)) {
+            ZVAL_STRINGL_FAST(&z_unpacked, response, response_len);
         }
+        efree(response);
+        ret = SUCCESS;
     }
 
-    efree(response);
-    return SUCCESS;
+    if (redis_sock->flags & PHPREDIS_WITH_METADATA) {
+        redis_with_metadata(&z_ret, &z_unpacked, response_len);
+        zv = &z_ret;
+    } else {
+        zv = &z_unpacked;
+    }
+
+    if (IS_ATOMIC(redis_sock)) {
+        RETVAL_ZVAL(zv, 0, 1);
+    } else {
+        add_next_index_zval(z_tab, zv);
+    }
+
+    return ret;
 }
 
 /* like string response, but never unserialized. */
@@ -4453,6 +4455,17 @@ int redis_extract_auth_info(zval *ztest, zend_string **user, zend_string **pass)
     *user = NULL;
 
     return FAILURE;
+}
+
+PHP_REDIS_API void redis_with_metadata(zval *zdst, zval *zsrc, zend_long length) {
+    zval z_sub;
+
+    array_init(zdst);
+    add_next_index_zval(zdst, zsrc);
+
+    array_init(&z_sub);
+    add_assoc_long_ex(&z_sub, ZEND_STRL("length"), length);
+    add_next_index_zval(zdst, &z_sub);
 }
 
 /* Helper methods to extract configuration settings from a hash table */

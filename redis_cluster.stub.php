@@ -391,6 +391,11 @@ class RedisCluster {
     public function get(string $key): mixed;
 
     /**
+     * @see Redis::getWithMeta
+     */
+    public function getWithMeta(string $key): RedisCluster|array|false;
+
+    /**
      * @see Redis::getEx
      */
     public function getex(string $key, array $options = []): RedisCluster|string|false;
