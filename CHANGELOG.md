@@ -5,6 +5,15 @@ All changes to phpredis will be documented in this file.
 We're basing this format on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and PhpRedis adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Added `getWithMeta` method
+  [9036ffca](https://github.com/phpredis/phpredis/commit/9036ffca)
+  ([Pavlo Yatsukhnenko](https://github.com/yatsukhnenko))
+
+
 ## [6.1.0] - 2024-10-04 ([Github](https://github.com/phpredis/phpredis/releases/6.1.0), [PECL](https://pecl.php.net/package/redis/6.1.0))
 
 **NOTE**: There were no changes to C code between 6.1.0RC2 and 6.1.0.
