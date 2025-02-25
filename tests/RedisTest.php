@@ -5803,15 +5803,63 @@ class Redis_Test extends TestSuite {
     public function testGetWithMeta() {
         $this->redis->del('key');
         $this->assertFalse($this->redis->get('key'));
-        $this->assertEquals([false, ['length' => -1]], $this->redis->getWithMeta('key'));
 
-        $this->assertEquals([false, [false, ['length' => -1]]], $this->redis->pipeline()->get('key')->getWithMeta('key')->exec());
-        $this->assertEquals([true, ['value', ['length' => strlen('value')]]], $this->redis->multi()->set('key', 'value')->getWithMeta('key')->exec());
+        $result = $this->redis->getWithMeta('key');
+        $this->assertIsArray($result, 2);
+        $this->assertArrayKeyEquals($result, 0, false);
+        $this->assertArrayKey($result, 1, function ($metadata) {
+            $this->assertIsArray($metadata);
+            $this->assertArrayKeyEquals($metadata, 'length', -1);
+            return true;
+        });
+
+        $batch = $this->redis->pipeline()
+            ->get('key')
+            ->getWithMeta('key')
+            ->exec();
+        $this->assertIsArray($batch, 2);
+        $this->assertArrayKeyEquals($batch, 0, false);
+        $this->assertArrayKey($batch, 1, function ($result) {
+            $this->assertIsArray($result, 2);
+            $this->assertArrayKeyEquals($result, 0, false);
+            $this->assertArrayKey($result, 1, function ($metadata) {
+                $this->assertIsArray($metadata);
+                $this->assertArrayKeyEquals($metadata, 'length', -1);
+                return true;
+            });
+            return true;
+        });
+
+        $batch = $this->redis->multi()
+            ->set('key', 'value')
+            ->getWithMeta('key')
+            ->exec();
+        $this->assertIsArray($batch, 2);
+        $this->assertArrayKeyEquals($batch, 0, true);
+        $this->assertArrayKey($batch, 1, function ($result) {
+            $this->assertIsArray($result, 2);
+            $this->assertArrayKeyEquals($result, 0, 'value');
+            $this->assertArrayKey($result, 1, function ($metadata) {
+                $this->assertIsArray($metadata);
+                $this->assertArrayKeyEquals($metadata, 'length', strlen('value'));
+                return true;
+            });
+            return true;
+        });
 
         $serializer = $this->redis->getOption(Redis::OPT_SERIALIZER);
         $this->redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
         $this->assertTrue($this->redis->set('key', false));
-        $this->assertEquals([false, ['length' => strlen(serialize(false))]], $this->redis->getWithMeta('key'));
+
+        $result = $this->redis->getWithMeta('key');
+        $this->assertIsArray($result, 2);
+        $this->assertArrayKeyEquals($result, 0, false);
+        $this->assertArrayKey($result, 1, function ($metadata) {
+            $this->assertIsArray($metadata);
+            $this->assertArrayKeyEquals($metadata, 'length', strlen(serialize(false)));
+            return true;
+        });
+
         $this->assertFalse($this->redis->get('key'));
         $this->redis->setOption(Redis::OPT_SERIALIZER, $serializer);
     }
