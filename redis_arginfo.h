@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 3c4051fdd9f860523bcd72aba260b1af823d1d9c */
+ * Stub hash: 6dd5a9e9d1d5ed8a78e248c99352232e30046f28 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Redis___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 1, "null")
@@ -323,6 +323,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Redis_get, 0, 1, IS_MIXED,
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_class_Redis_getWithMeta, 0, 1, Redis, MAY_BE_ARRAY|MAY_BE_FALSE)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Redis_getAuth, 0, 0, IS_MIXED, 0)
 ZEND_END_ARG_INFO()
 
@@ -404,9 +408,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_class_Redis_hGet, 0, 2, IS_MIXED
 	ZEND_ARG_TYPE_INFO(0, member, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_class_Redis_hGetAll, 0, 1, Redis, MAY_BE_ARRAY|MAY_BE_FALSE)
-	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
-ZEND_END_ARG_INFO()
+#define arginfo_class_Redis_hGetAll arginfo_class_Redis_getWithMeta
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_class_Redis_hIncrBy, 0, 3, Redis, MAY_BE_LONG|MAY_BE_FALSE)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
@@ -420,7 +422,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_class_Redis_hIncrByFloat, 0,
 	ZEND_ARG_TYPE_INFO(0, value, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
-#define arginfo_class_Redis_hKeys arginfo_class_Redis_hGetAll
+#define arginfo_class_Redis_hKeys arginfo_class_Redis_getWithMeta
 
 #define arginfo_class_Redis_hLen arginfo_class_Redis_expiretime
 
@@ -455,7 +457,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_class_Redis_hStrLen, 0, 2, R
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-#define arginfo_class_Redis_hVals arginfo_class_Redis_hGetAll
+#define arginfo_class_Redis_hVals arginfo_class_Redis_getWithMeta
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_TYPE_MASK_EX(arginfo_class_Redis_hscan, 0, 2, Redis, MAY_BE_ARRAY|MAY_BE_BOOL)
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
@@ -747,7 +749,7 @@ ZEND_END_ARG_INFO()
 
 #define arginfo_class_Redis_sInterStore arginfo_class_Redis_del
 
-#define arginfo_class_Redis_sMembers arginfo_class_Redis_hGetAll
+#define arginfo_class_Redis_sMembers arginfo_class_Redis_getWithMeta
 
 #define arginfo_class_Redis_sMisMember arginfo_class_Redis_geohash
 
@@ -1249,6 +1251,7 @@ ZEND_METHOD(Redis, georadiusbymember_ro);
 ZEND_METHOD(Redis, geosearch);
 ZEND_METHOD(Redis, geosearchstore);
 ZEND_METHOD(Redis, get);
+ZEND_METHOD(Redis, getWithMeta);
 ZEND_METHOD(Redis, getAuth);
 ZEND_METHOD(Redis, getBit);
 ZEND_METHOD(Redis, getEx);
@@ -1507,6 +1510,7 @@ static const zend_function_entry class_Redis_methods[] = {
 	ZEND_ME(Redis, geosearch, arginfo_class_Redis_geosearch, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, geosearchstore, arginfo_class_Redis_geosearchstore, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, get, arginfo_class_Redis_get, ZEND_ACC_PUBLIC)
+	ZEND_ME(Redis, getWithMeta, arginfo_class_Redis_getWithMeta, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, getAuth, arginfo_class_Redis_getAuth, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, getBit, arginfo_class_Redis_getBit, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, getEx, arginfo_class_Redis_getEx, ZEND_ACC_PUBLIC)

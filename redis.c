@@ -760,11 +760,32 @@ PHP_METHOD(Redis, reset)
 }
 /* }}} */
 
+static void
+redis_get_passthru(INTERNAL_FUNCTION_PARAMETERS)
+{
+    REDIS_PROCESS_KW_CMD("GET", redis_key_cmd, redis_string_response);
+}
+
 /* {{{ proto string Redis::get(string key)
  */
 PHP_METHOD(Redis, get)
 {
-    REDIS_PROCESS_KW_CMD("GET", redis_key_cmd, redis_string_response);
+    redis_get_passthru(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+}
+/* }}} */
+
+/* {{{ proto Redis|array|false Redis::getWithMeta(string key)
+ */
+PHP_METHOD(Redis, getWithMeta)
+{
+    RedisSock *redis_sock;
+    if ((redis_sock = redis_sock_get_instance(getThis(), 0)) == NULL) {
+        RETURN_FALSE;
+    }
+
+    REDIS_ENABLE_FLAG(redis_sock, PHPREDIS_WITH_METADATA);
+    redis_get_passthru(INTERNAL_FUNCTION_PARAM_PASSTHRU);
+    REDIS_DISABLE_FLAG(redis_sock, PHPREDIS_WITH_METADATA);
 }
 /* }}} */
 
@@ -2067,13 +2088,17 @@ PHP_REDIS_API int
 redis_sock_read_multibulk_multi_reply_loop(INTERNAL_FUNCTION_PARAMETERS,
                                            RedisSock *redis_sock, zval *z_tab)
 {
-    fold_item fi;
+    fold_item *fi;
+    uint8_t flags;
     size_t i;
 
+    flags = redis_sock->flags;
     for (i = 0; i < redis_sock->reply_callback_count; i++) {
-        fi = redis_sock->reply_callback[i];
-        if (fi.fun) {
-            fi.fun(INTERNAL_FUNCTION_PARAM_PASSTHRU, redis_sock, z_tab, fi.ctx);
+        fi = &redis_sock->reply_callback[i];
+        if (fi->fun) {
+            redis_sock->flags = fi->flags;
+            fi->fun(INTERNAL_FUNCTION_PARAM_PASSTHRU, redis_sock, z_tab, fi->ctx);
+            redis_sock->flags = flags;
             continue;
         }
         size_t len;

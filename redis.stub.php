@@ -1468,6 +1468,16 @@ class Redis {
     public function get(string $key): mixed;
 
     /**
+     * Retrieve a value and metadata of key.
+     *
+     * @param  string  $key The key to query
+     * @return Redis|array|false
+     *
+     * @example $redis->getWithMeta('foo');
+     */
+    public function getWithMeta(string $key): Redis|array|false;
+
+    /**
      * Get the authentication information on the connection, if any.
      *
      * @return mixed The authentication information used to authenticate the connection.

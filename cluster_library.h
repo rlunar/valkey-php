@@ -264,6 +264,8 @@ struct clusterFoldItem {
 
     /* Next item in our list */
     struct clusterFoldItem *next;
+
+    uint8_t flags;
 };
 
 /* Key and value container, with info if they need freeing */

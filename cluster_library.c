@@ -1677,27 +1677,33 @@ PHP_REDIS_API void cluster_bulk_resp(INTERNAL_FUNCTION_PARAMETERS, redisCluster 
                               void *ctx)
 {
     char *resp;
+    zval z_unpacked, z_ret, *zv;
 
     // Make sure we can read the response
-    if (c->reply_type != TYPE_BULK ||
-       (resp = redis_sock_read_bulk_reply(c->cmd_sock, c->reply_len)) == NULL)
-    {
-        CLUSTER_RETURN_FALSE(c);
+    if (c->reply_type != TYPE_BULK) {
+        ZVAL_FALSE(&z_unpacked);
+        c->reply_len = 0;
+    } else if ((resp = redis_sock_read_bulk_reply(c->cmd_sock, c->reply_len)) == NULL) {
+        ZVAL_FALSE(&z_unpacked);
+    } else {
+        if (!redis_unpack(c->flags, resp, c->reply_len, &z_unpacked)) {
+            ZVAL_STRINGL_FAST(&z_unpacked, resp, c->reply_len);
+        }
+        efree(resp);
+    }
+
+    if (c->flags->flags & PHPREDIS_WITH_METADATA) {
+        redis_with_metadata(&z_ret, &z_unpacked, c->reply_len);
+        zv = &z_ret;
+    } else {
+        zv = &z_unpacked;
     }
 
     if (CLUSTER_IS_ATOMIC(c)) {
-        if (!redis_unpack(c->flags, resp, c->reply_len, return_value)) {
-            CLUSTER_RETURN_STRING(c, resp, c->reply_len);
-        }
+        RETVAL_ZVAL(zv, 0, 1);
     } else {
-        zval z_unpacked;
-        if (redis_unpack(c->flags, resp, c->reply_len, &z_unpacked)) {
-            add_next_index_zval(&c->multi_resp, &z_unpacked);
-        } else {
-            add_next_index_stringl(&c->multi_resp, resp, c->reply_len);
-        }
+        add_next_index_zval(&c->multi_resp, zv);
     }
-    efree(resp);
 }
 
 /* Bulk response where we expect a double */
@@ -2553,8 +2559,9 @@ PHP_REDIS_API void cluster_multi_mbulk_resp(INTERNAL_FUNCTION_PARAMETERS,
                                      redisCluster *c, void *ctx)
 {
     zval *multi_resp = &c->multi_resp;
-    array_init(multi_resp);
+    uint8_t flags = c->flags->flags;
 
+    array_init(multi_resp);
     clusterFoldItem *fi = c->multi_head;
     while (fi) {
         /* Make sure our transaction didn't fail here */
@@ -2570,7 +2577,9 @@ PHP_REDIS_API void cluster_multi_mbulk_resp(INTERNAL_FUNCTION_PARAMETERS,
                 RETURN_FALSE;
             }
 
+            c->flags->flags = fi->flags;
             fi->callback(INTERNAL_FUNCTION_PARAM_PASSTHRU, c, fi->ctx);
+            c->flags->flags = flags;
         } else {
             /* Just add false */
             add_next_index_bool(multi_resp, 0);

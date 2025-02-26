@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: 3c4051fdd9f860523bcd72aba260b1af823d1d9c */
+ * Stub hash: 6dd5a9e9d1d5ed8a78e248c99352232e30046f28 */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Redis___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, options)
@@ -300,6 +300,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_class_Redis_geosearchstore, 0, 0, 5)
 ZEND_END_ARG_INFO()
 
 #define arginfo_class_Redis_get arginfo_class_Redis__prefix
+
+#define arginfo_class_Redis_getWithMeta arginfo_class_Redis__prefix
 
 #define arginfo_class_Redis_getAuth arginfo_class_Redis___destruct
 
@@ -1092,6 +1094,7 @@ ZEND_METHOD(Redis, georadiusbymember_ro);
 ZEND_METHOD(Redis, geosearch);
 ZEND_METHOD(Redis, geosearchstore);
 ZEND_METHOD(Redis, get);
+ZEND_METHOD(Redis, getWithMeta);
 ZEND_METHOD(Redis, getAuth);
 ZEND_METHOD(Redis, getBit);
 ZEND_METHOD(Redis, getEx);
@@ -1350,6 +1353,7 @@ static const zend_function_entry class_Redis_methods[] = {
 	ZEND_ME(Redis, geosearch, arginfo_class_Redis_geosearch, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, geosearchstore, arginfo_class_Redis_geosearchstore, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, get, arginfo_class_Redis_get, ZEND_ACC_PUBLIC)
+	ZEND_ME(Redis, getWithMeta, arginfo_class_Redis_getWithMeta, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, getAuth, arginfo_class_Redis_getAuth, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, getBit, arginfo_class_Redis_getBit, ZEND_ACC_PUBLIC)
 	ZEND_ME(Redis, getEx, arginfo_class_Redis_getEx, ZEND_ACC_PUBLIC)

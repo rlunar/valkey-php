@@ -1,5 +1,5 @@
 /* This is a generated file, edit the .stub.php file instead.
- * Stub hash: b9310b607794caa862d509ba316a2a512d2736fe */
+ * Stub hash: 5966b99fd578eca94880e09539542edfbcbcdaed */
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_RedisCluster___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, name)
@@ -294,6 +294,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_class_RedisCluster_geosearchstore, 0, 0, 5)
 ZEND_END_ARG_INFO()
 
 #define arginfo_class_RedisCluster_get arginfo_class_RedisCluster__prefix
+
+#define arginfo_class_RedisCluster_getWithMeta arginfo_class_RedisCluster__prefix
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_class_RedisCluster_getex, 0, 0, 1)
 	ZEND_ARG_INFO(0, key)
@@ -969,6 +971,7 @@ ZEND_METHOD(RedisCluster, georadiusbymember_ro);
 ZEND_METHOD(RedisCluster, geosearch);
 ZEND_METHOD(RedisCluster, geosearchstore);
 ZEND_METHOD(RedisCluster, get);
+ZEND_METHOD(RedisCluster, getWithMeta);
 ZEND_METHOD(RedisCluster, getex);
 ZEND_METHOD(RedisCluster, getbit);
 ZEND_METHOD(RedisCluster, getlasterror);
@@ -1198,6 +1201,7 @@ static const zend_function_entry class_RedisCluster_methods[] = {
 	ZEND_ME(RedisCluster, geosearch, arginfo_class_RedisCluster_geosearch, ZEND_ACC_PUBLIC)
 	ZEND_ME(RedisCluster, geosearchstore, arginfo_class_RedisCluster_geosearchstore, ZEND_ACC_PUBLIC)
 	ZEND_ME(RedisCluster, get, arginfo_class_RedisCluster_get, ZEND_ACC_PUBLIC)
+	ZEND_ME(RedisCluster, getWithMeta, arginfo_class_RedisCluster_getWithMeta, ZEND_ACC_PUBLIC)
 	ZEND_ME(RedisCluster, getex, arginfo_class_RedisCluster_getex, ZEND_ACC_PUBLIC)
 	ZEND_ME(RedisCluster, getbit, arginfo_class_RedisCluster_getbit, ZEND_ACC_PUBLIC)
 	ZEND_ME(RedisCluster, getlasterror, arginfo_class_RedisCluster_getlasterror, ZEND_ACC_PUBLIC)
