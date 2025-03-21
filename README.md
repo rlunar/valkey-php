@@ -25,6 +25,15 @@ Valkey-PHP is a comprehensive PHP client for [Valkey](https://valkey.io), design
 - **Valkey Compatibility**: Maintained in sync with Valkey development while preserving compatibility with Redis OSS
 - **Enterprise-Ready**: Clustering, sentinel support, connection pooling, and other features needed for production deployments
 
+## Pre-requisites
+
+```bash
+brew install valkey
+brew services start valkey
+brew services list
+valkey-cli INFO server
+```
+
 ## Installation
 
 ### PHP Extension (Recommended for Production)
@@ -144,7 +153,7 @@ We thank all the contributors to these projects for their valuable work.
 - Discord Community
 - Stack Overflow
 
-<p align="center"> <a href="https://linuxfoundation.org"> <img src="https://www.linuxfoundation.org/wp-content/uploads/2020/10/lf_logo.svg" alt="Linux Foundation" width="200"/> </a> </p> ```
+<p align="center"> <a href="https://linuxfoundation.org"> <img src="https://www.linuxfoundation.org/hubfs/LF%20Logo%20White.svg" alt="Linux Foundation" width="200"/> </a> </p> ```
 
 This README provides a comprehensive overview of your project goals, highlighting the merger of phpredis and webdcg/redis under the Linux Foundation with BSD-3 licensing. It emphasizes the key features like 100% Valkey command coverage, high-level abstractions similar to Redisson, and the commitment to open source. The document includes installation instructions, quick start examples, migration paths, and acknowledges the original projects.
 
