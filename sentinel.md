@@ -20,7 +20,7 @@ Redis Sentinel also provides other collateral tasks such as monitoring, notifica
 
 ##### *Examples for version 6.0 or later*
 
-~~~php
+```php
 $sentinel = new RedisSentinel([
   'host' => '127.0.0.1',
 ]); // default parameters
@@ -57,18 +57,18 @@ $sentinel = new RedisSentinel([
   'readTimeout' => 0,
   'auth' => 'secret',
 ]); // connect sentinel with password authentication
-~~~
+```
 
 ##### *Examples for versions older than 6.0*
 
-~~~php
+```php
 $sentinel = new RedisSentinel('127.0.0.1'); // default parameters
 $sentinel = new RedisSentinel('127.0.0.1', 26379, 2.5); // 2.5 sec timeout.
 $sentinel = new RedisSentinel('127.0.0.1', 26379, 0, 'sentinel'); // persistent connection with id 'sentinel'
 $sentinel = new RedisSentinel('127.0.0.1', 26379, 0, ''); // also persistent connection with id ''
 $sentinel = new RedisSentinel('127.0.0.1', 26379, 1, null, 100); // 1 sec timeout, 100ms delay between reconnection attempts.
 $sentinel = new RedisSentinel('127.0.0.1', 26379, 0, NULL, 0, 0, "secret"); // connect sentinel with password authentication
-~~~
+```
 
 ### Usage
 -----
@@ -97,9 +97,9 @@ _**Description**_: Check if the current Sentinel configuration is able to reach 
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->ckquorum('mymaster');
-~~~
+```
 
 ### failover
 -----
@@ -112,9 +112,9 @@ _**Description**_: Force a failover as if the master was not reachable, and with
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->failover('mymaster');
-~~~
+```
 
 ### flushconfig
 -----
@@ -127,9 +127,9 @@ _**Description**_: Force Sentinel to rewrite its configuration on disk, includin
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->flushconfig();
-~~~
+```
 
 ### getMasterAddrByName
 -----
@@ -142,9 +142,9 @@ _**Description**_: Return the ip and port number of the master with that name. I
 *Array*, *Bool*: ['address', 'port'] in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->getMasterAddrByName('mymaster');
-~~~
+```
 
 ### master
 -----
@@ -157,9 +157,9 @@ _**Description**_: Return the state and info of the specified master.
 *Array*, *Bool*: Associative array with info in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->master('mymaster');
-~~~
+```
 
 ### masters
 -----
@@ -172,9 +172,9 @@ _**Description**_: Return a list of monitored masters and their state.
 *Array*, *Bool*: List of arrays with info for each master in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->masters();
-~~~
+```
 
 ### ping
 -----
@@ -187,9 +187,9 @@ _**Description**_: Ping the sentinel.
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->ping();
-~~~
+```
 
 ### reset
 -----
@@ -202,9 +202,9 @@ _**Description**_: This command will reset all the masters with matching name. T
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->reset('*');
-~~~
+```
 
 ### sentinels
 -----
@@ -217,9 +217,9 @@ _**Description**_: Return a list of sentinel instances for this master, and thei
 *Array*, *Bool*: List of arrays with info for each sentinels in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->sentinels('mymaster');
-~~~
+```
 
 ### slaves
 -----
@@ -232,6 +232,6 @@ _**Description**_: Return a list of replicas for this master, and their state.
 *Array*, *Bool*: List of arrays with info for each replicas in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-~~~php
+```php
 $sentinel->slaves('mymaster');
-~~~
+```

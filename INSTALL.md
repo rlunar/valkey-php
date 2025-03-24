@@ -2,21 +2,21 @@
 
 To pull latest stable released version, from [pecl](https://pecl.php.net/package/redis)
 
-~~~
+```
 pecl install redis
-~~~
+```
 
 # Installation from sources
 
 To build this extension for the sources tree:
 
-~~~
+```
 git clone https://github.com/phpredis/phpredis.git
 cd phpredis
 phpize
 ./configure [--enable-redis-igbinary] [--enable-redis-msgpack] [--enable-redis-lzf [--with-liblzf[=DIR]]] [--enable-redis-zstd] [--enable-redis-lz4]
 make && make install
-~~~
+```
 
 If you would like phpredis to serialize your data using the igbinary library, run configure with `--enable-redis-igbinary`.
 If you would like to use the msgpack serializer, run configure with `--enable-redis-msgpack` (note:  Requires php-msgpack >= 2.0.3)
@@ -44,38 +44,38 @@ Fedora users can install the package from the official repository.
 
 Installation of the [php-pecl-redis5](https://packages.fedoraproject.org/pkgs/php-pecl-redis5/php-pecl-redis5/) package:
 
-~~~
+```
 dnf install php-pecl-redis5
-~~~
+```
 
 ## RHEL / CentOS
 
 Installation of the [php-pecl-redis](https://apps.fedoraproject.org/packages/php-pecl-redis) package, from the [EPEL repository](https://fedoraproject.org/wiki/EPEL):
 
-~~~
+```
 yum install php-pecl-redis
-~~~
+```
 
 ### openSUSE ≥ 15.1
 
 Installation of the [php7-redis](https://software.opensuse.org/package/php7-redis?search_term=php7-redis) package:
 
-~~~
+```
 zypper in php7-redis
-~~~
+```
 
 
 # Installation on OSX
 
 If the install fails on OSX, type the following commands in your shell before trying again:
-~~~
+```
 MACOSX_DEPLOYMENT_TARGET=10.6
 CFLAGS="-arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp"
 CCFLAGS="-arch i386 -arch x86_64 -g -Os -pipe"
 CXXFLAGS="-arch i386 -arch x86_64 -g -Os -pipe"
 LDFLAGS="-arch i386 -arch x86_64 -bind_at_load"
 export CFLAGS CXXFLAGS LDFLAGS CCFLAGS MACOSX_DEPLOYMENT_TARGET
-~~~
+```
 
 If that still fails and you are running Zend Server CE, try this right before "make": `./configure CFLAGS="-arch i386"`.
 
