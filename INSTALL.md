@@ -2,7 +2,7 @@
 
 To pull latest stable released version, from [pecl](https://pecl.php.net/package/redis)
 
-```
+```ini
 pecl install redis
 ```
 
@@ -10,7 +10,7 @@ pecl install redis
 
 To build this extension for the sources tree:
 
-```
+```bash
 git clone https://github.com/phpredis/phpredis.git
 cd phpredis
 phpize
@@ -26,7 +26,6 @@ The extension also may compress data before sending it to Redis server, if you r
 You can generate a debian package for PHP5, accessible from Apache 2 by running `./mkdeb-apache2.sh` or with `dpkg-buildpackage` or `svn-buildpackage`.
 
 This extension exports a single class, [Redis](./README.md#class-redis) (and [RedisException](./README.md#class-redisexception) used in case of errors). Check out https://github.com/ukko/phpredis-phpdoc for a PHP stub that you can use in your IDE for code completion.
-
 
 # Binary packages
 
@@ -44,7 +43,7 @@ Fedora users can install the package from the official repository.
 
 Installation of the [php-pecl-redis5](https://packages.fedoraproject.org/pkgs/php-pecl-redis5/php-pecl-redis5/) package:
 
-```
+```bash
 dnf install php-pecl-redis5
 ```
 
@@ -52,7 +51,7 @@ dnf install php-pecl-redis5
 
 Installation of the [php-pecl-redis](https://apps.fedoraproject.org/packages/php-pecl-redis) package, from the [EPEL repository](https://fedoraproject.org/wiki/EPEL):
 
-```
+```bash
 yum install php-pecl-redis
 ```
 
@@ -60,15 +59,14 @@ yum install php-pecl-redis
 
 Installation of the [php7-redis](https://software.opensuse.org/package/php7-redis?search_term=php7-redis) package:
 
-```
+```bash
 zypper in php7-redis
 ```
-
 
 # Installation on OSX
 
 If the install fails on OSX, type the following commands in your shell before trying again:
-```
+```bash
 MACOSX_DEPLOYMENT_TARGET=10.6
 CFLAGS="-arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp"
 CCFLAGS="-arch i386 -arch x86_64 -g -Os -pipe"
@@ -91,4 +89,3 @@ You can install it using MacPorts:
 # Building on Windows
 
 See [instructions from @char101](https://github.com/phpredis/phpredis/issues/213#issuecomment-11361242) on how to build phpredis on Windows.
-
