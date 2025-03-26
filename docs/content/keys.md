@@ -1,5 +1,35 @@
-### Keys
+# Valkey PHP - Keys
+
 -----
+
+|Command                    |Description                                                                        |Supported              |Tested                 |Class/Trait    |Method     |
+|---                        |---                                                                                |:-:                    |:-:                    |---            |---        |
+|[del](#del)                |Delete a key [Blocking]                                                            |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |del        |
+|[delete](#delete)          |Delete a key [Blocking]                                                            |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |delete     |
+|[dump](#dump)              |Return a serialized version of the value stored at the specified key.              |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |dump       |
+|[exists](#exists)          |Determine if a key exists                                                          |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |exists     |
+|[expire](#expire)          |Set a key's time to live in seconds                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |expire     |
+|[expireAt](#expireAt)      |Set the expiration for a key as a UNIX timestamp                                   |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
+|[getKeys](#getKeys)        |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |getKeys    |
+|[keys](#keys)              |Find all keys matching the given pattern                                           |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |keys       |
+|[migrate](#migrate)        | Atomically transfer a key from a Redis instance to another one                    |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |migrate    |
+|[move](#move)              | Move a key to another database                                                    |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |move       |
+|[object](#object)          | Inspect the internals of Redis objects                                            |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |object     |
+|[persist](#persist)        | Remove the expiration from a key                                                  |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |persist    |
+|[pexpire](#pexpire)        |Set a key's time to live in seconds                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpire    |
+|[pexpireAt](#pexpireAt)    |Set the expiration for a key as a UNIX timestamp with millisecond precision        |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pexpireAt  |
+|[pttl](#pttl)              | Get the time to live for a key                                                    |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |pttl       |
+|[randomKey](#randomKey)    | Return a random key from the keyspace                                             |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |randomKey  |
+|[rename](#rename)          | Rename a key                                                                      |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |rename     |
+|[renameKey](#renameKey)    | Rename a key                                                                      |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |renameKey  |
+|[renameNx](#renameNx)      | Rename a key, only if the new key does not exist                                  |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |renameNx   |
+|[restore](#restore)        | Create a key using the provided serialized value, previously obtained with dump.  |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |restore    |
+|[scan](#scan)              | Scan for keys in the keyspace (Redis >= 2.8.0)                                    |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |scan       |
+|[setTimeout](#setTimeout)  |Set a key's time to live in seconds                                                |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |setTimeout |
+|[sort](#sort)              | Sort the elements in a list, set or sorted set                                    |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |sort       |
+|[ttl](#ttl)                | Get the time to live for a key                                                    |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |ttl        |
+|[type](#type)              | Determine the type stored at key                                                  |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |type       |
+|[unlink](#unlink)          |Delete a key [Background]                                                          |:white\_check\_mark:   |:white\_check\_mark:   |Keys           |unlink     |
 
 * [del, delete, unlink](#del-delete-unlink) - Delete a key
 * [dump](#dump) - Return a serialized version of the value stored at the specified key.
@@ -19,6 +49,33 @@
 * [sort](#sort) - Sort the elements in a list, set or sorted set
 * [ttl, pttl](#ttl-pttl) - Get the time to live for a key
 * [restore](#restore) - Create a key using the provided serialized value, previously obtained with [dump](#dump).
+
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+$valkey->dump('key');
+$valkey->exists('key');
+$valkey->expire('key', 123);
+$valkey->expireAt('key', 1743016214.623306);
+$valkey->keys();
+$valkey->scan();
+$valkey->migrate('key');
+$valkey->move('key');
+$valkey->object('key');
+$valkey->persist('key');
+$valkey->randomKey('key');
+$valkey->rename('key', 'yek');
+$valkey->renameNx('key', 'yek');
+$valkey->type('key');
+$valkey->sort('key');
+$valkey->ttl('key');
+$valkey->restore('key');
+```
 
 ### dump
 -----

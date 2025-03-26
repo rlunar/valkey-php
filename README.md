@@ -242,9 +242,28 @@ $valkey->getAuth();
 ### [Keys](docs/content/keys.md)
 
 ```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
 $valkey->del('key');
 $valkey->delete('key');
 $valkey->unlink('key');
+$valkey->dump('key');
+$valkey->exists('key');
+$valkey->expire('key', 123);
+$valkey->expireAt('key', 1743016214.623306);
+$valkey->keys();
+$valkey->scan();
+$valkey->migrate('key');
+$valkey->move('key');
+$valkey->object('key');
+$valkey->persist('key');
+$valkey->randomKey('key');
+$valkey->rename('key', 'yek');
+$valkey->renameNx('key', 'yek');
+$valkey->type('key');
+$valkey->sort('key');
+$valkey->ttl('key');
+$valkey->restore('key');
 ```
 
 ### [Lists](docs/content/lists.md)
