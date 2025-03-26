@@ -9,9 +9,10 @@
 ### Class Redis
 
 -----
+
 _**Description**_: Creates a Redis client
 
-##### *Example*
+#### *Example*
 
 ```php
 $redis = new Redis();
@@ -20,7 +21,7 @@ $redis = new Redis();
 Starting from version 6.0.0 it's possible to specify configuration options.
 This allows to connect lazily to the server without explicitly invoking `connect` command.
 
-##### *Example*
+#### *Example*
 
 ```php
 $redis = new Redis([
@@ -37,29 +38,33 @@ $redis = new Redis([
 ]);
 ```
 
-##### *Parameters*
+#### *Parameters*
 
-*host*: string. can be a host, or the path to a unix domain socket.  
-*port*: int (default is 6379, should be -1 for unix domain socket)  
-*connectTimeout*: float, value in seconds (default is 0 meaning unlimited)  
-*retryInterval*: int, value in milliseconds (optional)  
-*readTimeout*: float, value in seconds (default is 0 meaning unlimited)  
-*persistent*: mixed, if value is string then it used as persistend id, else value casts to boolean  
-*auth*: mixed, authentication information  
-*ssl*: array, SSL context options  
+_host_: string. can be a host, or the path to a unix domain socket.  
+_port_: int (default is 6379, should be -1 for unix domain socket)  
+_connectTimeout_: float, value in seconds (default is 0 meaning unlimited)  
+_retryInterval_: int, value in milliseconds (optional)  
+_readTimeout_: float, value in seconds (default is 0 meaning unlimited)  
+_persistent_: mixed, if value is string then it used as persistend id, else value casts to boolean  
+_auth_: mixed, authentication information  
+_ssl_: array, SSL context options  
 
 ### Class RedisException
+
 -----
-phpredis throws a [RedisException](#class-redisexception) object if it can't reach the Redis server. That can happen in case of connectivity issues,
-if the Redis service is down, or if the redis host is overloaded. In any other problematic case that does not involve an
+
+phpredis throws a [RedisException](#class-redisexception) object if it can't reach the Redis server. That can happen in case of connectivity issues, if the Redis service is down, or if the redis host is overloaded. In any other problematic case that does not involve an
 unreachable server (such as a key not existing, an invalid command, etc), phpredis will return `FALSE`.
 
 ### Predefined constants
+
 -----
+
 _**Description**_: Available Redis Constants
 
 Redis data types, as returned by [type](#type)
-```
+
+```php
 Redis::REDIS_STRING - String
 Redis::REDIS_SET - Set
 Redis::REDIS_LIST - List
