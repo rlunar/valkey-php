@@ -269,17 +269,29 @@ $valkey->restore('key');
 ### [Lists](docs/content/lists.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+/* Non blocking feature */
+$valkey->lPush('key1', 'A');
+$valkey->del('key2');
+$valkey->blPop('key1', 'key2', 10); /* ['key1', 'A'] */
+$valkey->rPush('key1', 'A');
+$valkey->lInsert('key1', Valkey::AFTER, 'A', 'X'); /* 0 */
+$valkey->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C'] */
 ```
 
 ### [Pub/sub](docs/content/pubsub.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+/* Non blocking feature */
+$valkey->lPush('key1', 'A');
+$valkey->del('key2');
+$valkey->blPop('key1', 'key2', 10); /* ['key1', 'A'] */
+$valkey->rPush('key1', 'A');
+$valkey->lInsert('key1', Valkey::AFTER, 'A', 'X'); /* 0 */
+$valkey->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C'] */
 ```
 
 ### [Scripting](docs/content/scripting.md)
