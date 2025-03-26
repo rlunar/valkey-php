@@ -7,10 +7,10 @@
 * [expire, pexpire](#expire-pexpire) - Set a key's time to live in seconds
 * [expireAt, pexpireAt](#expireat-pexpireat) - Set the expiration for a key as a UNIX timestamp
 * [keys](#keys) - Find all keys matching the given pattern
-* [scan](#scan) - Scan for keys in the keyspace (Redis >= 2.8.0)
-* [migrate](#migrate) - Atomically transfer a key from a Redis instance to another one
+* [scan](#scan) - Scan for keys in the keyspace (Valkey >= 2.8.0)
+* [migrate](#migrate) - Atomically transfer a key from a Valkey instance to another one
 * [move](#move) - Move a key to another database
-* [object](#object) - Inspect the internals of Redis objects
+* [object](#object) - Inspect the internals of Valkey objects
 * [persist](#persist) - Remove the expiration from a key
 * [randomKey](#randomkey) - Return a random key from the keyspace
 * [rename](#rename) - Rename a key
@@ -23,22 +23,22 @@
 ### dump
 -----
 _**Description**_: Dump a key out of a redis database, the value of which can later be passed into redis using the RESTORE command.  The data
-that comes out of DUMP is a binary representation of the key as Redis stores it.
+that comes out of DUMP is a binary representation of the key as Valkey stores it.
 ##### *Parameters*
 *key* string
 ##### *Return value*
-The Redis encoded value of the key, or FALSE if the key doesn't exist
+The Valkey encoded value of the key, or FALSE if the key doesn't exist
 ##### *Examples*
 ```php
 $valkey->set('foo', 'bar');
-$val = $valkey->dump('foo'); // $val will be the Redis encoded key value
+$val = $valkey->dump('foo'); // $val will be the Valkey encoded key value
 ```
 
 ### migrate
 -----
-_**Description**_: Migrates a key to a different Redis instance.
+_**Description**_: Migrates a key to a different Valkey instance.
 
-**Note:**: Redis introduced migrating multiple keys in 3.0.6, so you must have at least
+**Note:**: Valkey introduced migrating multiple keys in 3.0.6, so you must have at least
 that version in order to call `migrate` with an array of keys.
 
 ##### *Parameters*
@@ -55,7 +55,7 @@ $valkey->migrate('backup', 6379, 'foo', 0, 3600);
 $valkey->migrate('backup', 6379, 'foo', 0, 3600, true, true); /* copy and replace */
 $valkey->migrate('backup', 6379, 'foo', 0, 3600, false, true); /* just REPLACE flag */
 
-/* Migrate multiple keys (requires Redis >= 3.0.6)
+/* Migrate multiple keys (requires Valkey >= 3.0.6)
 $valkey->migrate('backup', 6379, ['key1', 'key2', 'key3'], 0, 3600);
 ```
 
@@ -81,7 +81,7 @@ _**Description**_: Restore a key from the result of a DUMP operation.
 ##### *Parameters*
 *key* string.  The key name  
 *ttl* integer.  How long the key should live (if zero, no expire will be set on the key)  
-*value* string (binary).  The Redis encoded key value (from DUMP)
+*value* string (binary).  The Valkey encoded key value (from DUMP)
 ##### *Examples*
 ```php
 $valkey->set('foo', 'bar');
@@ -204,8 +204,8 @@ _**Description**_: Sets an expiration on a key in either seconds or milliseconds
 
 ##### *Prototype*
 ```php
-public function expire(string $key, int $seconds, ?string $mode = NULL): Redis|bool;
-public function pexpire(string $key, int $milliseconds, ?string $mode = NULL): Redis|bool;
+public function expire(string $key, int $seconds, ?string $mode = NULL): Valkey|bool;
+public function pexpire(string $key, int $milliseconds, ?string $mode = NULL): Valkey|bool;
 ```
 
 ##### *Return value*
@@ -225,8 +225,8 @@ _**Description**_: Seta specific timestamp for a key to expire in seconds or mil
 
 ##### *Prototype*
 ```php
-public function expireat(string $key, int $unix_timestamp, ?string $mode = NULL): Redis|bool;
-public function pexpireat(string $key, int $unix_timestamp_millis, ?string $mode = NULL): Redis|bool;
+public function expireat(string $key, int $unix_timestamp, ?string $mode = NULL): Valkey|bool;
+public function pexpireat(string $key, int $unix_timestamp_millis, ?string $mode = NULL): Valkey|bool;
 ```
 
 ##### *Return value*
@@ -265,24 +265,24 @@ _**Description**_:  Scan the keyspace for keys
 ##### *Parameters*
 *LONG (reference)*:  Iterator, initialized to NULL
 *STRING, Optional*:  Pattern to match
-*LONG, Optional*: Count of keys per iteration (only a suggestion to Redis)
+*LONG, Optional*: Count of keys per iteration (only a suggestion to Valkey)
 
 ##### *Return value*
-*Array, boolean*:  This function will return an array of keys or FALSE if Redis returned zero keys
+*Array, boolean*:  This function will return an array of keys or FALSE if Valkey returned zero keys
 
-*Note*: SCAN is a "directed node" command in [RedisCluster](cluster.md#directed-node-commands)
+*Note*: SCAN is a "directed node" command in [ValkeyCluster](cluster.md#directed-node-commands)
 
 ##### *Example*
 
 ```php
 
-/* Without enabling Redis::SCAN_RETRY (default condition) */
+/* Without enabling Valkey::SCAN_RETRY (default condition) */
 $it = NULL;
 do {
     // Scan for some keys
     $arr_keys = $valkey->scan($it);
 
-    // Redis may return empty results, so protect against that
+    // Valkey may return empty results, so protect against that
     if ($arr_keys !== FALSE) {
         foreach($arr_keys as $str_key) {
             echo "Here is a key: $str_key\n";
@@ -291,11 +291,11 @@ do {
 } while ($it > 0);
 echo "No more keys to scan!\n";
 
-/* With Redis::SCAN_RETRY enabled */
-$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+/* With Valkey::SCAN_RETRY enabled */
+$valkey->setOption(Valkey::OPT_SCAN, Valkey::SCAN_RETRY);
 $it = NULL;
 
-/* phpredis will retry the SCAN command if empty results are returned from the
+/* valkey-php will retry the SCAN command if empty results are returned from the
    server, so no empty results check is required. */
 while ($arr_keys = $valkey->scan($it)) {
     foreach ($arr_keys as $str_key) {
@@ -337,12 +337,12 @@ _**Description**_: Returns the type of data pointed by a given key.
 ##### *Return value*
 
 Depending on the type of the data pointed by the key, this method will return the following value:  
-string: Redis::VALKEY_STRING  
-set: Redis::VALKEY_SET  
-list: Redis::VALKEY_LIST  
-zset: Redis::VALKEY_ZSET  
-hash: Redis::VALKEY_HASH  
-other: Redis::VALKEY_NOT_FOUND
+string: Valkey::VALKEY_STRING  
+set: Valkey::VALKEY_SET  
+list: Valkey::VALKEY_LIST  
+zset: Valkey::VALKEY_ZSET  
+hash: Valkey::VALKEY_HASH  
+other: Valkey::VALKEY_NOT_FOUND
 
 ##### *Example*
 

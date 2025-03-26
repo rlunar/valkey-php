@@ -69,7 +69,7 @@ $valkey->subscribe(['chan-1', 'chan-2', 'chan-3'], 'f'); // subscribe to 3 chans
 
 ### pubSub
 -----
-_**Description**_: A command allowing you to get information on the Redis pub/sub system.
+_**Description**_: A command allowing you to get information on the Valkey pub/sub system.
 
 ##### *Parameters*
 *keyword*: String, which can be: "channels", "numsub", or "numpat"  

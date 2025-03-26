@@ -3,7 +3,7 @@
 
 ### rawCommand
 -----
-_**Description**_: A method to execute any arbitrary command against the a Redis server
+_**Description**_: A method to execute any arbitrary command against the a Valkey server
 
 ##### *Parameters*
 This method is variadic and takes a dynamic number of arguments of various types (string, long, double), but must be passed at least one argument (the command keyword itself).

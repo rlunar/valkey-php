@@ -25,7 +25,7 @@ $obj_redis->xAck($stream, $group, $arr_messages);
 _**Description**_:  Acknowledge one or more messages on behalf of a consumer group.
 
 ##### *Return value*
-*long*:  The number of messages Redis reports as acknowledged.
+*long*:  The number of messages Valkey reports as acknowledged.
 
 ##### *Example*
 
@@ -72,7 +72,7 @@ $options = [
     'TIME' => $value, /* Set the idle time to now - $value */
     'RETRYCOUNT' => $value, /* Update message retrycount to $value */
     'FORCE', /* Claim the message(s) even if they're not pending anywhere */
-    'JUSTID', /* Instruct Redis to only return IDs */
+    'JUSTID', /* Instruct Valkey to only return IDs */
 ];
 ```
 
@@ -240,7 +240,7 @@ $obj_redis->xRead($arr_streams [, $i_count, $i_block]);
 _**Description**_:  Read data from one or more streams and only return IDs greater than sent in the command.
 
 ##### *Return value*
-*Array*:  The messages in the stream newer than the IDs passed to Redis (if any).
+*Array*:  The messages in the stream newer than the IDs passed to Valkey (if any).
 
 ##### *Example*
 
@@ -308,7 +308,7 @@ $obj_redis->xReadGroup('mygroup', 'consumer2', ['s1' => 0, 's2' => 0], 1, 1000);
 $obj_redis->xRevRange($str_stream, $str_end, $str_start [, $i_count]);
 ```
 
-_**Description**_:  This is identical to xRange except the results come back in reverse order.  Also note that Redis reverses the order of "start" and "end".
+_**Description**_:  This is identical to xRange except the results come back in reverse order.  Also note that Valkey reverses the order of "start" and "end".
 
 ##### *Return value*
 *Array*:  The messages in the range specified.
@@ -327,7 +327,7 @@ $obj_redis->xRevRange('mystream', '+', '-');
 $obj_redis->xTrim($str_stream, $i_max_len [, $boo_approximate]);
 ```
 
-_**Description**_:  Trim the stream length to a given maximum.  If the "approximate" flag is pasesed, Redis will use your size as a hint but only trim trees in whole nodes (this is more efficient).
+_**Description**_:  Trim the stream length to a given maximum.  If the "approximate" flag is pasesed, Valkey will use your size as a hint but only trim trees in whole nodes (this is more efficient).
 
 ##### *Return value*
 *long*:  The number of messages trimmed from the stream.
@@ -338,6 +338,6 @@ _**Description**_:  Trim the stream length to a given maximum.  If the "approxim
 /* Trim to exactly 100 messages */
 $obj_redis->xTrim('mystream', 100);
 
-/* Let Redis approximate the trimming */
+/* Let Valkey approximate the trimming */
 $obj_redis->xTrim('mystream', 100, true);
 ```

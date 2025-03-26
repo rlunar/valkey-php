@@ -2,13 +2,13 @@
 
 ### isConnected
 -----
-_**Description**_:  A method to determine if a phpredis object thinks it's connected to a server
+_**Description**_:  A method to determine if a valkey-php object thinks it's connected to a server
 
 ##### *Parameters*
 None
 
 ##### *Return value*
-*Boolean* Returns TRUE if phpredis thinks it's connected and FALSE if not
+*Boolean* Returns TRUE if valkey-php thinks it's connected and FALSE if not
 
 ### getHost
 -----
@@ -33,17 +33,17 @@ None
 
 ### getDbNum
 -----
-_**Description**_:  Get the database number phpredis is pointed to
+_**Description**_:  Get the database number valkey-php is pointed to
 
 ##### *Parameters*
 None
 
 ##### *Return value*
-*Mixed* Returns the database number (LONG) phpredis thinks it's pointing to or FALSE if we're not connected
+*Mixed* Returns the database number (LONG) valkey-php thinks it's pointing to or FALSE if we're not connected
 
 ### getTimeout
 -----
-_**Description**_:  Get the (write) timeout in use for phpredis
+_**Description**_:  Get the (write) timeout in use for valkey-php
 
 ##### *Parameters*
 None
@@ -52,28 +52,28 @@ None
 *Mixed* The timeout (DOUBLE) specified in our connect call or FALSE if we're not connected
 
 ### getReadTimeout
-_**Description**_:  Get the read timeout specified to phpredis or FALSE if we're not connected
+_**Description**_:  Get the read timeout specified to valkey-php or FALSE if we're not connected
 
 ##### *Parameters*
 None
 
 ##### *Return value*
-*Mixed*  Returns the read timeout (which can be set using setOption and Redis::OPT_READ_TIMEOUT) or FALSE if we're not connected
+*Mixed*  Returns the read timeout (which can be set using setOption and Valkey::OPT_READ_TIMEOUT) or FALSE if we're not connected
 
 ### getPersistentID
 -----
-_**Description**_:  Gets the persistent ID that phpredis is using
+_**Description**_:  Gets the persistent ID that valkey-php is using
 
 ##### *Parameters*
 None
 
 ##### *Return value*
-*Mixed* Returns the persistent id phpredis is using (which will only be set if connected with pconnect), NULL if we're not
+*Mixed* Returns the persistent id valkey-php is using (which will only be set if connected with pconnect), NULL if we're not
 using a persistent ID, and FALSE if we're not connected
 
 ### getAuth
 -----
-_**Description**_:  Get the password (or username and password if using Redis 6 ACLs) used to authenticate the connection.
+_**Description**_:  Get the password (or username and password if using Valkey 6 ACLs) used to authenticate the connection.
 
 ### *Parameters*
 None

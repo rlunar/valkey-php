@@ -1,6 +1,6 @@
 ## Sorted sets
 
-* [bzPop](#bzpop) - Block until Redis can pop the highest or lowest scoring member from one or more ZSETs.
+* [bzPop](#bzpop) - Block until Valkey can pop the highest or lowest scoring member from one or more ZSETs.
 * [zAdd](#zadd) - Add one or more members to a sorted set or update its score if it already exists
 * [zCard](#zcard) - Get the number of members in a sorted set
 * [zCount](#zcount) - Count the members in a sorted set with scores within the given values
@@ -10,7 +10,7 @@
 * [zInter](#zinter) - Intersect multiple sorted sets and return the resulting sorted set
 * [zinterstore](#zinterstore) - Intersect multiple sorted sets and store the resulting sorted set in a new key
 * [zMscore](#zmscore) - Get the scores associated with the given members in a sorted set
-* [zPop](#zpop) - Redis can pop the highest or lowest scoring member from one a ZSET.
+* [zPop](#zpop) - Valkey can pop the highest or lowest scoring member from one a ZSET.
 * [zRange](#zrange) - Return a range of members in a sorted set, by index
 * [zRangeByScore, zRevRangeByScore](#zrangebyscore-zrevrangebyscore) - Return a range of members in a sorted set, by score
 * [zRangeByLex](#zrangebylex) - Return a lexicographical range from members that share the same score
@@ -26,7 +26,7 @@
 
 ### bzPop
 -----
-_**Description**_: Block until Redis can pop the highest or lowest scoring members from one or more ZSETs.  There are two commands (`BZPOPMIN` and `BZPOPMAX` for popping the lowest and highest scoring elements respectively.)
+_**Description**_: Block until Valkey can pop the highest or lowest scoring members from one or more ZSETs.  There are two commands (`BZPOPMIN` and `BZPOPMAX` for popping the lowest and highest scoring elements respectively.)
 
 ##### *Prototype*
 ```php
@@ -83,7 +83,7 @@ $valkey->zAdd('key', 0, 'val0');
 $valkey->zAdd('key', 5, 'val5');
 $valkey->zRange('key', 0, -1); // [val0, val1, val5]
 
-// From Redis 3.0.2 it's possible to add options like XX, NX, CH, INCR
+// From Valkey 3.0.2 it's possible to add options like XX, NX, CH, INCR
 $valkey->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
 ```
 
@@ -638,16 +638,16 @@ _**Description**_: Scan a sorted set for members, with optional pattern and coun
 *key*: String, the set to scan  
 *iterator*: Long (reference), initialized to NULL  
 *pattern*: String (optional), the pattern to match  
-*count*: How many keys to return per iteration (Redis might return a different number)
+*count*: How many keys to return per iteration (Valkey might return a different number)
 
 ##### *Return value*
-*Array, boolean* PHPRedis will return matching keys from Redis, or FALSE when iteration is complete
+*Array, boolean* PHPValkey will return matching keys from Valkey, or FALSE when iteration is complete
 
 ##### *Example*
 
 ```php
 $it = NULL;
-$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+$valkey->setOption(Valkey::OPT_SCAN, Valkey::SCAN_RETRY);
 while($arr_matches = $valkey->zScan('zset', $it, '*pattern*')) {
     foreach($arr_matches as $str_mem => $f_score) {
         echo "Key: $str_mem, Score: $f_score\n";

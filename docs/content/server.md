@@ -1,9 +1,9 @@
 ## Server
 
-1. [acl](#acl) - Manage Redis ACLs
+1. [acl](#acl) - Manage Valkey ACLs
 1. [bgRewriteAOF](#bgrewriteaof) - Asynchronously rewrite the append-only file
 1. [bgSave](#bgsave) - Asynchronously save the dataset to disk (in background)
-1. [config](#config) - Get or Set the Redis server configuration parameters
+1. [config](#config) - Get or Set the Valkey server configuration parameters
 1. [dbSize](#dbsize) - Return the number of keys in selected database
 1. [flushAll](#flushall) - Remove all keys from all databases
 1. [flushDb](#flushdb) - Remove all keys from the current database
@@ -12,25 +12,25 @@
 1. [save](#save) - Synchronously save the dataset to disk (wait to complete)
 1. [slaveOf](#slaveof) - Make the server a slave of another instance, or promote it to master
 1. [time](#time) - Return the current server time
-1. [slowLog](#slowlog) - Access the Redis slowLog entries
+1. [slowLog](#slowlog) - Access the Valkey slowLog entries
 
 ### acl
 -----
-_**Description**_: Execute the Redis ACL command.
+_**Description**_: Execute the Valkey ACL command.
 
 ##### *Parameters*
-_variable_:  Minimum of one argument for `Redis` and two for `RedisCluster`.
+_variable_:  Minimum of one argument for `Valkey` and two for `ValkeyCluster`.
 
 ##### *Example*
 
 ```php
 $valkey->acl('USERS'); /* Get a list of users */
-$valkey->acl('LOG');   /* See log of Redis' ACL subsystem */
+$valkey->acl('LOG');   /* See log of Valkey' ACL subsystem */
 ```
 
-*Note*:  In order to user the `ACL` command you must be communicating with Redis >= 6.0 and be logged into an account that has access to administration commands such as ACL.  Please reference [this tutorial](https://redis.io/topics/acl) for an overview of Redis 6 ACLs and [the redis command reference](https://redis.io/commands) for every ACL subcommand.
+*Note*:  In order to user the `ACL` command you must be communicating with Valkey >= 6.0 and be logged into an account that has access to administration commands such as ACL.  Please reference [this tutorial](https://redis.io/topics/acl) for an overview of Valkey 6 ACLs and [the redis command reference](https://redis.io/commands) for every ACL subcommand.
 
-*Note*: If you are connecting to Redis server >= 4.0.0 you can remove a key with the `unlink` method in the exact same way you would use `del`.  The Redis [unlink](https://redis.io/commands/unlink) command is non-blocking and will perform the actual deletion asynchronously.
+*Note*: If you are connecting to Valkey server >= 4.0.0 you can remove a key with the `unlink` method in the exact same way you would use `del`.  The Valkey [unlink](https://redis.io/commands/unlink) command is non-blocking and will perform the actual deletion asynchronously.
 
 ### bgRewriteAOF
 -----
@@ -66,7 +66,7 @@ $valkey->bgSave();
 
 ### config
 -----
-_**Description**_: Get or Set the Redis server configuration parameters.
+_**Description**_: Get or Set the Valkey server configuration parameters.
 
 ##### *Prototype*
 ```php
@@ -100,7 +100,7 @@ None.
 
 ```php
 $count = $valkey->dbSize();
-echo "Redis has $count keys\n";
+echo "Valkey has $count keys\n";
 ```
 
 ### flushAll
@@ -125,7 +125,7 @@ _**Description**_: Remove all keys from the current database.
 
 ##### *Prototype*
 ```php
-$valkey->flushdb(?bool $sync = NULL): Redis|bool;
+$valkey->flushdb(?bool $sync = NULL): Valkey|bool;
 ```
 
 ##### *Return value*
@@ -158,7 +158,7 @@ INFO will call the standard REDIS INFO command, which returns information such a
 * total_commands_processed
 * role
 
-You can pass a variety of options to INFO ([per the Redis documentation](http://redis.io/commands/info)),
+You can pass a variety of options to INFO ([per the Valkey documentation](http://redis.io/commands/info)),
 which will modify what is returned.
 
 ##### *Parameters*
@@ -169,7 +169,7 @@ which will modify what is returned.
 ```php
 $valkey->info(); /* standard redis INFO command */
 $valkey->info("COMMANDSTATS"); /* Information on the commands that have been run (>=2.6 only)
-$valkey->info("CPU"); /* just CPU information from Redis INFO */
+$valkey->info("CPU"); /* just CPU information from Valkey INFO */
 ```
 
 ### lastSave
@@ -240,7 +240,7 @@ $valkey->time();
 
 ### slowLog
 -----
-_**Description**_: Access the Redis slowLog
+_**Description**_: Access the Valkey slowLog
 
 ##### *Parameters*
 *Operation* (string): This can be either `GET`, `LEN`, or `RESET`  
@@ -249,7 +249,7 @@ _**Description**_: Access the Redis slowLog
 
 ##### *Return value*
 The return value of SLOWLOG will depend on which operation was performed.
-SLOWLOG GET: Array of slowLog entries, as provided by Redis
+SLOWLOG GET: Array of slowLog entries, as provided by Valkey
 SLOGLOG LEN: Integer, the length of the slowLog
 SLOWLOG RESET: Boolean, depending on success
 #####

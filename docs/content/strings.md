@@ -100,13 +100,13 @@ $valkey->getEx('key', ['EX' => 10]); // get key and set its expiration to 10 sec
 
 ## set
 -----
-_**Description**_: Set the string value in argument as value of the key.  If you're using Redis >= 2.6.12, you can pass extended options as explained below
+_**Description**_: Set the string value in argument as value of the key.  If you're using Valkey >= 2.6.12, you can pass extended options as explained below
 
 #### *Parameters*
 
 *Key*  
 *Value*  
-*Timeout or Options Array* (optional). If you pass an integer, phpredis will redirect to SETEX, and will try to use Redis >= 2.6.12 extended options if you pass an array with valid values
+*Timeout or Options Array* (optional). If you pass an integer, valkey-php will redirect to SETEX, and will try to use Valkey >= 2.6.12 extended options if you pass an array with valid values
 
 #### *Return value*
 
@@ -181,7 +181,7 @@ _**Description**_: Remove specified keys.
 
 An array of keys, or an undefined number of parameters, each a key: *key1* *key2* *key3* ... *keyN*
 
-*Note*: If you are connecting to Redis server >= 4.0.0 you can remove a key with the `unlink` method in the exact same way you would use `del`.  The Redis [unlink](https://redis.io/commands/unlink) command is non-blocking and will perform the actual deletion asynchronously.
+*Note*: If you are connecting to Valkey server >= 4.0.0 you can remove a key with the `unlink` method in the exact same way you would use `del`.  The Valkey [unlink](https://redis.io/commands/unlink) command is non-blocking and will perform the actual deletion asynchronously.
 
 #### *Return value*
 
@@ -198,12 +198,12 @@ $valkey->set('key4', 'val4');
 $valkey->del('key1', 'key2'); /* return 2 */
 $valkey->del(['key3', 'key4']); /* return 2 */
 
-/* If using Redis >= 4.0.0 you can call unlink */
+/* If using Valkey >= 4.0.0 you can call unlink */
 $valkey->unlink('key1', 'key2');
 $valkey->unlink(['key1', 'key2']);
 ```
 
-**Note:** `delete` is an alias for `del` and will be removed in future versions of phpredis.
+**Note:** `delete` is an alias for `del` and will be removed in future versions of valkey-php.
 
 ## exists
 
@@ -228,7 +228,7 @@ $valkey->exists(['foo', 'bar', 'baz']); /* 3 */
 $valkey->exists('foo', 'bar', 'baz'); /* 3 */
 ```
 
-**Note**: This function took a single argument and returned TRUE or FALSE in phpredis versions < 4.0.0.
+**Note**: This function took a single argument and returned TRUE or FALSE in valkey-php versions < 4.0.0.
 
 ## incr, incrBy
 -----

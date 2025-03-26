@@ -1,4 +1,27 @@
-## Geocoding
+# Valkey PHP - Geospatial Indexes
+
+|Command                |Description                                                                                            |Supported  |Tested     |Class/Trait    |Method     |
+|---                    |---                                                                                                    |:-:        |:-:        |---            |---        |
+|[geoAdd](#geoAdd)      |Add one or more geospatial items to the specified key.                                                 |:white\_check\_mark:        |:white\_check\_mark:        |Geospatial      |geoAdd     |
+|[geoDist](#geoDist)    |Return the distance between two members in a geospatial set.                                           |:white\_check\_mark:        |:white\_check\_mark:        |Geospatial      |geoDist    |
+|[geoHash](#geoHash)    |Retrieve Geohash strings for one or more elements of a geospatial index.                               |:white\_check\_mark:        |:white\_check\_mark:        |Geospatial      |geoHash    |
+|[geoPos](#geoPos)      |Return longitude, latitude positions for each requested member.                                        |:white\_check\_mark:        |:white\_check\_mark:        |Geospatial      |geoPos     |
+|[geoRadius](#geoRadius)|Return members of a set with geospatial information that are within the radius specified by the caller.|:white\_check\_mark:        |:white\_check\_mark:        |Geospatial      |geoRadius  |
+|[geoRadiusByMember](#geoRadiusByMember)|This method is identical to geoRadius except that instead of passing a longitude and latitude as the "source" you pass an existing member in the geospatial set.|:white\_check\_mark:|:white\_check\_mark:|Geospatial|geoRadiusByMember|
+
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$options = ['WITHDIST'];
+$valkey->geoAdd('Geospatial', -122.431, 37.773, 'San Francisco');
+$valkey->geoAdd('Geospatial', -73.935242, 40.730610, 'New York');
+$valkey->geoHash('Geospatial', 'San Francisco');
+$valkey->geoPos('Geospatial', 'San Francisco');
+$valkey->geoDist('Geospatial', 'San Francisco', 'New York');
+$valkey->geoRadius("Geospatial", -157.858, 21.306, 300, 'mi', $options)
+```
 
 ### geoAdd
 -----
@@ -37,7 +60,7 @@ $valkey->geoHash($key, $member [, $member, $member, ...]);
 _**Description**_:  Retrieve Geohash strings for one or more elements of a geospatial index.  
 
 ##### *Return value*  
-*Array*:  One or more Redis Geohash encoded strings.  
+*Array*:  One or more Valkey Geohash encoded strings.  
 
 ##### *Example*  
 ```php
@@ -159,7 +182,7 @@ $valkey->geoRadius($key, $longitude, $latitude, $radius, $unit [, Array $options
 _**Description**_:  Return members of a set with geospatial information that are within the radius specified by the caller. 
 
 ##### *Options Array*
-The georadius command can be called with various options that control how Redis returns results.  The following table describes the options phpredis supports.  All options are case insensitive.  
+The georadius command can be called with various options that control how Valkey returns results.  The following table describes the options valkey-php supports.  All options are case insensitive.  
 
 | Key       | Value       | Description
 | :---      | :---        | :---- |
@@ -173,7 +196,7 @@ The georadius command can be called with various options that control how Redis 
 | STOREDIST | _key_       | Store the results as distances in _key_
 
  *Note*:  It doesn't make sense to pass both `ASC` and `DESC` options but if both are passed the last one passed will be used.  
- *Note*:  When using `STORE[DIST]` in Redis Cluster, the store key must has to the same slot as the query key or you will get a `CROSSLOT` error.
+ *Note*:  When using `STORE[DIST]` in Valkey Cluster, the store key must has to the same slot as the query key or you will get a `CROSSLOT` error.
 
 ##### *Return value*
 *Mixed*:  When no `STORE` option is passed, this function returns an array of results.  If it is passed this function returns the number of stored entries.

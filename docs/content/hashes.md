@@ -289,7 +289,7 @@ _**Description**_:  Scan a HASH value for members, with an optional pattern and 
 *key*: String  
 *iterator*: Long (reference)  
 *pattern*: Optional pattern to match against  
-*count*: How many keys to return in a go (only a suggestion to Redis)
+*count*: How many keys to return in a go (only a suggestion to Valkey)
 ##### *Return value*
 *Array* An array of members that match our pattern
 
@@ -297,7 +297,7 @@ _**Description**_:  Scan a HASH value for members, with an optional pattern and 
 ```php
 $it = NULL;
 /* Don't ever return an empty array until we're done iterating */
-$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+$valkey->setOption(Valkey::OPT_SCAN, Valkey::SCAN_RETRY);
 while($arr_keys = $valkey->hScan('hash', $it)) {
     foreach($arr_keys as $str_field => $str_value) {
         echo "$str_field => $str_value\n"; /* Print the hash member and value */

@@ -14,15 +14,15 @@
 
 ## About Valkey-PHP
 
-Valkey-PHP is a comprehensive PHP client for [Valkey](https://valkey.io), designed to provide a unified, high-performance interface for PHP applications. This project merges the best features of [phpredis/phpredis](https://github.com/phpredis/phpredis) and [webdcg/redis](https://github.com/webdcg/redis) into a single, well-maintained library under the Valkey Project by the Linux Foundation.
+Valkey-PHP is a comprehensive PHP client for [Valkey](https://valkey.io), designed to provide a unified, high-performance interface for PHP applications. This project merges the best features of [valkey-php/valkey-php](https://github.com/valkey-php/valkey-php) and [webdcg/redis](https://github.com/webdcg/redis) into a single, well-maintained library under the Valkey Project by the Linux Foundation.
 
 ### Key Features
 
 - **Complete Valkey Command Coverage**: 100% support for all Valkey commands with comprehensive test coverage
-- **High-Level Abstractions**: Similar to Redisson in Java, offering object-oriented interfaces for complex data structures
+- **High-Level Abstractions**: Similar to Valkeyson in Java, offering object-oriented interfaces for complex data structures
 - **Dual Interface**: Both a PHP extension (for maximum performance) and a pure PHP implementation (for maximum compatibility)
 - **Forever Open Source**: BSD-3-Clause license under the Linux Foundation ensures the project remains open and free
-- **Valkey Compatibility**: Maintained in sync with Valkey development while preserving compatibility with Redis OSS
+- **Valkey Compatibility**: Maintained in sync with Valkey development while preserving compatibility with Valkey OSS
 - **Enterprise-Ready**: Clustering, sentinel support, connection pooling, and other features needed for production deployments
 
 ## Pre-requisites
@@ -87,7 +87,7 @@ echo $map->get('name'); // Outputs: Robert
 
 ## High-Level Abstractions
 
-Valkey-PHP provides Redisson-like abstractions for complex data structures:
+Valkey-PHP provides Valkeyson-like abstractions for complex data structures:
 
 - Maps: ```php $map = $valkey->getMap('map-key');```
 - Lists: ```php $list = $valkey->getList('list-key');```
@@ -99,25 +99,25 @@ Valkey-PHP provides Redisson-like abstractions for complex data structures:
 
 ## Project Goals
 
-- Unified API: Merge the strengths of phpredis (performance) and webdcg/redis (developer experience)
+- Unified API: Merge the strengths of valkey-php (performance) and webdcg/redis (developer experience)
 - 100% Command Coverage: Support all Valkey commands with comprehensive tests
 - Open Source Forever: BSD-3-Clause license under Linux Foundation governance
-- Valkey Compatibility: Stay in sync with Valkey while maintaining Redis OSS compatibility
-- High-Level Abstractions: Provide Java Redisson-like interfaces for PHP developers
+- Valkey Compatibility: Stay in sync with Valkey while maintaining Valkey OSS compatibility
+- High-Level Abstractions: Provide Java Valkeyson-like interfaces for PHP developers
 - Performance: Optimize for speed while maintaining clean interfaces
 
-### Migrating from phpredis or webdcg/redis
+### Migrating from valkey-php or webdcg/redis
 
 We provide compatibility layers to make migration from either library as smooth as possible:
 
 ```php
-// For PHPRedis users
-use Valkey\Compat\Redis;
-$valkey = new Redis();
+// For PHPValkey users
+use Valkey\Compat\Valkey;
+$valkey = new Valkey();
 
 // For webdcg/redis users
-use Valkey\Compat\WebdcgRedis;
-$valkey = new WebdcgRedis();
+use Valkey\Compat\WebdcgValkey;
+$valkey = new WebdcgValkey();
 ```
 
 ## Documentation
@@ -170,6 +170,7 @@ $valkey->setBit('key', 8, 1);
 ### [Connection](docs/content/connection.md)
 
 ```php
+$valkey = new Valkey();
 $valkey->connect('127.0.0.1', 6379);
 $valkey->open('127.0.0.1', 6379);
 $valkey->pconnect('127.0.0.1', 6379);
@@ -178,15 +179,17 @@ $valkey->auth('secret');
 $valkey->select(1);
 $valkey->swapdb(0, 1);
 $valkey->close();
-$valkey->setOption(\Redis::OPT_PREFIX, 'redis:');
-$valkey->getOption(\Redis::OPT_PREFIX)
+$valkey->setOption(Valkey::OPT_PREFIX, 'redis:');
+$valkey->getOption(Valkey::OPT_PREFIX)
 $valkey->ping('pong');
 $valkey->echo('redis');
 ```
 
-### [Geocoding](docs/content/geocoding.md)
+### [Geospatial Indexes](docs/content/geospatial.md)
 
 ```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
 $options = ['WITHDIST'];
 $valkey->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');
 $valkey->geoAdd('Geocoding', -73.935242, 40.730610, 'New York');
@@ -327,7 +330,7 @@ Valkey-PHP is open-sourced software licensed under the BSD-3-Clause license.
 
 This project builds upon the excellent work of:
 
-- phpredis/phpredis
+- valkey-php/valkey-php
 - webdcg/redis
 
 We thank all the contributors to these projects for their valuable work.
@@ -340,7 +343,7 @@ We thank all the contributors to these projects for their valuable work.
 
 <p align="center"> <a href="https://linuxfoundation.org"> <img src="https://www.linuxfoundation.org/hubfs/LF%20Logo%20White.svg" alt="Linux Foundation" width="200"/> </a> </p> ```
 
-This README provides a comprehensive overview of your project goals, highlighting the merger of PHPRredis and webdcg/redis under the Linux Foundation with BSD-3 licensing. It emphasizes the key features like 100% Valkey command coverage, high-level abstractions similar to Redisson, and the commitment to open source. The document includes installation instructions, quick start examples, migration paths, and acknowledges the original projects.
+This README provides a comprehensive overview of your project goals, highlighting the merger of PHPRredis and webdcg/redis under the Linux Foundation with BSD-3 licensing. It emphasizes the key features like 100% Valkey command coverage, high-level abstractions similar to Valkeyson, and the commitment to open source. The document includes installation instructions, quick start examples, migration paths, and acknowledges the original projects.
 
 -----
 

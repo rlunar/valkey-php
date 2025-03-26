@@ -450,16 +450,16 @@ _**Description**_: Scan a set for members
 *Key*: The set to search  
 *iterator*: LONG (reference) to the iterator as we go  
 *pattern*: String, optional pattern to match against  
-*count*: How many members to return at a time (Redis might return a different amount)
+*count*: How many members to return at a time (Valkey might return a different amount)
 
 ##### *Return value*
-*Array, boolean*: PHPRedis will return an array of keys or FALSE when we're done iterating
+*Array, boolean*: PHPValkey will return an array of keys or FALSE when we're done iterating
 
 ##### *Example*
 
 ```php
 $it = NULL;
-$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY); /* don't return empty results until we're done */
+$valkey->setOption(Valkey::OPT_SCAN, Valkey::SCAN_RETRY); /* don't return empty results until we're done */
 while($arr_mems = $valkey->sScan('set', $it, "*pattern*")) {
     foreach($arr_mems as $str_mem) {
         echo "Member: $str_mem\n";
@@ -467,7 +467,7 @@ while($arr_mems = $valkey->sScan('set', $it, "*pattern*")) {
 }
 
 $it = NULL;
-$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY); /* return after each iteration, even if empty */
+$valkey->setOption(Valkey::OPT_SCAN, Valkey::SCAN_NORETRY); /* return after each iteration, even if empty */
 while(($arr_mems = $valkey->sScan('set', $it, "*pattern*"))!==FALSE) {
     if(count($arr_mems) > 0) {
         foreach($arr_mems as $str_mem) {

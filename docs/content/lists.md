@@ -114,7 +114,7 @@ If the list didn't exists, or the pivot didn't exists, the value is not inserted
 
 ##### *Parameters*
 *key*  
-*position*  Redis::BEFORE | Redis::AFTER  
+*position*  Valkey::BEFORE | Valkey::AFTER  
 *pivot*  
 *value*
 
@@ -125,19 +125,19 @@ The number of the elements in the list, -1 if the pivot didn't exists.
 
 ```php
 $valkey->del('key1');
-$valkey->lInsert('key1', Redis::AFTER, 'A', 'X'); /* 0 */
+$valkey->lInsert('key1', Valkey::AFTER, 'A', 'X'); /* 0 */
 
 $valkey->lPush('key1', 'A');
 $valkey->lPush('key1', 'B');
 $valkey->lPush('key1', 'C');
 
-$valkey->lInsert('key1', Redis::BEFORE, 'C', 'X'); /* 4 */
+$valkey->lInsert('key1', Valkey::BEFORE, 'C', 'X'); /* 4 */
 $valkey->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C'] */
 
-$valkey->lInsert('key1', Redis::AFTER, 'C', 'Y'); /* 5 */
+$valkey->lInsert('key1', Valkey::AFTER, 'C', 'Y'); /* 5 */
 $valkey->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C', 'Y'] */
 
-$valkey->lInsert('key1', Redis::AFTER, 'W', 'value'); /* -1 */
+$valkey->lInsert('key1', Valkey::AFTER, 'W', 'value'); /* -1 */
 ```
 
 ### lPop
@@ -232,7 +232,7 @@ $valkey->lRange('key1', 0, -1); /* ['A', 'B', 'C'] */
 -----
 _**Description**_: Removes the first `count` occurrences of the value element from the list. If count is zero, all the matching elements are removed. If count is negative, elements are removed from tail to head.
 
-**Note**: The argument order is not the same as in the Redis documentation. This difference is kept for compatibility reasons.
+**Note**: The argument order is not the same as in the Valkey documentation. This difference is kept for compatibility reasons.
 
 ##### *Parameters*
 *key*  
@@ -370,7 +370,7 @@ array(3) {
 
 ### rPush
 -----
-_**Description**_: Adds one or more entries to the tail of a LIST. Redis will create the list if it doesn't exist.
+_**Description**_: Adds one or more entries to the tail of a LIST. Valkey will create the list if it doesn't exist.
 
 ##### *Prototype*
 ```php

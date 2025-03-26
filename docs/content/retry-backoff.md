@@ -9,27 +9,27 @@ You can set and get the maximum retries upon connection issues using the `OPT_MA
 ##### *Example*
 
 ```php
-$valkey->setOption(Redis::OPT_MAX_RETRIES, 5);
-$valkey->getOption(Redis::OPT_MAX_RETRIES);
+$valkey->setOption(Valkey::OPT_MAX_RETRIES, 5);
+$valkey->getOption(Valkey::OPT_MAX_RETRIES);
 ```
 
 ### Backoff algorithms
-You can set the backoff algorithm using the `Redis::OPT_BACKOFF_ALGORITHM` option and choose among the following algorithms described in this blog post by Marc Brooker from AWS: [Exponential Backoff And Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter):
+You can set the backoff algorithm using the `Valkey::OPT_BACKOFF_ALGORITHM` option and choose among the following algorithms described in this blog post by Marc Brooker from AWS: [Exponential Backoff And Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter):
 
-* Default: `Redis::BACKOFF_ALGORITHM_DEFAULT`
-* Decorrelated jitter: `Redis::BACKOFF_ALGORITHM_DECORRELATED_JITTER`
-* Full jitter: `Redis::BACKOFF_ALGORITHM_FULL_JITTER`
-* Equal jitter: `Redis::BACKOFF_ALGORITHM_EQUAL_JITTER`
-* Exponential: `Redis::BACKOFF_ALGORITHM_EXPONENTIAL`
-* Uniform: `Redis::BACKOFF_ALGORITHM_UNIFORM`
-* Constant: `Redis::BACKOFF_ALGORITHM_CONSTANT`
+* Default: `Valkey::BACKOFF_ALGORITHM_DEFAULT`
+* Decorrelated jitter: `Valkey::BACKOFF_ALGORITHM_DECORRELATED_JITTER`
+* Full jitter: `Valkey::BACKOFF_ALGORITHM_FULL_JITTER`
+* Equal jitter: `Valkey::BACKOFF_ALGORITHM_EQUAL_JITTER`
+* Exponential: `Valkey::BACKOFF_ALGORITHM_EXPONENTIAL`
+* Uniform: `Valkey::BACKOFF_ALGORITHM_UNIFORM`
+* Constant: `Valkey::BACKOFF_ALGORITHM_CONSTANT`
 
-These algorithms depend on the _base_ and _cap_ parameters, both in milliseconds, which you can set using the `Redis::OPT_BACKOFF_BASE` and `Redis::OPT_BACKOFF_CAP` options, respectively.
+These algorithms depend on the _base_ and _cap_ parameters, both in milliseconds, which you can set using the `Valkey::OPT_BACKOFF_BASE` and `Valkey::OPT_BACKOFF_CAP` options, respectively.
 
 ##### *Example*
 
 ```php
-$valkey->setOption(Redis::OPT_BACKOFF_ALGORITHM, Redis::BACKOFF_ALGORITHM_DECORRELATED_JITTER);
-$valkey->setOption(Redis::OPT_BACKOFF_BASE, 500); // base for backoff computation: 500ms
-$valkey->setOption(Redis::OPT_BACKOFF_CAP, 750); // backoff time capped at 750ms
+$valkey->setOption(Valkey::OPT_BACKOFF_ALGORITHM, Valkey::BACKOFF_ALGORITHM_DECORRELATED_JITTER);
+$valkey->setOption(Valkey::OPT_BACKOFF_BASE, 500); // base for backoff computation: 500ms
+$valkey->setOption(Valkey::OPT_BACKOFF_CAP, 750); // backoff time capped at 750ms
 ```

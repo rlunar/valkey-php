@@ -2,10 +2,10 @@
 
 * [eval](#eval) - Evaluate a LUA script serverside
 * [evalSha](#evalsha) - Evaluate a LUA script serverside, from the SHA1 hash of the script instead of the script itself
-* [script](#script) - Execute the Redis SCRIPT command to perform various operations on the scripting subsystem
+* [script](#script) - Execute the Valkey SCRIPT command to perform various operations on the scripting subsystem
 * [getLastError](#getlasterror) - The last error message (if any)
 * [clearLastError](#clearlasterror) - Clear the last error message
-* [_prefix](#_prefix) - A utility method to prefix the value with the prefix setting for phpredis
+* [_prefix](#_prefix) - A utility method to prefix the value with the prefix setting for valkey-php
 * [_unserialize](#_unserialize) - A utility method to unserialize data with whatever serializer is set up
 * [_serialize](#_serialize) - A utility method to serialize data with whatever serializer is set up
 
@@ -21,7 +21,7 @@ _**Description**_: Evaluate a LUA script serverside
 ##### *Return value*
 Mixed.  What is returned depends on what the LUA script itself returns, which could be a scalar value (int/string), or an array.
 Arrays that are returned can also contain other arrays, if that's how it was set up in your LUA script.  If there is an error
-executing the LUA script, the getLastError() function can tell you the message that came back from Redis (e.g. compile error).
+executing the LUA script, the getLastError() function can tell you the message that came back from Valkey (e.g. compile error).
 
 ##### *Examples*
 ```php
@@ -39,13 +39,13 @@ $valkey->eval("return {1,2,3,redis.call('lrange','mylist',0,-1)}");
 -----
 _**Description**_: Evaluate a LUA script serverside, from the SHA1 hash of the script instead of the script itself.
 
-In order to run this command Redis will have to have already loaded the script,
+In order to run this command Valkey will have to have already loaded the script,
 either by running it or via the SCRIPT LOAD command.
 
 ##### *Parameters*
 *script_sha* string.  The sha1 encoded hash of the script you want to run.  
 *args* array, optional.  Arguments to pass to the LUA script.  
-*num_keys* int, optional.  The number of arguments that should go into the KEYS array, vs. the ARGV array when Redis spins the script
+*num_keys* int, optional.  The number of arguments that should go into the KEYS array, vs. the ARGV array when Valkey spins the script
 
 ##### *Return value*
 Mixed.  See EVAL
@@ -59,7 +59,7 @@ $valkey->evalSha($sha); // Returns 1
 
 ### script
 -----
-_**Description**_: Execute the Redis SCRIPT command to perform various operations on the scripting subsystem.
+_**Description**_: Execute the Valkey SCRIPT command to perform various operations on the scripting subsystem.
 
 ##### *Usage*
 ```php
@@ -79,7 +79,7 @@ $valkey->script('exists', $script1, [$script2, $script3, ...]);
 -----
 _**Description**_: Issue the CLIENT command with various arguments.
 
-The Redis CLIENT command can be used in four ways.
+The Valkey CLIENT command can be used in four ways.
 * CLIENT LIST
 * CLIENT GETNAME
 * CLIENT SETNAME [name]
@@ -101,7 +101,7 @@ This will vary depending on which client command was executed.
 * CLIENT SETNAME will return true if it can be set and false if not
 * CLIENT KILL will return true if the client can be killed, and false if not
 
-Note:  phpredis will attempt to reconnect so you can actually kill your own connection
+Note:  valkey-php will attempt to reconnect so you can actually kill your own connection
 but may not notice losing it!
 ### getLastError
 -----
@@ -143,7 +143,7 @@ $err = $valkey->getLastError();
 
 ### _prefix
 -----
-_**Description**_: A utility method to prefix the value with the prefix setting for phpredis.
+_**Description**_: A utility method to prefix the value with the prefix setting for valkey-php.
 
 ##### *Parameters*
 *value* string.  The value you wish to prefix
@@ -153,7 +153,7 @@ If a prefix is set up, the value now prefixed.  If there is no prefix, the value
 
 ##### *Examples*
 ```php
-$valkey->setOption(Redis::OPT_PREFIX, 'my-prefix:');
+$valkey->setOption(Valkey::OPT_PREFIX, 'my-prefix:');
 $valkey->_prefix('my-value'); // Will return 'my-prefix:my-value'
 ```
 
@@ -163,7 +163,7 @@ _**Description**_: A utility method to serialize values manually.
 
 This method allows you to serialize a value with whatever serializer is configured, manually.
 This can be useful for serialization/unserialization of data going in and out of EVAL commands
-as phpredis can't automatically do this itself.  Note that if no serializer is set, phpredis
+as valkey-php can't automatically do this itself.  Note that if no serializer is set, valkey-php
 will change Array values to 'Array', and Objects to 'Object'.
 
 ##### *Parameters*
@@ -171,12 +171,12 @@ will change Array values to 'Array', and Objects to 'Object'.
 
 ##### *Examples*
 ```php
-$valkey->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
+$valkey->setOption(Valkey::OPT_SERIALIZER, Valkey::SERIALIZER_NONE);
 $valkey->_serialize("foo"); // returns "foo"
 $valkey->_serialize([]); // Returns "Array"
 $valkey->_serialize(new stdClass()); // Returns "Object"
 
-$valkey->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
+$valkey->setOption(Valkey::OPT_SERIALIZER, Valkey::SERIALIZER_PHP);
 $valkey->_serialize("foo"); // Returns 's:3:"foo";'
 ```
 
@@ -185,7 +185,7 @@ $valkey->_serialize("foo"); // Returns 's:3:"foo";'
 _**Description**_: A utility method to unserialize data with whatever serializer is set up.
 
 If there is no serializer set, the value will be returned unchanged.  If there is a serializer set up,
-and the data passed in is malformed, an exception will be thrown. This can be useful if phpredis is
+and the data passed in is malformed, an exception will be thrown. This can be useful if valkey-php is
 serializing values, and you return something from redis in a LUA script that is serialized.
 
 ##### *Parameters*
@@ -193,6 +193,6 @@ serializing values, and you return something from redis in a LUA script that is 
 
 ##### *Examples*
 ```php
-$valkey->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
+$valkey->setOption(Valkey::OPT_SERIALIZER, Valkey::SERIALIZER_PHP);
 $valkey->_unserialize('a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}'); // Will return [1,2,3]
 ```

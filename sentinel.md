@@ -1,11 +1,11 @@
-Redis Sentinel
+Valkey Sentinel
 ==============
 
-Redis Sentinel provides high availability for Redis. In practical terms this means that using Sentinel you can create a Redis deployment that resists without human intervention certain kinds of failures.
+Valkey Sentinel provides high availability for Valkey. In practical terms this means that using Sentinel you can create a Valkey deployment that resists without human intervention certain kinds of failures.
 
-Redis Sentinel also provides other collateral tasks such as monitoring, notifications and acts as a configuration provider for clients.
+Valkey Sentinel also provides other collateral tasks such as monitoring, notifications and acts as a configuration provider for clients.
 
-## Class RedisSentinel
+## Class ValkeySentinel
 -----
 
 ##### *Parameters*
@@ -21,34 +21,34 @@ Redis Sentinel also provides other collateral tasks such as monitoring, notifica
 ##### *Examples for version 6.0 or later*
 
 ```php
-$sentinel = new RedisSentinel([
+$sentinel = new ValkeySentinel([
   'host' => '127.0.0.1',
 ]); // default parameters
-$sentinel = new RedisSentinel([
+$sentinel = new ValkeySentinel([
   'host' => '127.0.0.1',
   'port' => 26379,
   'connectTimeout' => 2.5,
 ]); // 2.5 sec timeout.
-$sentinel = new RedisSentinel([
+$sentinel = new ValkeySentinel([
   'host' => '127.0.0.1',
   'port' => 26379,
   'connectTimeout' => 2.5,
   'persistent' => 'sentinel',
 ]); // persistent connection with id 'sentinel'
-$sentinel = new RedisSentinel([
+$sentinel = new ValkeySentinel([
   'host' => '127.0.0.1',
   'port' => 26379,
   'connectTimeout' => 2.5,
   'persistent' => '',
 ]); // also persistent connection with id ''
-$sentinel = new RedisSentinel([
+$sentinel = new ValkeySentinel([
   'host' => '127.0.0.1',
   'port' => 26379,
   'connectTimeout' => 1,
   'persistent' => null,
   'retryInterval' => 100,
 ]); // 1 sec timeout, 100ms delay between reconnection attempts.
-$sentinel = new RedisSentinel([
+$sentinel = new ValkeySentinel([
   'host' => '127.0.0.1',
   'port' => 26379,
   'connectTimeout' => 0,
@@ -62,12 +62,12 @@ $sentinel = new RedisSentinel([
 ##### *Examples for versions older than 6.0*
 
 ```php
-$sentinel = new RedisSentinel('127.0.0.1'); // default parameters
-$sentinel = new RedisSentinel('127.0.0.1', 26379, 2.5); // 2.5 sec timeout.
-$sentinel = new RedisSentinel('127.0.0.1', 26379, 0, 'sentinel'); // persistent connection with id 'sentinel'
-$sentinel = new RedisSentinel('127.0.0.1', 26379, 0, ''); // also persistent connection with id ''
-$sentinel = new RedisSentinel('127.0.0.1', 26379, 1, null, 100); // 1 sec timeout, 100ms delay between reconnection attempts.
-$sentinel = new RedisSentinel('127.0.0.1', 26379, 0, NULL, 0, 0, "secret"); // connect sentinel with password authentication
+$sentinel = new ValkeySentinel('127.0.0.1'); // default parameters
+$sentinel = new ValkeySentinel('127.0.0.1', 26379, 2.5); // 2.5 sec timeout.
+$sentinel = new ValkeySentinel('127.0.0.1', 26379, 0, 'sentinel'); // persistent connection with id 'sentinel'
+$sentinel = new ValkeySentinel('127.0.0.1', 26379, 0, ''); // also persistent connection with id ''
+$sentinel = new ValkeySentinel('127.0.0.1', 26379, 1, null, 100); // 1 sec timeout, 100ms delay between reconnection attempts.
+$sentinel = new ValkeySentinel('127.0.0.1', 26379, 0, NULL, 0, 0, "secret"); // connect sentinel with password authentication
 ```
 
 ### Usage

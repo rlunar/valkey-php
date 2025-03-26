@@ -2,13 +2,13 @@
 
 |Command                                |Description                                                        |Supported              |Tested                 |Class/Trait    |Method             |
 |---                                    |---                                                                |:-:                    |:-:                    |---            |---                |
-|[bitCount](#bitCount)                  |Count set bits in a string                                         |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitCount           |
-|[bitField](#bitField)                  |Perform arbitrary bitfield integer operations on strings           |:x:                    |:x:                    |Bits           |bitField           |
-|[bitFieldReadOnly](#bitFieldReadOnly)  |Perform arbitrary read-only bitfield integer operations on strings |:x:                    |:x:                    |Bits           |bitFieldReadOnly   |
-|[bitOp](#bitOp)                        |Perform bitwise operations between strings                         |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitOp              |
-|[bitPos](#bitPos)                      |Return the position of the first bit set to 1 or 0 in a string.    |:x:                    |:x:                    |Bits           |bitPos             |
-|[getBit](#getBit)                      |Returns the bit value at offset in the string value stored at key  |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |getBit             |
-|[setBit](#setBit)                      |Sets or clears the bit at offset in the string value stored at key |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |setBit             |
+|[bitCount](#bitCount)                  |Count set bits in a string                                         |:white\_check\_mark:   |:white\_check\_mark:   |Bitmaps           |bitCount           |
+|[bitField](#bitField)                  |Perform arbitrary bitfield integer operations on strings           |:x:                    |:x:                    |Bitmaps           |bitField           |
+|[bitFieldReadOnly](#bitFieldReadOnly)  |Perform arbitrary read-only bitfield integer operations on strings |:x:                    |:x:                    |Bitmaps           |bitFieldReadOnly   |
+|[bitOp](#bitOp)                        |Perform bitwise operations between strings                         |:white\_check\_mark:   |:white\_check\_mark:   |Bitmaps           |bitOp              |
+|[bitPos](#bitPos)                      |Return the position of the first bit set to 1 or 0 in a string.    |:x:                    |:x:                    |Bitmaps           |bitPos             |
+|[getBit](#getBit)                      |Returns the bit value at offset in the string value stored at key  |:white\_check\_mark:   |:white\_check\_mark:   |Bitmaps           |getBit             |
+|[setBit](#setBit)                      |Sets or clears the bit at offset in the string value stored at key |:white\_check\_mark:   |:white\_check\_mark:   |Bitmaps           |setBit             |
 
 ## Usage
 
