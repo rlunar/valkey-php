@@ -1,4 +1,12 @@
-## HyperLogLogs
+# Valkey PHP - HyperLogLogs
+
+|Command                    |Description                                                                                |Supported              |Tested                 |Class/Trait    |Method     |
+|---                        |---                                                                                        |:-:                    |:-:                    |---            |---        |
+|[pfAdd](#pfAdd)            |Adds the specified elements to the specified HyperLogLog.                                  |:white\_check\_mark:   |:white\_check\_mark:   |HyperLogLogs   |pfAdd      |
+|[pfCount](#pfCount)        |Return the approximated cardinality of the set(s) observed by the HyperLogLog at key(s).   |:white\_check\_mark:   |:white\_check\_mark:   |HyperLogLogs   |pfCount    |
+|[pfDebug](#pfDebug)        |Adds the specified elements to the specified HyperLogLog.                                  |:x:    |:white\_check\_mark:   |HyperLogLogs   |pfDebug    |
+|[pfMerge](#pfMerge)        |Adds the specified elements to the specified HyperLogLog.                                  |:white\_check\_mark:   |:white\_check\_mark:   |HyperLogLogs   |pfMerge    |
+|[pfSelfTest](#pfSelfTest)  |Adds the specified elements to the specified HyperLogLog.                                  |:x:    |:x:    |HyperLogLogs   |pfSelfTest |
 
 ### pfAdd
 -----
