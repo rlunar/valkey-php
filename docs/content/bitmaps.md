@@ -46,7 +46,7 @@ public function bitCount(string $key) : int {
 ##### *Example*
 
 ```php
-$valkey->set('key', 'a'); // 1100001 in Binary or 97 in decimal
+$valkey->set('key', 'a'); // 0110 0001 in Binary or 97 in decimal
 $valkey->bitCount('key'); // 3
 ```
 
@@ -117,8 +117,11 @@ _**Description**_: Return the position of the first bit set to 1 or 0 in a strin
 ##### *Prototype*  
 
 ```php
-public function bitPos(string $key, int $value): int {
-    return $this->valkey->bitPos($key, $value);
+public function bitPos(string $key, int $bit, int $start = 0, int $end, string $type): int {
+    if ($type != 'BYTE' || $type != 'BIT') {
+        return -1;
+    }
+    return $this->valkey->bitPos($key, $bit, $start, $end, $type);
 }
 ```
 
@@ -126,6 +129,7 @@ public function bitPos(string $key, int $value): int {
 
 - *key*: String. The Bitmap key.
 - *value*: int. 0 or 1, the value of the bit to look for.
+- *start*: int. 0 or 1, the value of the bit to look for.
 
 ##### *Return value*
 
@@ -134,13 +138,15 @@ public function bitPos(string $key, int $value): int {
 ##### *Example*
 
 ```php
-$valkey->bitOp('not', 'testBitOpNot', 'testBit');
+$valkey->set('key', 'A');   // 0100 0001
+                            // ^
+                            // |
+$valkey->bitPos('key', 0);  // 0 found at the first position
 
-$valkey->set('testBit1', 0);
-$valkey->set('testBit2', 1);
-$valkey->bitOp('and', 'testBitOpAnd', 'testBit1', 'testBit2');
-$valkey->get('testBitOpAnd');   // 0 since only the two bits that are common 
-                                // between 0 and 1 will match
+$valkey->get('key');        // 0100 0001
+                            //  ^
+                            //  |
+$valkey->bitPos('key', 1);  //  1 found on the second position (zero based)
 ```
 
 ## getBit
@@ -167,9 +173,15 @@ public function getBit(string $key, int $offset) : int {
 ##### *Example*
 
 ```php
-$valkey->set('key', 'A'); // 01000001
-$valkey->getBit('key', 0); // 0
-$valkey->getBit('key', 1); // 1
+$valkey->set('key', 'A');   // 0100 0001
+                            //    ^
+                            //    |
+$valkey->getBit('key', 3);  //    0  is the 4th element (zero based)
+
+$valkey->get('key');        // 0100 0001
+                            //         ^
+                            //         |
+$valkey->getBit('key', 7);  //         1 is the 8th element (zero based)
 ```
 
 ## setBit
@@ -197,8 +209,8 @@ public function setBit(string $key, int $offset, int $value): int {
 ##### *Example*
 
 ```php
-$valkey->setBit('key', 1, 1);
-$valkey->setBit('key', 7, 1);
+$valkey->setBit('key', 1, 1);   // 01
+$valkey->setBit('key', 7, 1);   // 0100 0001
 $valkey->get('key');            // A => 0100 0001
 
 $valkey->set('key', "*");       // ord("*") = 42 = 0x2f = "0010 1010"
