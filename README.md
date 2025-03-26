@@ -132,7 +132,7 @@ Table of contents
     - [Usage](#usage)
     - [Bitmaps](#bitmaps)
     - [Connection](#connection)
-    - [Geocoding](#Geocoding)
+    - [Geospatial Indexes](#geospatial-indexes)
     - [Hashes](#hashes)
     - [HyperLogLogs](#HyperLogLogs)
     - [Introspection](#introspection)
@@ -203,9 +203,15 @@ $valkey->geoRadiusByMember("Geocoding", 'San Francisco', 300, 'mi', $options);
 ### [Hashes](docs/content/hashes.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->hSet('hash', 'key1', 'hello'); /* 1, 'key1' => 'hello' in the hash at "h" */
+$valkey->hGet('hash', 'key1'); /* returns "hello" */
+$valkey->hSetNx('hash', 'key1', 'hello'); /* TRUE, 'key1' => 'hello' in the hash at "hash" */
+$valkey->hLen('hash'); /* returns 2 */
+$valkey->hGetAll('hash');
+$valkey->hKeys('hash');
+$valkey->hVals('hash');
 ```
 
 ### [HyperLogLogs](docs/content/hyperloglogs.md)

@@ -1,20 +1,36 @@
-## Hashes
+# Valkey PHP - Hashes
 
-* [hDel](#hdel) - Delete one or more hash fields
-* [hExists](#hexists) - Determine if a hash field exists
-* [hGet](#hget) - Get the value of a hash field
-* [hGetAll](#hgetall) - Get all the fields and values in a hash
-* [hIncrBy](#hincrby) - Increment the integer value of a hash field by the given number
-* [hIncrByFloat](#hincrbyfloat) - Increment the float value of a hash field by the given amount
-* [hKeys](#hkeys) - Get all the fields in a hash
-* [hLen](#hlen) - Get the number of fields in a hash
-* [hMGet](#hmget) - Get the values of all the given hash fields
-* [hMSet](#hmset) - Set multiple hash fields to multiple values
-* [hSet](#hset) - Set the string value of a hash field
-* [hSetNx](#hsetnx) - Set the value of a hash field, only if the field does not exist
-* [hVals](#hvals) - Get all the values in a hash
-* [hScan](#hscan) - Scan a hash key for members
-* [hStrLen](#hstrlen) - Get the string length of the value associated with field in the hash
+|Command                        |Description                                                            |Supported              |Tested                 |Class/Trait    |Method         |
+|---                            |---                                                                    |:-:                    |:-:                    |---            |---            |
+|[hDel](#hDel)                  |Delete one or more hash fields                                         |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hDel           |
+|[hExists](#hExists)            |Determine if a hash field exists                                       |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hExists        |
+|[hGet](#hGet)                  |Get the value of a hash field                                          |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hGet           |
+|[hGetAll](#hGetAll)            |Get all the fields and values in a hash                                |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hGetAll        |
+|[hIncrBy](#hIncrBy)            |Increment the integer value of a hash field by the given number        |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hIncrBy        |
+|[hIncrByFloat](#hIncrByFloat)  |Increment the float value of a hash field by the given amount          |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hIncrByFloat   |
+|[hKeys](#hKeys)                |Get all the fields in a hash                                           |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hKeys          |
+|[hLen](#hLen)                  |Get the number of fields in a hash                                     |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hLen           |
+|[hMGet](#hMGet)                |Get the values of all the given hash fields                            |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hMGet          |
+|[hMSet](#hMSet)                |Set multiple hash fields to multiple values                            |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hMSet          |
+|[hScan](#hScan)                |Scan a hash key for members                                            |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hScan          |
+|[hSet](#hSet)                  |Set the string value of a hash field                                   |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hSet           |
+|[hSetNx](#hSetNx)              |Set the value of a hash field, only if the field does not exist        |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hSetNx         |
+|[hStrLen](#hStrLen)            |Get the string length of the value associated with field in the hash   |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hStrLen        |
+|[hVals](#hVals)                |Get all the values in a hash                                           |:white\_check\_mark:   |:white\_check\_mark:   |Hashes         |hVals          |
+
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->hSet('hash', 'key1', 'hello'); /* 1, 'key1' => 'hello' in the hash at "h" */
+$valkey->hGet('hash', 'key1'); /* returns "hello" */
+$valkey->hSetNx('hash', 'key1', 'hello'); /* TRUE, 'key1' => 'hello' in the hash at "hash" */
+$valkey->hLen('hash'); /* returns 2 */
+$valkey->hGetAll('hash');
+$valkey->hKeys('hash');
+$valkey->hVals('hash');
+```
 
 ### hSet
 -----
@@ -29,12 +45,12 @@ _**Description**_: Adds a value to the hash stored at key.
 ##### *Example*
 
 ```php
-$valkey->del('h')
-$valkey->hSet('h', 'key1', 'hello'); /* 1, 'key1' => 'hello' in the hash at "h" */
-$valkey->hGet('h', 'key1'); /* returns "hello" */
+$valkey->del('hash')
+$valkey->hSet('hash', 'key1', 'hello'); /* 1, 'key1' => 'hello' in the hash at "h" */
+$valkey->hGet('hash', 'key1'); /* returns "hello" */
 
-$valkey->hSet('h', 'key1', 'plop'); /* 0, value was replaced. */
-$valkey->hGet('h', 'key1'); /* returns "plop" */
+$valkey->hSet('hash', 'key1', 'plop'); /* 0, value was replaced. */
+$valkey->hGet('hash', 'key1'); /* returns "plop" */
 ```
 
 ### hSetNx
@@ -47,9 +63,9 @@ _**Description**_: Adds a value to the hash stored at key only if this field isn
 ##### *Example*
 
 ```php
-$valkey->del('h')
-$valkey->hSetNx('h', 'key1', 'hello'); /* TRUE, 'key1' => 'hello' in the hash at "h" */
-$valkey->hSetNx('h', 'key1', 'world'); /* FALSE, 'key1' => 'hello' in the hash at "h". No change since the field wasn't replaced. */
+$valkey->del('hash')
+$valkey->hSetNx('hash', 'key1', 'hello'); /* TRUE, 'key1' => 'hello' in the hash at "h" */
+$valkey->hSetNx('hash', 'key1', 'world'); /* FALSE, 'key1' => 'hello' in the hash at "h". No change since the field wasn't replaced. */
 ```
 
 
@@ -76,10 +92,10 @@ _**Description**_: Returns the length of a hash, in number of items
 ##### *Example*
 
 ```php
-$valkey->del('h')
-$valkey->hSet('h', 'key1', 'hello');
-$valkey->hSet('h', 'key2', 'plop');
-$valkey->hLen('h'); /* returns 2 */
+$valkey->del('hash')
+$valkey->hSet('hash', 'key1', 'hello');
+$valkey->hSet('hash', 'key2', 'plop');
+$valkey->hLen('hash'); /* returns 2 */
 ```
 
 ### hDel
@@ -108,12 +124,12 @@ An array of elements, the keys of the hash. This works like PHP's array_keys().
 ##### *Example*
 
 ```php
-$valkey->del('h');
-$valkey->hSet('h', 'a', 'x');
-$valkey->hSet('h', 'b', 'y');
-$valkey->hSet('h', 'c', 'z');
-$valkey->hSet('h', 'd', 't');
-var_dump($valkey->hKeys('h'));
+$valkey->del('hash');
+$valkey->hSet('hash', 'a', 'x');
+$valkey->hSet('hash', 'b', 'y');
+$valkey->hSet('hash', 'c', 'z');
+$valkey->hSet('hash', 'd', 't');
+var_dump($valkey->hKeys('hash'));
 ```
 
 Output:
@@ -144,12 +160,12 @@ An array of elements, the values of the hash. This works like PHP's array_values
 ##### *Example*
 
 ```php
-$valkey->del('h');
-$valkey->hSet('h', 'a', 'x');
-$valkey->hSet('h', 'b', 'y');
-$valkey->hSet('h', 'c', 'z');
-$valkey->hSet('h', 'd', 't');
-var_dump($valkey->hVals('h'));
+$valkey->del('hash');
+$valkey->hSet('hash', 'a', 'x');
+$valkey->hSet('hash', 'b', 'y');
+$valkey->hSet('hash', 'c', 'z');
+$valkey->hSet('hash', 'd', 't');
+var_dump($valkey->hVals('hash'));
 ```
 
 Output:
@@ -180,12 +196,12 @@ An array of elements, the contents of the hash.
 ##### *Example*
 
 ```php
-$valkey->del('h');
-$valkey->hSet('h', 'a', 'x');
-$valkey->hSet('h', 'b', 'y');
-$valkey->hSet('h', 'c', 'z');
-$valkey->hSet('h', 'd', 't');
-var_dump($valkey->hGetAll('h'));
+$valkey->del('hash');
+$valkey->hSet('hash', 'a', 'x');
+$valkey->hSet('hash', 'b', 'y');
+$valkey->hSet('hash', 'c', 'z');
+$valkey->hSet('hash', 'd', 't');
+var_dump($valkey->hGetAll('hash'));
 ```
 
 Output:
@@ -213,9 +229,9 @@ _**Description**_: Verify if the specified member exists in a key.
 *BOOL*: If the member exists in the hash table, return `TRUE`, otherwise return `FALSE`.
 ##### *Examples*
 ```php
-$valkey->hSet('h', 'a', 'x');
-$valkey->hExists('h', 'a'); /*  TRUE */
-$valkey->hExists('h', 'NonExistingKey'); /* FALSE */
+$valkey->hSet('hash', 'a', 'x');
+$valkey->hExists('hash', 'a'); /*  TRUE */
+$valkey->hExists('hash', 'NonExistingKey'); /* FALSE */
 ```
 
 ### hIncrBy
@@ -229,9 +245,9 @@ _**Description**_: Increments the value of a member from a hash by a given amoun
 *LONG* the new value
 ##### *Examples*
 ```php
-$valkey->del('h');
-$valkey->hIncrBy('h', 'x', 2); /* returns 2: h[x] = 2 now. */
-$valkey->hIncrBy('h', 'x', 1); /* h[x] ← 2 + 1. Returns 3 */
+$valkey->del('hash');
+$valkey->hIncrBy('hash', 'x', 2); /* returns 2: h[x] = 2 now. */
+$valkey->hIncrBy('hash', 'x', 1); /* h[x] ← 2 + 1. Returns 3 */
 ```
 
 ### hIncrByFloat
@@ -245,10 +261,10 @@ _**Description**_: Increments the value of a hash member by the provided float v
 *FLOAT* the new value
 ##### *Examples*
 ```php
-$valkey->del('h');
-$valkey->hIncrByFloat('h','x', 1.5); /* returns 1.5: h[x] = 1.5 now */
-$valkey->hIncrByFloat('h', 'x', 1.5); /* returns 3.0: h[x] = 3.0 now */
-$valkey->hIncrByFloat('h', 'x', -3.0); /* returns 0.0: h[x] = 0.0 now */
+$valkey->del('hash');
+$valkey->hIncrByFloat('hash','x', 1.5); /* returns 1.5: h[x] = 1.5 now */
+$valkey->hIncrByFloat('hash', 'x', 1.5); /* returns 3.0: h[x] = 3.0 now */
+$valkey->hIncrByFloat('hash', 'x', -3.0); /* returns 0.0: h[x] = 0.0 now */
 ```
 
 ### hMSet
@@ -276,10 +292,10 @@ _**Description**_: Retrieve the values associated to the specified fields in the
 *Array* An array of elements, the values of the specified fields in the hash, with the hash keys as array keys.
 ##### *Examples*
 ```php
-$valkey->del('h');
-$valkey->hSet('h', 'field1', 'value1');
-$valkey->hSet('h', 'field2', 'value2');
-$valkey->hMGet('h', ['field1', 'field2']); /* returns ['field1' => 'value1', 'field2' => 'value2'] */
+$valkey->del('hash');
+$valkey->hSet('hash', 'field1', 'value1');
+$valkey->hSet('hash', 'field2', 'value2');
+$valkey->hMGet('hash', ['field1', 'field2']); /* returns ['field1' => 'value1', 'field2' => 'value2'] */
 ```
 
 ### hScan
