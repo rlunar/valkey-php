@@ -7,6 +7,7 @@
 1. [Predefined constants](#predefined-constants)
 
 ### Class Redis
+
 -----
 _**Description**_: Creates a Redis client
 
