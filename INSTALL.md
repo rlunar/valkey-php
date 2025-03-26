@@ -66,6 +66,7 @@ zypper in php7-redis
 # Installation on OSX
 
 If the install fails on OSX, type the following commands in your shell before trying again:
+
 ```bash
 MACOSX_DEPLOYMENT_TARGET=10.6
 CFLAGS="-arch i386 -arch x86_64 -g -Os -pipe -no-cpp-precomp"

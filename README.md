@@ -41,7 +41,7 @@ brew install autoconf automake libtool php
 ### PHP Extension (Recommended for Production)
 
 ```bash
-pecl install valkey-php
+pecl install valkey
 ```
 
 Add the following to your php.ini:
@@ -111,9 +111,9 @@ Valkey-PHP provides Redisson-like abstractions for complex data structures:
 We provide compatibility layers to make migration from either library as smooth as possible:
 
 ```php
-// For phpredis users
-use Valkey\Compat\PhpRedis;
-$redis = new PhpRedis();
+// For PHPRedis users
+use Valkey\Compat\Redis;
+$redis = new Redis();
 
 // For webdcg/redis users
 use Valkey\Compat\WebdcgRedis;
@@ -122,7 +122,7 @@ $redis = new WebdcgRedis();
 
 ## Documentation
 
-Comprehensive documentation is available at [valkey-php.io/docs](https://valkey-php.io/docs)
+Comprehensive documentation is available at [valkey-php.dev/docs](https://valkey-php.dev/docs)
 
 ## Contributing
 
@@ -173,11 +173,11 @@ It is released under the [PHP License, version 3.01](http://www.php.net/license/
 
 You can send comments, patches, questions [here on github](https://github.com/phpredis/phpredis/issues), to michael.grunder@gmail.com ([Twitter](https://twitter.com/grumi78), <a rel="me" href="https://phpc.social/@mgrunder">Mastodon</a>), p.yatsukhnenko@gmail.com ([@yatsukhnenko](https://twitter.com/yatsukhnenko)), or n.favrefelix@gmail.com ([@yowgi](https://twitter.com/yowgi)).
 
-
 ## [API Documentation](https://phpredis.github.io/phpredis)
 These are a work in progress, but will eventually replace our **ONE README TO RULE THEM ALL** docs.  
 
 ## Supporting the project
+
 PhpRedis will always be free and open source software, but if you or your company has found it useful please consider supporting the project.  Developing a large, complex, and performant library like PhpRedis takes a great deal of time and effort, and support would be appreciated! :heart:
 
 The best way to support the project is through [GitHub sponsors](https://github.com/sponsors/michael-grunder).  Many of the reward tiers grant access to our [slack channel](https://phpredis.slack.com) where [myself](https://github.com/michael-grunder) and [Pavlo](https://github.com/yatsukhnenko) are regularly available to answer questions.  Additionally this will allow you to provide feedback on which fixes and new features to prioritize.
@@ -185,41 +185,45 @@ The best way to support the project is through [GitHub sponsors](https://github.
 You can also make a one-time contribution with [![PayPal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/michaelgrunder/5)
 
 ## Sponsors
+
 <a href="https://audiomack.com"><img src="https://styleguide.audiomack.com/assets/dl/inline-orange-large.png" align="center" alt="Audiomack.com" width="150"></a>
 <a href="https://bluehost.com"><img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Bluehost-logo.png" align="center" alt="Bluehost.com" width="150"></a>
 <a href="https://objectcache.pro"><img src="https://objectcache.pro/assets/wordmark-padded.png" align="center" alt="Object Cache Pro" width="150"></a>
 <a href="https://openlms.net"><img src="https://help.openlms.net/wp-content/uploads/2020/05/cropped-open-lms.png" align="center" alt="OpenLMS.net" width="150"></a>
 
-# Table of contents
+## Table of contents
+
 -----
-1. [Installing/Configuring](#installingconfiguring)
-   * [Installation](#installation)
-   * [PHP Session handler](#php-session-handler)
+
+1. [Installing/Configuring](docs/content/README.md#installingconfiguring)
+   * [Installation](docs/content/installation.md)
+   * [PHP Session handler](docs/content/php.md-session-handler)
    * [Distributed Redis Array](./arrays.md#readme)
    * [Redis Cluster support](./cluster.md#readme)
    * [Redis Sentinel support](./sentinel.md#readme)
-   * [Running the unit tests](#running-the-unit-tests)
-1. [Classes and methods](#classes-and-methods)
-   * [Usage](#usage)
-   * [Connection](#connection)
-   * [Retry and backoff](#retry-and-backoff)
-   * [Server](#server)
-   * [Keys and strings](#keys-and-strings)
-   * [Hashes](#hashes)
-   * [Lists](#lists)
-   * [Sets](#sets)
-   * [Sorted sets](#sorted-sets)
-   * [HyperLogLogs](#hyperloglogs)
-   * [Geocoding](#geocoding)
-   * [Streams](#streams)
-   * [Pub/sub](#pubsub)
-   * [Transactions](#transactions)
-   * [Scripting](#scripting)
-   * [Introspection](#introspection)
+   * [Running the unit tests](docs/content/running.md-the-unit-tests)
+2. [Classes and methods](docs/content/classes.md-and-methods)
+   * [Usage](docs/content/usage.md)
+   * [Connection](docs/content/connection.md)
+   * [Retry and backoff](docs/content/retry.md-and-backoff)
+   * [Server](docs/content/server.md)
+   * [Keys and strings](docs/content/keys.md-and-strings)
+   * [Hashes](docs/content/hashes.md)
+   * [Lists](docs/content/lists.md)
+   * [Sets](docs/content/sets.md)
+   * [Sorted sets](docs/content/sorted.md-sets)
+   * [HyperLogLogs](docs/content/hyperloglogs.md)
+   * [Geocoding](docs/content/geocoding.md)
+   * [Streams](docs/content/streams.md)
+   * [Pub/sub](docs/content/pubsub.md)
+   * [Transactions](docs/content/transactions.md)
+   * [Scripting](docs/content/scripting.md)
+   * [Introspection](docs/content/introspection.md)
 
 -----
 
 # Installing/Configuring
+
 -----
 
 ## Installation
