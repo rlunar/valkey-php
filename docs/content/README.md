@@ -18,7 +18,7 @@ phpredis can be used to store PHP sessions. To do this, configure `session.save_
 - __weight__ (integer): the weight of a host is used in comparison with the others in order to customize the session distribution on several hosts. If host A has twice the weight of host B, it will get twice the amount of sessions. In the example, *host1* stores 20% of all the sessions (1/(1+2+2)) while *host2* and *host3* each store 40% (2/(1+2+2)). The target host is determined once and for all at the start of the session, and doesn't change. The default weight is 1.
 - __timeout__ (float): the connection timeout to a redis host, expressed in seconds. If the host is unreachable in that amount of time, the session storage will be unavailable for the client. The default timeout is very high (86400 seconds).
 - __persistent__ (integer, should be 1 or 0): defines if a persistent connection should be used.
-- __prefix__ (string, defaults to "PHPREDIS_SESSION:"): used as a prefix to the Redis key in which the session is stored. The key is composed of the prefix followed by the session ID.
+- __prefix__ (string, defaults to "PHPVALKEY_SESSION:"): used as a prefix to the Redis key in which the session is stored. The key is composed of the prefix followed by the session ID.
 - __auth__ (string, or an array with one or two elements): used to authenticate with the server prior to sending commands.
 - __database__ (integer): selects a different database.
 
@@ -46,7 +46,7 @@ Login to Redis using username, password, and set prefix:
 
 ```ini
 session.save_handler = redis
-session.save_path = "tcp://127.0.0.1:6379?auth[]=user&auth[]=password&prefix=user_PHPREDIS_SESSION:"
+session.save_path = "tcp://127.0.0.1:6379?auth[]=user&auth[]=password&prefix=user_PHPVALKEY_SESSION:"
 ```
 
 #### Session locking

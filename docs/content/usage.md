@@ -63,12 +63,12 @@ _**Description**_: Available Valkey Constants
 Valkey data types, as returned by [type](#type)
 
 ```php
-Valkey::REDIS_STRING; // String
-Valkey::REDIS_SET; // Set
-Valkey::REDIS_LIST; // List
-Valkey::REDIS_ZSET; // Sorted set
-Valkey::REDIS_HASH; // Hash
-Valkey::REDIS_NOT_FOUND; // Not found / other
+Valkey::VALKEY_STRING; // String
+Valkey::VALKEY_SET; // Set
+Valkey::VALKEY_LIST; // List
+Valkey::VALKEY_ZSET; // Sorted set
+Valkey::VALKEY_HASH; // Hash
+Valkey::VALKEY_NOT_FOUND; // Not found / other
 ```
 
 @TODO: OPT_SERIALIZER, AFTER, BEFORE,...

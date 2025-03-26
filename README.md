@@ -148,18 +148,19 @@ Table of contents
 
 ## Classes and methods
 
-## Usage
+### [Usage](docs/content/usage.md)
 
 ```php
 $valkey = new Valkey();
 ```
 
-### [Bits](docs/content/bits.md)
+### [Bitmaps](docs/content/bitmaps.md)
 
 ```php
 // Count set bits in a string
 $valkey->bitCount('key');
 $valkey->bitField('key');
+$valkey->bitFieldReadOnly('key');
 $valkey->bitPos('key');
 $valkey->bitOp('key');
 $valkey->getBit('key');

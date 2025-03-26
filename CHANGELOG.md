@@ -815,7 +815,7 @@ and PhpRedis adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 - Refactor subscribe/unsubscribe
   [3c9e159c](https://github.com/phpredis/phpredis/commit/3c9e159c)
   ([Pavlo Yatsukhnenko](https://github.com/yatsukhnenko))
-- Change PHPREDIS_CTX_PTR type
+- Change PHPVALKEY_CTX_PTR type
   [de3635da](https://github.com/phpredis/phpredis/commit/de3635da)
   ([Pavlo Yatsukhnenko](https://github.com/yatsukhnenko))
 - Refactor redis_parse_info_response
@@ -1603,7 +1603,7 @@ and PhpRedis adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   [f13f9b7c](https://github.com/phpredis/phpredis/commit/f13f9b7c7f5e3a7d286b412541199a408a0a98bd)
   ([Victor Kislov](https://github.com/vityank))
 
-- Fix config.m4 to test for the variable $PHP_REDIS_JSON and not the literal PHP_REDIS_JSON
+- Fix config.m4 to test for the variable $PHP_VALKEY_JSON and not the literal PHP_VALKEY_JSON
   [20a3dc72](https://github.com/phpredis/phpredis/commit/20a3dc7251cb0bf450ef2a1cfeeeaeaa10355cd2)
   ([Mizuki Nakano](https://github.com/mi-nakano))
 
@@ -1662,7 +1662,7 @@ and PhpRedis adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
   [7e4c7b3e](https://github.com/phpredis/phpredis/commit/7e4c7b3e)
   ([Pavlo Yatsukhnenko](https://github.com/yatsukhnenko))
 
-- Refactor PHPREDIS_GET_OBJECT macro
+- Refactor PHPVALKEY_GET_OBJECT macro
   [d5dadaf6](https://github.com/phpredis/phpredis/commit/d5dadaf6),
   [190c0d34](https://github.com/phpredis/phpredis/commit/190c0d34)
   ([Pavlo Yatsukhnenko](https://github.com/yatsukhnenko))

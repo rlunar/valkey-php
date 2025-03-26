@@ -337,12 +337,12 @@ _**Description**_: Returns the type of data pointed by a given key.
 ##### *Return value*
 
 Depending on the type of the data pointed by the key, this method will return the following value:  
-string: Redis::REDIS_STRING  
-set: Redis::REDIS_SET  
-list: Redis::REDIS_LIST  
-zset: Redis::REDIS_ZSET  
-hash: Redis::REDIS_HASH  
-other: Redis::REDIS_NOT_FOUND
+string: Redis::VALKEY_STRING  
+set: Redis::VALKEY_SET  
+list: Redis::VALKEY_LIST  
+zset: Redis::VALKEY_ZSET  
+hash: Redis::VALKEY_HASH  
+other: Redis::VALKEY_NOT_FOUND
 
 ##### *Example*
 
