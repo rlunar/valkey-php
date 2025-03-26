@@ -7849,16 +7849,28 @@ class Redis_Test extends TestSuite {
     }
 
     public function testTlsConnect() {
-        if (($fp = @fsockopen($this->getHost(), 6378)) == NULL)
+        if (($fp = @fsockopen($this->getHost(), 60379)) == NULL)
             $this->markTestSkipped();
 
         fclose($fp);
 
-        foreach (['localhost' => true, '127.0.0.1' => false] as $host => $verify) {
+        foreach ([$this->getHost() => true, $this->getHost() => false] as $host => $verify) {
             $redis = new Redis();
-            $this->assertTrue($redis->connect('tls://' . $host, 6378, 0, null, 0, 0, [
-                'stream' => ['verify_peer_name' => $verify, 'verify_peer' => false]
+            $this->assertTrue($redis->connect('tls://' . $host, 60379, 0, null, 0, 0, [
+                'stream' => [
+                    'verify_peer_name' => $verify, 
+                    'verify_peer' => false,
+                    'local_cert' => '/etc/certs/client.crt',
+                    'local_pk' => '/etc/certs/client.key',
+                    'cafile' => '/etc/certs/ca.crt',
+                ]
             ]));
+
+            $this->assertTrue($redis->set('key', 'val'));
+
+            $this->assertKeyEquals('val', 'key', $redis);
+            $this->assertKeyEquals('val', 'key', $redis);
+            $redis->del('key');
         }
     }
 
