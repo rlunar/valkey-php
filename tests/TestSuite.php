@@ -583,6 +583,7 @@ class TestSuite
         $methods = $rc->GetMethods(ReflectionMethod::IS_PUBLIC);
 
         $max_test_len = self::getMaxTestLen($methods, $limit);
+        $skip_setup_for_test = ['testHighPorts', 'testTlsConnect'];
 
         foreach($methods as $m) {
             $name = $m->name;
@@ -602,7 +603,8 @@ class TestSuite
             $rt = new $class_name($host, $port, $auth);
 
             try {
-                $rt->setUp();
+                if (!in_array($name, $skip_setup_for_test))
+                    $rt->setUp();
                 $rt->$name();
 
                 if ($count === count($class_name::$errors)) {

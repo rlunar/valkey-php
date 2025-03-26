@@ -74,7 +74,7 @@ class Redis_Test extends TestSuite {
     public function setUp() {
         $this->redis = $this->newInstance();
         $info = $this->redis->info();
-        $this->version = (isset($info['redis_version'])?$info['redis_version']:'0.0.0');
+        $this->version = (isset($info['valkey_version'])?$info['valkey_version']:'0.0.0');
         $this->is_keydb = $this->detectKeyDB($info);
         $this->is_valkey = $this->detectValKey($info);
     }
@@ -7511,16 +7511,16 @@ class Redis_Test extends TestSuite {
     /* Test high ports if we detect Redis running there */
     public function testHighPorts() {
         $ports = array_filter(array_map(function ($port) {
-            return $this->detectRedis('localhost', $port) ? $port : 0;
+            return $this->detectRedis($this->getHost(), $port) ? $port : 0;
         }, [32768, 32769, 32770]));
-
+        
         if ( ! $ports)
             $this->markTestSkipped();
 
         foreach ($ports as $port) {
             $redis = new Redis();
             try {
-                @$redis->connect('localhost', $port);
+                @$redis->connect($this->getHost(), $port);
                 if ($this->getAuth()) {
                     $this->assertTrue($redis->auth($this->getAuth()));
                 }
@@ -7849,16 +7849,28 @@ class Redis_Test extends TestSuite {
     }
 
     public function testTlsConnect() {
-        if (($fp = @fsockopen($this->getHost(), 6378)) == NULL)
+        if (($fp = @fsockopen($this->getHost(), 60379)) == NULL)
             $this->markTestSkipped();
 
         fclose($fp);
 
-        foreach (['localhost' => true, '127.0.0.1' => false] as $host => $verify) {
+        foreach ([$this->getHost() => true, $this->getHost() => false] as $host => $verify) {
             $redis = new Redis();
-            $this->assertTrue($redis->connect('tls://' . $host, 6378, 0, null, 0, 0, [
-                'stream' => ['verify_peer_name' => $verify, 'verify_peer' => false]
+            $this->assertTrue($redis->connect('tls://' . $host, 60379, 0, null, 0, 0, [
+                'stream' => [
+                    'verify_peer_name' => $verify, 
+                    'verify_peer' => false,
+                    'local_cert' => '/etc/certs/client.crt',
+                    'local_pk' => '/etc/certs/client.key',
+                    'cafile' => '/etc/certs/ca.crt',
+                ]
             ]));
+
+            $this->assertTrue($redis->set('key', 'val'));
+
+            $this->assertKeyEquals('val', 'key', $redis);
+            $this->assertKeyEquals('val', 'key', $redis);
+            $redis->del('key');
         }
     }
 
