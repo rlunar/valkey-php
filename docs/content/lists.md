@@ -25,6 +25,29 @@
 |[rPush](#rPush)            |Append one or multiple values to a list                                                    |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |rPush          |
 |[rPushX](#rPushX)          |Append a value to a list, only if the list exists                                          |:white\_check\_mark:        |:white\_check\_mark:        |Lists          |rPushX         |
 
+BLMOVE Pops an element from a list, pushes it to another list and returns it. Blocks until an element is available otherwise. Deletes the list if the last element was moved.
+BLMPOP Pops the first element from one of multiple lists. Blocks until an element is available otherwise. Deletes the list if the last element was popped.
+BLPOP Removes and returns the first element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.
+BRPOP Removes and returns the last element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.
+BRPOPLPUSH Pops an element from a list, pushes it to another list and returns it. Block until an element is available otherwise. Deletes the list if the last element was popped.
+LINDEX Returns an element from a list by its index.
+LINSERT Inserts an element before or after another element in a list.
+LLEN Returns the length of a list.
+LMOVE Returns an element after popping it from one list and pushing it to another. Deletes the list if the last element was moved.
+LMPOP Returns multiple elements from a list after removing them. Deletes the list if the last element was popped.
+LPOP Returns the first elements in a list after removing it. Deletes the list if the last element was popped.
+LPOS Returns the index of matching elements in a list.
+LPUSH Prepends one or more elements to a list. Creates the key if it doesn't exist.
+LPUSHX Prepends one or more elements to a list only when the list exists.
+LRANGE Returns a range of elements from a list.
+LREM Removes elements from a list. Deletes the list if the last element was removed.
+LSET Sets the value of an element in a list by its index.
+LTRIM Removes elements from both ends a list. Deletes the list if all elements were trimmed.
+RPOP Returns and removes the last elements of a list. Deletes the list if the last element was popped.
+RPOPLPUSH Returns the last element of a list after removing and pushing it to another list. Deletes the list if the last element was popped.
+RPUSH Appends one or more elements to a list. Creates the key if it doesn't exist.
+RPUSHX Appends an element to a list only when the list exists.
+
 * [blPop, brPop](#blpop-brpop) - Remove and get the first/last element in a list
 * [bRPopLPush](#brpoplpush) - Pop a value from a list, push it to another list and return it
 * [lIndex](#lindex) - Get an element from a list by its index

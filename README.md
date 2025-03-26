@@ -297,9 +297,16 @@ $valkey->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C'] */
 ### [Scripting](docs/content/scripting.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->eval("return 1"); // Returns an integer: 1
+$valkey->eval("return {1,2,3}"); // Returns [1,2,3]
+$valkey->del('mylist');
+$valkey->rpush('mylist','a');
+$valkey->rpush('mylist','b');
+$valkey->rpush('mylist','c');
+// Nested response:  [1,2,3,['a','b','c']];
+$valkey->eval("return {1,2,3,redis.call('lrange','mylist',0,-1)}");
 ```
 
 ### [Sets](docs/content/sets.md)

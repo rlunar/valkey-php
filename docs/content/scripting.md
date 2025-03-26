@@ -1,4 +1,40 @@
-## Scripting
+# Valkey PHP - Scripting
+
+|Command                            |Description                                                                                        |Supported  |Tested     |Class/Trait    |Method         |
+|---                                |---                                                                                                |:-:        |:-:        |---            |---            |
+|[eval](#eval)                      |Evaluate a LUA script serverside.                                                                  |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |eval           |
+|[evalSha](#evalSha)                |Evaluate a LUA script serverside, from the SHA1 hash of the script instead of the script itself.   |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |evalSha        |
+|[script](#script)                  |Execute the Redis SCRIPT command to perform various operations on the scripting subsystem.         |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |script         |
+|[getLastError](#getLastError)      |The last error message (if any).                                                                   |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |getLastError   |
+|[clearLastError](#clearLastError)  |Clear the last error message.                                                                      |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |clearLastError |
+|[\_prefix](#prefix)                |A utility method to prefix the value with the prefix setting for phpredis.                         |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |\_prefix       |
+|[\_unserialize](#unserialize)      |A utility method to unserialize data with whatever serializer is set up.                           |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |\_unserialize  |
+|[\_serialize](#serialize)          |A utility method to serialize data with whatever serializer is set up.                             |:white\_check\_mark:        |:white\_check\_mark:        |Scripting      |\_serialize    |
+
+EVAL Executes a server-side Lua script.
+EVALSHA Executes a server-side Lua script by SHA1 digest.
+EVALSHA_RO Executes a read-only server-side Lua script by SHA1 digest.
+EVAL_RO Executes a read-only server-side Lua script.
+FCALL Invokes a function.
+FCALL_RO Invokes a read-only function.
+FUNCTION A container for function commands.
+FUNCTION DELETE Deletes a library and its functions.
+FUNCTION DUMP Dumps all libraries into a serialized binary payload.
+FUNCTION FLUSH Deletes all libraries and functions.
+FUNCTION HELP Returns helpful text about the different subcommands.
+FUNCTION KILL Terminates a function during execution.
+FUNCTION LIST Returns information about all libraries.
+FUNCTION LOAD Creates a library.
+FUNCTION RESTORE Restores all libraries from a payload.
+FUNCTION STATS Returns information about a function during execution.
+SCRIPT A container for Lua scripts management commands.
+SCRIPT DEBUG Sets the debug mode of server-side Lua scripts.
+SCRIPT EXISTS Determines whether server-side Lua scripts exist in the script cache.
+SCRIPT FLUSH Removes all server-side Lua scripts from the script cache.
+SCRIPT HELP Returns helpful text about the different subcommands.
+SCRIPT KILL Terminates a server-side Lua script during execution.
+SCRIPT LOAD Loads a server-side Lua script to the script cache.
+SCRIPT SHOW Show server-side Lua script in the script cache.
 
 * [eval](#eval) - Evaluate a LUA script serverside
 * [evalSha](#evalsha) - Evaluate a LUA script serverside, from the SHA1 hash of the script instead of the script itself
