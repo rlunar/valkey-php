@@ -6,7 +6,7 @@
 |[bitField](#bitField)                  |Perform arbitrary bitfield integer operations on strings           |:x:                    |:x:                    |Bits           |bitField           |
 |[bitFieldReadOnly](#bitFieldReadOnly)  |Perform arbitrary read-only bitfield integer operations on strings |:x:                    |:x:                    |Bits           |bitFieldReadOnly   |
 |[bitOp](#bitOp)                        |Perform bitwise operations between strings                         |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |bitOp              |
-|[bitPos](#bitPos)                      |Find first bit set or clear in a string                            |:x:                    |:x:                    |Bits           |bitPos             |
+|[bitPos](#bitPos)                      |Return the position of the first bit set to 1 or 0 in a string.    |:x:                    |:x:                    |Bits           |bitPos             |
 |[getBit](#getBit)                      |Returns the bit value at offset in the string value stored at key  |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |getBit             |
 |[setBit](#setBit)                      |Sets or clears the bit at offset in the string value stored at key |:white\_check\_mark:   |:white\_check\_mark:   |Bits           |setBit             |
 
@@ -15,12 +15,12 @@
 ```php
 $valkey = new Valkey();
 $valkey->bitCount('key');
-$valkey->bitField('key');
-$valkey->bitFieldReadOnly('key');
-$valkey->bitPos('key');
-$valkey->bitOp('key');
-$valkey->getBit('key');
-$valkey->setBit('key');
+$valkey->bitField('key', 'INCRBY, 'i5', 100, 1, 'GET', 'u4', 0);
+$valkey->bitFieldReadOnly('key', 'INCRBY, 'i5', 100, 1, 'GET', 'u4', 0);
+$valkey->bitOp('and', 'testBitOpAnd', 'testBit1', 'testBit2');
+$valkey->bitpos('key', 0);
+$valkey->getBit('key', 5);
+$valkey->setBit('key', 8, 1);
 ```
 
 ## bitCount
@@ -108,6 +108,39 @@ $valkey->set('testBit2', 1);
 $valkey->bitOp('and', 'testBitOpAnd', 'testBit1', 'testBit2');
 $valkey->get('testBitOpAnd'); // 0 since only the two bits that are common 
                             // between 0 and 1 will match
+```
+
+## bitPos
+
+_**Description**_: Return the position of the first bit set to 1 or 0 in a string.
+
+##### *Prototype*  
+
+```php
+public function bitPos(string $key, int $value): int {
+    return $this->valkey->bitPos($key, $value);
+}
+```
+
+##### *Parameters*
+
+- *key*: String. The Bitmap key.
+- *value*: int. 0 or 1, the value of the bit to look for.
+
+##### *Return value*
+
+*int*: The size of the string stored in the destination key.
+
+##### *Example*
+
+```php
+$valkey->bitOp('not', 'testBitOpNot', 'testBit');
+
+$valkey->set('testBit1', 0);
+$valkey->set('testBit2', 1);
+$valkey->bitOp('and', 'testBitOpAnd', 'testBit1', 'testBit2');
+$valkey->get('testBitOpAnd');   // 0 since only the two bits that are common 
+                                // between 0 and 1 will match
 ```
 
 ## getBit

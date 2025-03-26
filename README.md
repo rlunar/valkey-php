@@ -130,7 +130,7 @@ Table of contents
 1. [Installation](#installation)
 2. [Classes and methods](#classes-and-methods)
     - [Usage](#usage)
-    - [Bits](#bits)
+    - [Bitmaps](#bitmaps)
     - [Connection](#connection)
     - [Geocoding](#Geocoding)
     - [Hashes](#hashes)
@@ -157,14 +157,14 @@ $valkey = new Valkey();
 ### [Bitmaps](docs/content/bitmaps.md)
 
 ```php
-// Count set bits in a string
+$valkey = new Valkey();
 $valkey->bitCount('key');
-$valkey->bitField('key');
-$valkey->bitFieldReadOnly('key');
-$valkey->bitPos('key');
-$valkey->bitOp('key');
-$valkey->getBit('key');
-$valkey->setBit('key');
+$valkey->bitField('key', 'INCRBY, 'i5', 100, 1, 'GET', 'u4', 0);
+$valkey->bitFieldReadOnly('key', 'INCRBY, 'i5', 100, 1, 'GET', 'u4', 0);
+$valkey->bitOp('and', 'testBitOpAnd', 'testBit1', 'testBit2');
+$valkey->bitpos('key', 0);
+$valkey->getBit('key', 5);
+$valkey->setBit('key', 8, 1);
 ```
 
 ### [Connection](docs/content/connection.md)
