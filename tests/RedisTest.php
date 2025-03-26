@@ -74,9 +74,13 @@ class Redis_Test extends TestSuite {
     public function setUp() {
         $this->redis = $this->newInstance();
         $info = $this->redis->info();
-        $this->version = (isset($info['valkey_version'])?$info['valkey_version']:'0.0.0');
         $this->is_keydb = $this->detectKeyDB($info);
         $this->is_valkey = $this->detectValKey($info);
+        if ($this->is_valkey) {
+            $this->version = (isset($info['valkey_version'])?$info['valkey_version']:'0.0.0');
+        } else {
+            $this->version = (isset($info['redis_version'])?$info['redis_version']:'0.0.0');
+        }
     }
 
     protected function minVersionCheck($version) {
