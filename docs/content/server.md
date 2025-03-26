@@ -22,9 +22,10 @@ _**Description**_: Execute the Redis ACL command.
 _variable_:  Minimum of one argument for `Redis` and two for `RedisCluster`.
 
 ##### *Example*
+
 ```php
-$redis->acl('USERS'); /* Get a list of users */
-$redis->acl('LOG');   /* See log of Redis' ACL subsystem */
+$valkey->acl('USERS'); /* Get a list of users */
+$valkey->acl('LOG');   /* See log of Redis' ACL subsystem */
 ```
 
 *Note*:  In order to user the `ACL` command you must be communicating with Redis >= 6.0 and be logged into an account that has access to administration commands such as ACL.  Please reference [this tutorial](https://redis.io/topics/acl) for an overview of Redis 6 ACLs and [the redis command reference](https://redis.io/commands) for every ACL subcommand.
@@ -42,8 +43,9 @@ None.
 *BOOL*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
-$redis->bgRewriteAOF();
+$valkey->bgRewriteAOF();
 ```
 
 ### bgSave
@@ -57,8 +59,9 @@ None.
 *BOOL*: `TRUE` in case of success, `FALSE` in case of failure. If a save is already running, this command will fail and return `FALSE`.
 
 ##### *Example*
+
 ```php
-$redis->bgSave();
+$valkey->bgSave();
 ```
 
 ### config
@@ -67,7 +70,7 @@ _**Description**_: Get or Set the Redis server configuration parameters.
 
 ##### *Prototype*
 ```php
-$redis->config(string $operation, string|array|null $key = NULL, ?string $value = NULL): mixed;
+$valkey->config(string $operation, string|array|null $key = NULL, ?string $value = NULL): mixed;
 ```
 
 ##### *Return value*
@@ -76,11 +79,11 @@ $redis->config(string $operation, string|array|null $key = NULL, ?string $value 
 
 ##### *Examples*
 ```php
-$redis->config("GET", "*max-*-entries*");
-$redis->config("SET", ['timeout', 'loglevel']);
-$redis->config("SET", "dir", "/var/run/redis/dumps/");
-$redis->config("SET", ['timeout' => 128, 'loglevel' => 'warning']);
-$redis->config('RESETSTAT');
+$valkey->config("GET", "*max-*-entries*");
+$valkey->config("SET", ['timeout', 'loglevel']);
+$valkey->config("SET", "dir", "/var/run/redis/dumps/");
+$valkey->config("SET", ['timeout' => 128, 'loglevel' => 'warning']);
+$valkey->config('RESETSTAT');
 ```
 
 ### dbSize
@@ -94,8 +97,9 @@ None.
 *INTEGER*: DB size, in number of keys.
 
 ##### *Example*
+
 ```php
-$count = $redis->dbSize();
+$count = $valkey->dbSize();
 echo "Redis has $count keys\n";
 ```
 
@@ -110,8 +114,9 @@ _**Description**_: Remove all keys from all databases.
 *BOOL*: Always `TRUE`.
 
 ##### *Example*
+
 ```php
-$redis->flushAll();
+$valkey->flushAll();
 ```
 
 ### flushDb
@@ -120,15 +125,16 @@ _**Description**_: Remove all keys from the current database.
 
 ##### *Prototype*
 ```php
-$redis->flushdb(?bool $sync = NULL): Redis|bool;
+$valkey->flushdb(?bool $sync = NULL): Redis|bool;
 ```
 
 ##### *Return value*
 *BOOL*:  This command returns true on success and false on failure.
 
 ##### *Example*
+
 ```php
-$redis->flushDb();
+$valkey->flushDb();
 ```
 
 ### info
@@ -159,10 +165,11 @@ which will modify what is returned.
 *option*: The option to provide redis (e.g. "COMMANDSTATS", "CPU")
 
 ##### *Example*
+
 ```php
-$redis->info(); /* standard redis INFO command */
-$redis->info("COMMANDSTATS"); /* Information on the commands that have been run (>=2.6 only)
-$redis->info("CPU"); /* just CPU information from Redis INFO */
+$valkey->info(); /* standard redis INFO command */
+$valkey->info("COMMANDSTATS"); /* Information on the commands that have been run (>=2.6 only)
+$valkey->info("CPU"); /* just CPU information from Redis INFO */
 ```
 
 ### lastSave
@@ -176,8 +183,9 @@ None.
 *INT*: timestamp.
 
 ##### *Example*
+
 ```php
-$redis->lastSave();
+$valkey->lastSave();
 ```
 
 ### save
@@ -191,8 +199,9 @@ None.
 *BOOL*: `TRUE` in case of success, `FALSE` in case of failure. If a save is already running, this command will fail and return `FALSE`.
 
 ##### *Example*
+
 ```php
-$redis->save();
+$valkey->save();
 ```
 
 ### slaveOf
@@ -206,10 +215,11 @@ Either host (string) and port (int), or no parameter to stop being a slave.
 *BOOL*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
-$redis->slaveOf('10.0.1.7', 6379);
+$valkey->slaveOf('10.0.1.7', 6379);
 /* ... */
-$redis->slaveOf();
+$valkey->slaveOf();
 ```
 
 ### time
@@ -225,7 +235,7 @@ the unix timestamp, and element one being microseconds.
 
 ##### *Examples*
 ```php
-$redis->time();
+$valkey->time();
 ```
 
 ### slowLog
@@ -247,13 +257,13 @@ SLOWLOG RESET: Boolean, depending on success
 ##### *Examples*
 ```php
 // Get ten slowLog entries
-$redis->slowLog('get', 10);
+$valkey->slowLog('get', 10);
 // Get the default number of slowLog entries
 
-$redis->slowLog('get');
+$valkey->slowLog('get');
 // Reset our slowLog
-$redis->slowLog('reset');
+$valkey->slowLog('reset');
 
 // Retrieve slowLog length
-$redis->slowLog('len');
+$valkey->slowLog('len');
 ```

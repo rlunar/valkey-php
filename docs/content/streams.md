@@ -28,6 +28,7 @@ _**Description**_:  Acknowledge one or more messages on behalf of a consumer gro
 *long*:  The number of messages Redis reports as acknowledged.
 
 ##### *Example*
+
 ```php
 $obj_redis->xAck('stream', 'group1', ['1530063064286-0', '1530063064286-1']);
 ```
@@ -46,6 +47,7 @@ _**Description**_:  Add a message to a stream
 *String*:  The added message ID
 
 ##### *Example*
+
 ```php
 $obj_redis->xAdd('mystream', "*", ['field' => 'value']);
 $obj_redis->xAdd('mystream', "*", ['field' => 'value'], 1000); // set max length of stream to 1000
@@ -78,6 +80,7 @@ $options = [
 *Array*:  Either an array of message IDs along with corresponding data, or just an array of IDs (if the 'JUSTID' option was passed).
 
 ##### *Example*
+
 ```php
 $ids = ['1530113681011-0', '1530113681011-1', '1530113681011-2'];
 
@@ -112,6 +115,7 @@ _**Description**_:  Delete one or more messages from a stream.
 *long*:  The number of messages removed
 
 ##### *Example*
+
 ```php
 $obj_redis->xDel('mystream', ['1530115304877-0', '1530115305731-0']);
 ```
@@ -134,6 +138,7 @@ _**Description**_:  This command is used in order to create, destroy, or manage 
 *Mixed*:  This command returns different types depending on the specific XGROUP command executed.
 
 ##### *Example*
+
 ```php
 $obj_redis->xGroup('CREATE', 'mystream', 'mygroup', '0');
 $obj_redis->xGroup('CREATE', 'mystream', 'mygroup2', '0', true); /* Create stream if non-existent. */
@@ -157,6 +162,7 @@ _**Description**_:  Get information about a stream or consumer groups.
 *Mixed*:  This command returns different types depending on which subcommand is used.
 
 ##### *Example*
+
 ```php
 $obj_redis->xInfo('STREAM', 'mystream');
 $obj_redis->xInfo('STREAM', 'mystream', 'FULL', 10);
@@ -176,6 +182,7 @@ _**Description**_:  Get the length of a given stream
 *Long*:  The number of messages in the stream.
 
 ##### *Example*
+
 ```php
 $obj_redis->xLen('mystream');
 ```
@@ -213,6 +220,7 @@ _**Description**_:  Get a range of messages from a given stream.
 *Array*:  The messages in the stream within the requested range.
 
 ##### *Example*
+
 ```php
 /* Get everything in this stream */
 $obj_redis->xRange('mystream', '-', '+');
@@ -235,6 +243,7 @@ _**Description**_:  Read data from one or more streams and only return IDs great
 *Array*:  The messages in the stream newer than the IDs passed to Redis (if any).
 
 ##### *Example*
+
 ```php
 $obj_redis->xRead(['stream1' => '1535222584555-0', 'stream2' => '1535222584555-0']);
 
@@ -305,6 +314,7 @@ _**Description**_:  This is identical to xRange except the results come back in 
 *Array*:  The messages in the range specified.
 
 ##### *Example*
+
 ```php
 $obj_redis->xRevRange('mystream', '+', '-');
 ```
@@ -323,6 +333,7 @@ _**Description**_:  Trim the stream length to a given maximum.  If the "approxim
 *long*:  The number of messages trimmed from the stream.
 
 ##### *Example*
+
 ```php
 /* Trim to exactly 100 messages */
 $obj_redis->xTrim('mystream', 100);

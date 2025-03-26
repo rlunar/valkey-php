@@ -26,10 +26,11 @@ _**Description**_: Adds a value to the set value stored at key.
 ##### *Return value*
 *LONG* the number of elements added to the set.
 ##### *Example*
+
 ```php
-$redis->sAdd('key1' , 'member1'); /* 1, 'key1' => {'member1'} */
-$redis->sAdd('key1' , 'member2', 'member3'); /* 2, 'key1' => {'member1', 'member2', 'member3'}*/
-$redis->sAdd('key1' , 'member2'); /* 0, 'key1' => {'member1', 'member2', 'member3'}*/
+$valkey->sAdd('key1' , 'member1'); /* 1, 'key1' => {'member1'} */
+$valkey->sAdd('key1' , 'member2', 'member3'); /* 2, 'key1' => {'member1', 'member2', 'member3'}*/
+$valkey->sAdd('key1' , 'member2'); /* 0, 'key1' => {'member1', 'member2', 'member3'}*/
 ```
 
 ### sCard
@@ -40,12 +41,13 @@ _**Description**_: Returns the cardinality of the set identified by key.
 ##### *Return value*
 *LONG* the cardinality of the set identified by key, 0 if the set doesn't exist.
 ##### *Example*
+
 ```php
-$redis->sAdd('key1' , 'member1');
-$redis->sAdd('key1' , 'member2');
-$redis->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
-$redis->sCard('key1'); /* 3 */
-$redis->sCard('keyX'); /* 0 */
+$valkey->sAdd('key1' , 'member1');
+$valkey->sAdd('key1' , 'member2');
+$valkey->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
+$valkey->sCard('key1'); /* 3 */
+$valkey->sCard('keyX'); /* 0 */
 ```
 
 ### sDiff
@@ -59,18 +61,19 @@ _**Description**_: Performs the difference between N sets and returns it.
 *Array of strings*: The difference of the first set will all the others.
 
 ##### *Example*
+
 ```php
-$redis->del('s0', 's1', 's2');
+$valkey->del('s0', 's1', 's2');
 
-$redis->sAdd('s0', '1');
-$redis->sAdd('s0', '2');
-$redis->sAdd('s0', '3');
-$redis->sAdd('s0', '4');
+$valkey->sAdd('s0', '1');
+$valkey->sAdd('s0', '2');
+$valkey->sAdd('s0', '3');
+$valkey->sAdd('s0', '4');
 
-$redis->sAdd('s1', '1');
-$redis->sAdd('s2', '3');
+$valkey->sAdd('s1', '1');
+$valkey->sAdd('s2', '3');
 
-var_dump($redis->sDiff('s0', 's1', 's2'));
+var_dump($valkey->sDiff('s0', 's1', 's2'));
 ```
 Return value: all elements of s0 that are neither in s1 nor in s2.
 ```
@@ -93,19 +96,20 @@ _**Description**_: Performs the same action as sDiff, but stores the result in t
 *INTEGER*: The cardinality of the resulting set, or `FALSE` in case of a missing key.
 
 ##### *Example*
+
 ```php
-$redis->del('s0', 's1', 's2');
+$valkey->del('s0', 's1', 's2');
 
-$redis->sAdd('s0', '1');
-$redis->sAdd('s0', '2');
-$redis->sAdd('s0', '3');
-$redis->sAdd('s0', '4');
+$valkey->sAdd('s0', '1');
+$valkey->sAdd('s0', '2');
+$valkey->sAdd('s0', '3');
+$valkey->sAdd('s0', '4');
 
-$redis->sAdd('s1', '1');
-$redis->sAdd('s2', '3');
+$valkey->sAdd('s1', '1');
+$valkey->sAdd('s2', '3');
 
-var_dump($redis->sDiffStore('dst', 's0', 's1', 's2'));
-var_dump($redis->sMembers('dst'));
+var_dump($valkey->sDiffStore('dst', 's0', 's1', 's2'));
+var_dump($valkey->sMembers('dst'));
 ```
 Return value: the number of elements of s0 that are neither in s1 nor in s2.
 ```
@@ -135,18 +139,18 @@ Array, contain the result of the intersection between those keys. If the interse
 
 ##### *Examples*
 ```php
-$redis->sAdd('key1', 'val1');
-$redis->sAdd('key1', 'val2');
-$redis->sAdd('key1', 'val3');
-$redis->sAdd('key1', 'val4');
+$valkey->sAdd('key1', 'val1');
+$valkey->sAdd('key1', 'val2');
+$valkey->sAdd('key1', 'val3');
+$valkey->sAdd('key1', 'val4');
 
-$redis->sAdd('key2', 'val3');
-$redis->sAdd('key2', 'val4');
+$valkey->sAdd('key2', 'val3');
+$valkey->sAdd('key2', 'val4');
 
-$redis->sAdd('key3', 'val3');
-$redis->sAdd('key3', 'val4');
+$valkey->sAdd('key3', 'val3');
+$valkey->sAdd('key3', 'val4');
 
-var_dump($redis->sInter('key1', 'key2', 'key3'));
+var_dump($valkey->sInter('key1', 'key2', 'key3'));
 ```
 
 Output:
@@ -172,20 +176,21 @@ _**Description**_: Performs a sInter command and stores the result in a new set.
 *INTEGER*: The cardinality of the resulting set, or `FALSE` in case of a missing key.
 
 ##### *Example*
+
 ```php
-$redis->sAdd('key1', 'val1');
-$redis->sAdd('key1', 'val2');
-$redis->sAdd('key1', 'val3');
-$redis->sAdd('key1', 'val4');
+$valkey->sAdd('key1', 'val1');
+$valkey->sAdd('key1', 'val2');
+$valkey->sAdd('key1', 'val3');
+$valkey->sAdd('key1', 'val4');
 
-$redis->sAdd('key2', 'val3');
-$redis->sAdd('key2', 'val4');
+$valkey->sAdd('key2', 'val3');
+$valkey->sAdd('key2', 'val4');
 
-$redis->sAdd('key3', 'val3');
-$redis->sAdd('key3', 'val4');
+$valkey->sAdd('key3', 'val3');
+$valkey->sAdd('key3', 'val4');
 
-var_dump($redis->sInterStore('output', 'key1', 'key2', 'key3'));
-var_dump($redis->sMembers('output'));
+var_dump($valkey->sInterStore('output', 'key1', 'key2', 'key3'));
+var_dump($valkey->sMembers('output'));
 ```
 
 Output:
@@ -211,13 +216,14 @@ _**Description**_: Checks if `value` is a member of the set stored at the key `k
 ##### *Return value*
 *BOOL* `TRUE` if `value` is a member of the set at key `key`, `FALSE` otherwise.
 ##### *Example*
-```php
-$redis->sAdd('key1' , 'member1');
-$redis->sAdd('key1' , 'member2');
-$redis->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
 
-$redis->sIsMember('key1', 'member1'); /* TRUE */
-$redis->sIsMember('key1', 'memberX'); /* FALSE */
+```php
+$valkey->sAdd('key1' , 'member1');
+$valkey->sAdd('key1' , 'member2');
+$valkey->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
+
+$valkey->sIsMember('key1', 'member1'); /* TRUE */
+$valkey->sIsMember('key1', 'memberX'); /* FALSE */
 ```
 
 ### sMembers
@@ -231,13 +237,14 @@ _**Description**_: Returns the contents of a set.
 An array of elements, the contents of the set.
 
 ##### *Example*
+
 ```php
-$redis->del('s');
-$redis->sAdd('s', 'a');
-$redis->sAdd('s', 'b');
-$redis->sAdd('s', 'a');
-$redis->sAdd('s', 'c');
-var_dump($redis->sMembers('s'));
+$valkey->del('s');
+$valkey->sAdd('s', 'a');
+$valkey->sAdd('s', 'b');
+$valkey->sAdd('s', 'a');
+$valkey->sAdd('s', 'c');
+var_dump($valkey->sMembers('s'));
 ```
 
 Output:
@@ -263,13 +270,14 @@ _**Description**_: Moves the specified member from the set at srcKey to the set 
 ##### *Return value*
 *BOOL* If the operation is successful, return `TRUE`. If the srcKey and/or dstKey didn't exist, and/or the member didn't exist in srcKey, `FALSE` is returned.
 ##### *Example*
+
 ```php
-$redis->sAdd('key1' , 'member11');
-$redis->sAdd('key1' , 'member12');
-$redis->sAdd('key1' , 'member13'); /* 'key1' => {'member11', 'member12', 'member13'}*/
-$redis->sAdd('key2' , 'member21');
-$redis->sAdd('key2' , 'member22'); /* 'key2' => {'member21', 'member22'}*/
-$redis->sMove('key1', 'key2', 'member13'); /* 'key1' =>  {'member11', 'member12'} */
+$valkey->sAdd('key1' , 'member11');
+$valkey->sAdd('key1' , 'member12');
+$valkey->sAdd('key1' , 'member13'); /* 'key1' => {'member11', 'member12', 'member13'}*/
+$valkey->sAdd('key2' , 'member21');
+$valkey->sAdd('key2' , 'member22'); /* 'key2' => {'member21', 'member22'}*/
+$valkey->sMove('key1', 'key2', 'member13'); /* 'key1' =>  {'member11', 'member12'} */
                     /* 'key2' =>  {'member21', 'member22', 'member13'} */
 
 ```
@@ -287,16 +295,17 @@ _**Description**_: Removes and returns a random element from the set value at Ke
 *Array*: Member(s) returned or an empty array if the set doesn't exist  
 *Bool*: `FALSE` on error if the key is not a set
 ##### *Example*
+
 ```php
-$redis->sAdd('key1' , 'member1');
-$redis->sAdd('key1' , 'member2');
-$redis->sAdd('key1' , 'member3'); /* 'key1' => {'member3', 'member1', 'member2'}*/
-$redis->sPop('key1'); /* 'member1', 'key1' => {'member3', 'member2'} */
-$redis->sPop('key1'); /* 'member3', 'key1' => {'member2'} */
+$valkey->sAdd('key1' , 'member1');
+$valkey->sAdd('key1' , 'member2');
+$valkey->sAdd('key1' , 'member3'); /* 'key1' => {'member3', 'member1', 'member2'}*/
+$valkey->sPop('key1'); /* 'member1', 'key1' => {'member3', 'member2'} */
+$valkey->sPop('key1'); /* 'member3', 'key1' => {'member2'} */
 
 /* With count */
-$redis->sAdd('key2', 'member1', 'member2', 'member3');
-$redis->sPop('key2', 3); /* Will return all members but in no particular order */
+$valkey->sAdd('key2', 'member1', 'member2', 'member3');
+$valkey->sPop('key2', 3); /* Will return all members but in no particular order */
 ```
 
 ### sRandMember
@@ -311,21 +320,22 @@ is provided, an array of values from the set will be returned.  Read about the d
 ways to use the count here: [SRANDMEMBER](http://redis.io/commands/srandmember)
 *Bool* `FALSE` if set identified by key is empty or doesn't exist.
 ##### *Example*
+
 ```php
-$redis->sAdd('key1' , 'member1');
-$redis->sAdd('key1' , 'member2');
-$redis->sAdd('key1' , 'member3'); /* 'key1' => {'member3', 'member1', 'member2'}*/
+$valkey->sAdd('key1' , 'member1');
+$valkey->sAdd('key1' , 'member2');
+$valkey->sAdd('key1' , 'member3'); /* 'key1' => {'member3', 'member1', 'member2'}*/
 
 // No count
-$redis->sRandMember('key1'); /* 'member1', 'key1' => {'member3', 'member1', 'member2'} */
-$redis->sRandMember('key1'); /* 'member3', 'key1' => {'member3', 'member1', 'member2'} */
+$valkey->sRandMember('key1'); /* 'member1', 'key1' => {'member3', 'member1', 'member2'} */
+$valkey->sRandMember('key1'); /* 'member3', 'key1' => {'member3', 'member1', 'member2'} */
 
 // With a count
-$redis->sRandMember('key1', 3); // Will return an array with all members from the set
-$redis->sRandMember('key1', 2); // Will an array with 2 members of the set
-$redis->sRandMember('key1', -100); // Will return an array of 100 elements, picked from our set (with dups)
-$redis->sRandMember('empty-set', 100); // Will return an empty array
-$redis->sRandMember('not-a-set', 100); // Will return FALSE
+$valkey->sRandMember('key1', 3); // Will return an array with all members from the set
+$valkey->sRandMember('key1', 2); // Will an array with 2 members of the set
+$valkey->sRandMember('key1', -100); // Will return an array of 100 elements, picked from our set (with dups)
+$valkey->sRandMember('empty-set', 100); // Will return an empty array
+$valkey->sRandMember('not-a-set', 100); // Will return FALSE
 ```
 
 ### sRem
@@ -337,11 +347,12 @@ _**Description**_: Removes the specified member from the set value stored at key
 ##### *Return value*
 *LONG* The number of elements removed from the set.
 ##### *Example*
+
 ```php
-$redis->sAdd('key1' , 'member1');
-$redis->sAdd('key1' , 'member2');
-$redis->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
-$redis->sRem('key1', 'member2', 'member3'); /*return 2. 'key1' => {'member1'} */
+$valkey->sAdd('key1' , 'member1');
+$valkey->sAdd('key1' , 'member2');
+$valkey->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
+$valkey->sRem('key1', 'member2', 'member3'); /*return 2. 'key1' => {'member1'} */
 ```
 
 ### sUnion
@@ -357,21 +368,22 @@ _**Description**_: Performs the union between N sets and returns it.
 **Note:** `sUnion` can also take a single array with keys (see example below).
 
 ##### *Example*
-```php
-$redis->del('s0', 's1', 's2');
 
-$redis->sAdd('s0', '1');
-$redis->sAdd('s0', '2');
-$redis->sAdd('s1', '3');
-$redis->sAdd('s1', '1');
-$redis->sAdd('s2', '3');
-$redis->sAdd('s2', '4');
+```php
+$valkey->del('s0', 's1', 's2');
+
+$valkey->sAdd('s0', '1');
+$valkey->sAdd('s0', '2');
+$valkey->sAdd('s1', '3');
+$valkey->sAdd('s1', '1');
+$valkey->sAdd('s2', '3');
+$valkey->sAdd('s2', '4');
 
 /* Get the union with variadic arguments */
-var_dump($redis->sUnion('s0', 's1', 's2'));
+var_dump($valkey->sUnion('s0', 's1', 's2'));
 
 /* Pass a single array */
-var_dump($redis->sUnion(['s0', 's1', 's2']));
+var_dump($valkey->sUnion(['s0', 's1', 's2']));
 
 ```
 Return value: all elements that are either in s0 or in s1 or in s2.
@@ -401,18 +413,19 @@ _**Description**_: Performs the same action as sUnion, but stores the result in 
 *INTEGER*: The cardinality of the resulting set, or `FALSE` in case of a missing key.
 
 ##### *Example*
+
 ```php
-$redis->del('s0', 's1', 's2');
+$valkey->del('s0', 's1', 's2');
 
-$redis->sAdd('s0', '1');
-$redis->sAdd('s0', '2');
-$redis->sAdd('s1', '3');
-$redis->sAdd('s1', '1');
-$redis->sAdd('s2', '3');
-$redis->sAdd('s2', '4');
+$valkey->sAdd('s0', '1');
+$valkey->sAdd('s0', '2');
+$valkey->sAdd('s1', '3');
+$valkey->sAdd('s1', '1');
+$valkey->sAdd('s2', '3');
+$valkey->sAdd('s2', '4');
 
-var_dump($redis->sUnionStore('dst', 's0', 's1', 's2'));
-var_dump($redis->sMembers('dst'));
+var_dump($valkey->sUnionStore('dst', 's0', 's1', 's2'));
+var_dump($valkey->sMembers('dst'));
 ```
 Return value: the number of elements that are either in s0 or in s1 or in s2.
 ```
@@ -443,18 +456,19 @@ _**Description**_: Scan a set for members
 *Array, boolean*: PHPRedis will return an array of keys or FALSE when we're done iterating
 
 ##### *Example*
+
 ```php
 $it = NULL;
-$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY); /* don't return empty results until we're done */
-while($arr_mems = $redis->sScan('set', $it, "*pattern*")) {
+$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY); /* don't return empty results until we're done */
+while($arr_mems = $valkey->sScan('set', $it, "*pattern*")) {
     foreach($arr_mems as $str_mem) {
         echo "Member: $str_mem\n";
     }
 }
 
 $it = NULL;
-$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY); /* return after each iteration, even if empty */
-while(($arr_mems = $redis->sScan('set', $it, "*pattern*"))!==FALSE) {
+$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_NORETRY); /* return after each iteration, even if empty */
+while(($arr_mems = $valkey->sScan('set', $it, "*pattern*"))!==FALSE) {
     if(count($arr_mems) > 0) {
         foreach($arr_mems as $str_mem) {
             echo "Member found: $str_mem\n";

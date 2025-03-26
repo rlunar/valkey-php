@@ -30,25 +30,26 @@ _**Description**_: Block until Redis can pop the highest or lowest scoring membe
 
 ##### *Prototype*
 ```php
-$redis->bzPopMin(array $keys, int $timeout): array
-$redis->bzPopMax(array $keys, int $timeout): array
+$valkey->bzPopMin(array $keys, int $timeout): array
+$valkey->bzPopMax(array $keys, int $timeout): array
 
-$redis->bzPopMin(string $key1, string $key2, ... int $timeout): array
-$redis->bzPopMax(string $key1, string $key2, ... int $timeout): array
+$valkey->bzPopMin(string $key1, string $key2, ... int $timeout): array
+$valkey->bzPopMax(string $key1, string $key2, ... int $timeout): array
 ```
 
 ##### *Return value*
 *ARRAY:* Either an array with the key member and score of the highest or lowest element or an empty array if the timeout was reached without an element to pop.
 
 ##### *Example*
+
 ```php
 /* Wait up to 5 seconds to pop the *lowest* scoring member from sets `zs1` and `zs2`. */
-$redis->bzPopMin(['zs1', 'zs2'], 5);
-$redis->bzPopMin('zs1', 'zs2', 5);
+$valkey->bzPopMin(['zs1', 'zs2'], 5);
+$valkey->bzPopMin('zs1', 'zs2', 5);
 
 /* Wait up to 5 seconds to pop the *highest* scoring member from sets `zs1` and `zs2` */
-$redis->bzPopMax(['zs1', 'zs2'], 5);
-$redis->bzPopMax('zs1', 'zs2', 5);
+$valkey->bzPopMax(['zs1', 'zs2'], 5);
+$valkey->bzPopMax('zs1', 'zs2', 5);
 ```
 
 **Note:** Calling these functions with an array of keys or with a variable number of arguments is functionally identical.
@@ -60,7 +61,7 @@ _**Description**_: Add one or more members to a sorted set or update its score i
 
 ##### *Prototype*
 ```php
-$redis->zAdd($key, [ $options ,] $score, $value [, $score1, $value1, ...]);
+$valkey->zAdd($key, [ $options ,] $score, $value [, $score1, $value1, ...]);
 ```
 
 ##### *Parameters*
@@ -75,14 +76,15 @@ $redis->zAdd($key, [ $options ,] $score, $value [, $score1, $value1, ...]);
 *Long* 1 if the element is added. 0 otherwise.
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 1, 'val1');
-$redis->zAdd('key', 0, 'val0');
-$redis->zAdd('key', 5, 'val5');
-$redis->zRange('key', 0, -1); // [val0, val1, val5]
+$valkey->zAdd('key', 1, 'val1');
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 5, 'val5');
+$valkey->zRange('key', 0, -1); // [val0, val1, val5]
 
 // From Redis 3.0.2 it's possible to add options like XX, NX, CH, INCR
-$redis->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
+$valkey->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
 ```
 
 ### zCard
@@ -96,11 +98,12 @@ _**Description**_: Returns the cardinality of an ordered set.
 *Long*, the set's cardinality
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 0, 'val0');
-$redis->zAdd('key', 2, 'val2');
-$redis->zAdd('key', 10, 'val10');
-$redis->zCard('key'); /* 3 */
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 2, 'val2');
+$valkey->zAdd('key', 10, 'val10');
+$valkey->zCard('key'); /* 3 */
 ```
 
 ### zCount
@@ -116,11 +119,12 @@ _**Description**_: Returns the *number* of elements of the sorted set stored at 
 *LONG* the size of a corresponding zRangeByScore.
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 0, 'val0');
-$redis->zAdd('key', 2, 'val2');
-$redis->zAdd('key', 10, 'val10');
-$redis->zCount('key', 0, 3); /* 2, corresponding to ['val0', 'val2'] */
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 2, 'val2');
+$valkey->zAdd('key', 10, 'val10');
+$valkey->zCount('key', 0, 3); /* 2, corresponding to ['val0', 'val2'] */
 ```
 
 ### zDiff
@@ -137,26 +141,27 @@ The second argument is a set of options.  It can define `WITHSCORES` so that the
 *ARRAY* The result of the difference of sets.
 
 ##### *Example*
+
 ```php
-$redis->del('k1');
-$redis->del('k2');
-$redis->del('k3');
+$valkey->del('k1');
+$valkey->del('k2');
+$valkey->del('k3');
 
-$redis->zAdd('k1', 0, 'val0');
-$redis->zAdd('k1', 1, 'val1');
-$redis->zAdd('k1', 3, 'val3');
+$valkey->zAdd('k1', 0, 'val0');
+$valkey->zAdd('k1', 1, 'val1');
+$valkey->zAdd('k1', 3, 'val3');
 
-$redis->zAdd('k2', 5, 'val1');
+$valkey->zAdd('k2', 5, 'val1');
 
-$redis->zAdd('k3', 5, 'val0');
-$redis->zAdd('k3', 3, 'val4');
+$valkey->zAdd('k3', 5, 'val0');
+$valkey->zAdd('k3', 3, 'val4');
 
-$redis->zDiff(['k1', 'k2']); 				                 /* ['val0', 'val3'] */
-$redis->zDiff(['k2', 'k1']); 				                 /* [] */
-$redis->zDiff(['k1', 'k2'], ['withscores' => true]); /* ['val0' => 0.0, 'val3' => 3.0] */
+$valkey->zDiff(['k1', 'k2']); 				                 /* ['val0', 'val3'] */
+$valkey->zDiff(['k2', 'k1']); 				                 /* [] */
+$valkey->zDiff(['k1', 'k2'], ['withscores' => true]); /* ['val0' => 0.0, 'val3' => 3.0] */
 
-$redis->zDiff(['k1', 'k2', 'k3']);                   /* ['val3'] */
-$redis->zDiff(['k3', 'k2', 'k1']);                   /* ['val4'] */
+$valkey->zDiff(['k1', 'k2', 'k3']);                   /* ['val3'] */
+$valkey->zDiff(['k3', 'k2', 'k1']);                   /* ['val4'] */
 ```
 
 ### zdiffstore
@@ -171,25 +176,26 @@ _**Description**_: Computes the difference between the first and all successive 
 *LONG* The number of values in the new sorted set.
 
 ##### *Example*
+
 ```php
-$redis->del('k1');
-$redis->del('k2');
-$redis->del('k3');
+$valkey->del('k1');
+$valkey->del('k2');
+$valkey->del('k3');
 
-$redis->zAdd('k1', 0, 'val0');
-$redis->zAdd('k1', 1, 'val1');
-$redis->zAdd('k1', 3, 'val3');
+$valkey->zAdd('k1', 0, 'val0');
+$valkey->zAdd('k1', 1, 'val1');
+$valkey->zAdd('k1', 3, 'val3');
 
-$redis->zAdd('k2', 5, 'val1');
+$valkey->zAdd('k2', 5, 'val1');
 
-$redis->zAdd('k3', 5, 'val0');
-$redis->zAdd('k3', 3, 'val4');
+$valkey->zAdd('k3', 5, 'val0');
+$valkey->zAdd('k3', 3, 'val4');
 
-$redis->zdiffstore('ko1', ['k1', 'k2']); 		   /* 2, 'ko1' => ['val0', 'val3'] */
-$redis->zdiffstore('ko2', ['k2', 'k1']); 			 /* 0, 'ko2' => [] */
+$valkey->zdiffstore('ko1', ['k1', 'k2']); 		   /* 2, 'ko1' => ['val0', 'val3'] */
+$valkey->zdiffstore('ko2', ['k2', 'k1']); 			 /* 0, 'ko2' => [] */
 
-$redis->zdiffstore('ko3', ['k1', 'k2', 'k3']); /* 1, 'ko3' => ['val3'] */
-$redis->zdiffstore('ko4', ['k3', 'k2', 'k1']); /* 1, 'k04' => ['val4'] */
+$valkey->zdiffstore('ko3', ['k1', 'k2', 'k3']); /* 1, 'ko3' => ['val3'] */
+$valkey->zdiffstore('ko4', ['k3', 'k2', 'k1']); /* 1, 'k04' => ['val4'] */
 ```
 
 ### zIncrBy
@@ -206,10 +212,10 @@ _**Description**_: Increments the score of a member from a sorted set by a given
 
 ##### *Examples*
 ```php
-$redis->del('key');
-$redis->zIncrBy('key', 2.5, 'member1'); /* key or member1 didn't exist, so member1's score is to 0 before the increment */
+$valkey->del('key');
+$valkey->zIncrBy('key', 2.5, 'member1'); /* key or member1 didn't exist, so member1's score is to 0 before the increment */
                       /* and now has the value 2.5  */
-$redis->zIncrBy('key', 1, 'member1'); /* 3.5 */
+$valkey->zIncrBy('key', 1, 'member1'); /* 3.5 */
 ```
 
 ### zInter
@@ -228,24 +234,25 @@ The third argument is a set of options.  It can define the `AGGREGATE` option wh
 *ARRAY* The result of the intersection of sets.
 
 ##### *Example*
+
 ```php
-$redis->del('k1');
-$redis->del('k2');
-$redis->del('k3');
+$valkey->del('k1');
+$valkey->del('k2');
+$valkey->del('k3');
 
-$redis->zAdd('k1', 0, 'val0');
-$redis->zAdd('k1', 1, 'val1');
-$redis->zAdd('k1', 3, 'val3');
+$valkey->zAdd('k1', 0, 'val0');
+$valkey->zAdd('k1', 1, 'val1');
+$valkey->zAdd('k1', 3, 'val3');
 
-$redis->zAdd('k2', 5, 'val1');
-$redis->zAdd('k2', 3, 'val3');
+$valkey->zAdd('k2', 5, 'val1');
+$valkey->zAdd('k2', 3, 'val3');
 
-$redis->zinter(['k1', 'k2']); 				/* ['val1', 'val3'] */
-$redis->zinter(['k1', 'k2'], [1, 1]); /* ['val1', 'val3'] */
+$valkey->zinter(['k1', 'k2']); 				/* ['val1', 'val3'] */
+$valkey->zinter(['k1', 'k2'], [1, 1]); /* ['val1', 'val3'] */
 
 /* Weighted zinter */
-$redis->zinter(['k1', 'k2'], [1, 5], 'min'); /* ['val1', 'val3'] */
-$redis->zinter(['k1', 'k2'], [1, 5], 'max'); /* ['val3', 'val1'] */
+$valkey->zinter(['k1', 'k2'], [1, 5], 'min'); /* ['val1', 'val3'] */
+$valkey->zinter(['k1', 'k2'], [1, 5], 'max'); /* ['val3', 'val1'] */
 ```
 
 ### zinterstore
@@ -265,29 +272,30 @@ The forth argument defines the `AGGREGATE` option which specify how the results 
 *LONG* The number of values in the new sorted set.
 
 ##### *Example*
+
 ```php
-$redis->del('k1');
-$redis->del('k2');
-$redis->del('k3');
+$valkey->del('k1');
+$valkey->del('k2');
+$valkey->del('k3');
 
-$redis->del('ko1');
-$redis->del('ko2');
-$redis->del('ko3');
-$redis->del('ko4');
+$valkey->del('ko1');
+$valkey->del('ko2');
+$valkey->del('ko3');
+$valkey->del('ko4');
 
-$redis->zAdd('k1', 0, 'val0');
-$redis->zAdd('k1', 1, 'val1');
-$redis->zAdd('k1', 3, 'val3');
+$valkey->zAdd('k1', 0, 'val0');
+$valkey->zAdd('k1', 1, 'val1');
+$valkey->zAdd('k1', 3, 'val3');
 
-$redis->zAdd('k2', 5, 'val1');
-$redis->zAdd('k2', 3, 'val3');
+$valkey->zAdd('k2', 5, 'val1');
+$valkey->zAdd('k2', 3, 'val3');
 
-$redis->zinterstore('ko1', ['k1', 'k2']); 				/* 2, 'ko1' => ['val1', 'val3'] */
-$redis->zinterstore('ko2', ['k1', 'k2'], [1, 1]); /* 2, 'ko2' => ['val1', 'val3'] */
+$valkey->zinterstore('ko1', ['k1', 'k2']); 				/* 2, 'ko1' => ['val1', 'val3'] */
+$valkey->zinterstore('ko2', ['k1', 'k2'], [1, 1]); /* 2, 'ko2' => ['val1', 'val3'] */
 
 /* Weighted zinterstore */
-$redis->zinterstore('ko3', ['k1', 'k2'], [1, 5], 'min'); /* 2, 'ko3' => ['val1', 'val3'] */
-$redis->zinterstore('ko4', ['k1', 'k2'], [1, 5], 'max'); /* 2, 'ko4' => ['val3', 'val1'] */
+$valkey->zinterstore('ko3', ['k1', 'k2'], [1, 5], 'min'); /* 2, 'ko3' => ['val1', 'val3'] */
+$valkey->zinterstore('ko4', ['k1', 'k2'], [1, 5], 'max'); /* 2, 'ko4' => ['val3', 'val1'] */
 ```
 
 ### zMscore
@@ -302,11 +310,12 @@ _**Description**_: Returns the scores of the given members in the specified sort
 *ARRAY* or *FALSE* when the key is not found.  Array entries corresponding to members that do not exist will be `false`.
 
 ##### *Example*
-```php
-$redis->zAdd('key', 2.5, 'val2');
-$redis->zAdd('key', 4.5, 'val4');
 
-$redis->zMscore('key', 'val2', 'val3', 'val4'); /* [2.5, false, 4.5] */
+```php
+$valkey->zAdd('key', 2.5, 'val2');
+$valkey->zAdd('key', 4.5, 'val4');
+
+$valkey->zMscore('key', 'val2', 'val3', 'val4'); /* [2.5, false, 4.5] */
 ```
 
 ### zPop
@@ -315,23 +324,24 @@ _**Description**_: Can pop the highest or lowest scoring members from one ZSETs.
 
 ##### *Prototype*
 ```php
-$redis->zPopMin(string $key, int $count): array
-$redis->zPopMax(string $key, int $count): array
+$valkey->zPopMin(string $key, int $count): array
+$valkey->zPopMax(string $key, int $count): array
 
-$redis->zPopMin(string $key, int $count): array
-$redis->zPopMax(string $key, int $count): array
+$valkey->zPopMin(string $key, int $count): array
+$valkey->zPopMax(string $key, int $count): array
 ```
 
 ##### *Return value*
 *ARRAY:* Either an array with the key member and score of the highest or lowest element or an empty array if there is no element available.
 
 ##### *Example*
+
 ```php
 /* Pop the *lowest* scoring member from set `zs1`. */
-$redis->zPopMin('zs1', 5);
+$valkey->zPopMin('zs1', 5);
 
 /* Pop the *highest* scoring member from set `zs1`. */
-$redis->zPopMax('zs1', 5);
+$valkey->zPopMax('zs1', 5);
 ```
 
 ### zRange
@@ -352,14 +362,15 @@ Start and stop are interpreted as zero-based indices:
 *Array* containing the values in specified range.
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key1', 0, 'val0');
-$redis->zAdd('key1', 2, 'val2');
-$redis->zAdd('key1', 10, 'val10');
-$redis->zRange('key1', 0, -1); /* ['val0', 'val2', 'val10'] */
+$valkey->zAdd('key1', 0, 'val0');
+$valkey->zAdd('key1', 2, 'val2');
+$valkey->zAdd('key1', 10, 'val10');
+$valkey->zRange('key1', 0, -1); /* ['val0', 'val2', 'val10'] */
 
 // with scores
-$redis->zRange('key1', 0, -1, true); /* ['val0' => 0, 'val2' => 2, 'val10' => 10] */
+$valkey->zRange('key1', 0, -1, true); /* ['val0' => 0, 'val2' => 2, 'val10' => 10] */
 ```
 
 ### zRangeByScore, zRevRangeByScore
@@ -378,15 +389,16 @@ Two options are available: `withscores => TRUE`, and `limit => [$offset, $count]
 *Array* containing the values in specified range.
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 0, 'val0');
-$redis->zAdd('key', 2, 'val2');
-$redis->zAdd('key', 10, 'val10');
-$redis->zRangeByScore('key', 0, 3); /* ['val0', 'val2'] */
-$redis->zRangeByScore('key', 0, 3, ['withscores' => TRUE]); /* ['val0' => 0, 'val2' => 2] */
-$redis->zRangeByScore('key', 0, 3, ['limit' => [1, 1]]); /* ['val2'] */
-$redis->zRangeByScore('key', 0, 3, ['withscores' => TRUE, 'limit' => [1, 1]]); /* ['val2' => 2] */
-$redis->zRangeByScore('key', '-inf', '+inf', ['withscores' => TRUE]); /* ['val0' => 0, 'val2' => 2, 'val10' => 10] */
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 2, 'val2');
+$valkey->zAdd('key', 10, 'val10');
+$valkey->zRangeByScore('key', 0, 3); /* ['val0', 'val2'] */
+$valkey->zRangeByScore('key', 0, 3, ['withscores' => TRUE]); /* ['val0' => 0, 'val2' => 2] */
+$valkey->zRangeByScore('key', 0, 3, ['limit' => [1, 1]]); /* ['val2'] */
+$valkey->zRangeByScore('key', 0, 3, ['withscores' => TRUE, 'limit' => [1, 1]]); /* ['val2' => 2] */
+$valkey->zRangeByScore('key', '-inf', '+inf', ['withscores' => TRUE]); /* ['val0' => 0, 'val2' => 2, 'val10' => 10] */
 ```
 
 ### zRangeByLex
@@ -404,13 +416,14 @@ _**Description**_:  Returns a lexicographical range of members in a sorted set, 
 *Array* containing the values in the specified range.
 
 ##### *Example*
+
 ```php
 foreach(['a','b','c','d','e','f','g'] as $c)
-    $redis->zAdd('key',0,$c);
+    $valkey->zAdd('key',0,$c);
 
-$redis->zRangeByLex('key','-','[c') /* ['a','b','c']; */
-$redis->zRangeByLex('key','-','(c') /* ['a','b'] */
-$redis->zRangeByLex('key','-','[c',1,2) /* ['b','c'] */
+$valkey->zRangeByLex('key','-','[c') /* ['a','b','c']; */
+$valkey->zRangeByLex('key','-','(c') /* ['a','b'] */
+$valkey->zRangeByLex('key','-','[c',1,2) /* ['b','c'] */
 ```
 
 ### zRank, zRevRank
@@ -425,14 +438,15 @@ _**Description**_: Returns the rank of a given member in the specified sorted se
 *Long*, the item's rank.
 
 ##### *Example*
+
 ```php
-$redis->del('z');
-$redis->zAdd('key', 1, 'one');
-$redis->zAdd('key', 2, 'two');
-$redis->zRank('key', 'one'); /* 0 */
-$redis->zRank('key', 'two'); /* 1 */
-$redis->zRevRank('key', 'one'); /* 1 */
-$redis->zRevRank('key', 'two'); /* 0 */
+$valkey->del('z');
+$valkey->zAdd('key', 1, 'one');
+$valkey->zAdd('key', 2, 'two');
+$valkey->zRank('key', 'one'); /* 0 */
+$valkey->zRank('key', 'two'); /* 1 */
+$valkey->zRevRank('key', 'one'); /* 1 */
+$valkey->zRevRank('key', 'two'); /* 0 */
 ```
 
 ### zRem
@@ -441,16 +455,17 @@ _**Description**_: Delete one or more members from a sorted set.
 
 ##### *Prototype*
 ```php
-$redis->zRem($key, $member [, $member ...]);
+$valkey->zRem($key, $member [, $member ...]);
 ```
 
 ##### *Return value*
 *LONG:* The number of members deleted.
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 0, 'val0', 1, 'val1', 2, 'val2');
-$redis->zRem('key', 'val0', 'val1', 'val2'); // Returns: 3
+$valkey->zAdd('key', 0, 'val0', 1, 'val1', 2, 'val2');
+$valkey->zRem('key', 'val0', 'val1', 'val2'); // Returns: 3
 ```
 
 ### zRemRangeByRank
@@ -466,12 +481,13 @@ _**Description**_: Deletes the elements of the sorted set stored at the specifie
 *LONG* The number of values deleted from the sorted set
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 1, 'one');
-$redis->zAdd('key', 2, 'two');
-$redis->zAdd('key', 3, 'three');
-$redis->zRemRangeByRank('key', 0, 1); /* 2 */
-$redis->zRange('key', 0, -1, ['withscores' => TRUE]); /* ['three' => 3] */
+$valkey->zAdd('key', 1, 'one');
+$valkey->zAdd('key', 2, 'two');
+$valkey->zAdd('key', 3, 'three');
+$valkey->zRemRangeByRank('key', 0, 1); /* 2 */
+$valkey->zRange('key', 0, -1, ['withscores' => TRUE]); /* ['three' => 3] */
 ```
 
 ### zRemRangeByScore
@@ -487,11 +503,12 @@ _**Description**_: Deletes the elements of the sorted set stored at the specifie
 *LONG* The number of values deleted from the sorted set
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 0, 'val0');
-$redis->zAdd('key', 2, 'val2');
-$redis->zAdd('key', 10, 'val10');
-$redis->zRemRangeByScore('key', 0, 3); /* 2 */
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 2, 'val2');
+$valkey->zAdd('key', 10, 'val10');
+$valkey->zRemRangeByScore('key', 0, 3); /* 2 */
 ```
 
 ### zRevRange
@@ -510,14 +527,15 @@ _**Description**_: Returns the elements of the sorted set stored at the specifie
 *Array* containing the values in specified range.
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 0, 'val0');
-$redis->zAdd('key', 2, 'val2');
-$redis->zAdd('key', 10, 'val10');
-$redis->zRevRange('key', 0, -1); /* ['val10', 'val2', 'val0'] */
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 2, 'val2');
+$valkey->zAdd('key', 10, 'val10');
+$valkey->zRevRange('key', 0, -1); /* ['val10', 'val2', 'val0'] */
 
 // with scores
-$redis->zRevRange('key', 0, -1, true); /* ['val10' => 10, 'val2' => 2, 'val0' => 0] */
+$valkey->zRevRange('key', 0, -1, true); /* ['val10' => 10, 'val2' => 2, 'val0' => 0] */
 ```
 
 ### zScore
@@ -532,9 +550,10 @@ _**Description**_: Returns the score of a given member in the specified sorted s
 *Double* or *FALSE* when the value is not found
 
 ##### *Example*
+
 ```php
-$redis->zAdd('key', 2.5, 'val2');
-$redis->zScore('key', 'val2'); /* 2.5 */
+$valkey->zAdd('key', 2.5, 'val2');
+$valkey->zScore('key', 'val2'); /* 2.5 */
 ```
 
 ### zUnion
@@ -553,22 +572,23 @@ The third argument is a set of options.  It can define the `AGGREGATE` option wh
 *ARRAY* The result of the union of sets.
 
 ##### *Example*
+
 ```php
-$redis->del('k1');
-$redis->del('k2');
-$redis->del('k3');
+$valkey->del('k1');
+$valkey->del('k2');
+$valkey->del('k3');
 
-$redis->zAdd('k1', 0, 'val0');
-$redis->zAdd('k1', 1, 'val1');
+$valkey->zAdd('k1', 0, 'val0');
+$valkey->zAdd('k1', 1, 'val1');
 
-$redis->zAdd('k2', 2, 'val2');
-$redis->zAdd('k2', 3, 'val3');
+$valkey->zAdd('k2', 2, 'val2');
+$valkey->zAdd('k2', 3, 'val3');
 
-$redis->zunion(['k1', 'k2']); /* ['val0', 'val1', 'val2', 'val3'] */
+$valkey->zunion(['k1', 'k2']); /* ['val0', 'val1', 'val2', 'val3'] */
 
 /* Weighted zunion */
-$redis->zunion(['k1', 'k2'], [1, 1]); /* ['val0', 'val1', 'val2', 'val3'] */
-$redis->zunion(['k1', 'k2'], [5, 1]); /* ['val0', 'val2', 'val3', 'val1'] */
+$valkey->zunion(['k1', 'k2'], [1, 1]); /* ['val0', 'val1', 'val2', 'val3'] */
+$valkey->zunion(['k1', 'k2'], [5, 1]); /* ['val0', 'val2', 'val3', 'val1'] */
 ```
 
 ### zunionstore
@@ -588,25 +608,26 @@ The forth argument defines the `AGGREGATE` option which specify how the results 
 *LONG* The number of values in the new sorted set.
 
 ##### *Example*
+
 ```php
-$redis->del('k1');
-$redis->del('k2');
-$redis->del('k3');
-$redis->del('ko1');
-$redis->del('ko2');
-$redis->del('ko3');
+$valkey->del('k1');
+$valkey->del('k2');
+$valkey->del('k3');
+$valkey->del('ko1');
+$valkey->del('ko2');
+$valkey->del('ko3');
 
-$redis->zAdd('k1', 0, 'val0');
-$redis->zAdd('k1', 1, 'val1');
+$valkey->zAdd('k1', 0, 'val0');
+$valkey->zAdd('k1', 1, 'val1');
 
-$redis->zAdd('k2', 2, 'val2');
-$redis->zAdd('k2', 3, 'val3');
+$valkey->zAdd('k2', 2, 'val2');
+$valkey->zAdd('k2', 3, 'val3');
 
-$redis->zunionstore('ko1', ['k1', 'k2']); /* 4, 'ko1' => ['val0', 'val1', 'val2', 'val3'] */
+$valkey->zunionstore('ko1', ['k1', 'k2']); /* 4, 'ko1' => ['val0', 'val1', 'val2', 'val3'] */
 
 /* Weighted zunionstore */
-$redis->zunionstore('ko2', ['k1', 'k2'], [1, 1]); /* 4, 'ko2' => ['val0', 'val1', 'val2', 'val3'] */
-$redis->zunionstore('ko3', ['k1', 'k2'], [5, 1]); /* 4, 'ko3' => ['val0', 'val2', 'val3', 'val1'] */
+$valkey->zunionstore('ko2', ['k1', 'k2'], [1, 1]); /* 4, 'ko2' => ['val0', 'val1', 'val2', 'val3'] */
+$valkey->zunionstore('ko3', ['k1', 'k2'], [5, 1]); /* 4, 'ko3' => ['val0', 'val2', 'val3', 'val1'] */
 ```
 
 ### zScan
@@ -623,10 +644,11 @@ _**Description**_: Scan a sorted set for members, with optional pattern and coun
 *Array, boolean* PHPRedis will return matching keys from Redis, or FALSE when iteration is complete
 
 ##### *Example*
+
 ```php
 $it = NULL;
-$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
-while($arr_matches = $redis->zScan('zset', $it, '*pattern*')) {
+$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+while($arr_matches = $valkey->zScan('zset', $it, '*pattern*')) {
     foreach($arr_matches as $str_mem => $f_score) {
         echo "Key: $str_mem, Score: $f_score\n";
     }

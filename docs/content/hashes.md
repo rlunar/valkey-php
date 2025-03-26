@@ -27,13 +27,14 @@ _**Description**_: Adds a value to the hash stored at key.
 ##### *Return value*
 *LONG* `1` if value didn't exist and was added successfully, `0` if the value was already present and was replaced, `FALSE` if there was an error.
 ##### *Example*
-```php
-$redis->del('h')
-$redis->hSet('h', 'key1', 'hello'); /* 1, 'key1' => 'hello' in the hash at "h" */
-$redis->hGet('h', 'key1'); /* returns "hello" */
 
-$redis->hSet('h', 'key1', 'plop'); /* 0, value was replaced. */
-$redis->hGet('h', 'key1'); /* returns "plop" */
+```php
+$valkey->del('h')
+$valkey->hSet('h', 'key1', 'hello'); /* 1, 'key1' => 'hello' in the hash at "h" */
+$valkey->hGet('h', 'key1'); /* returns "hello" */
+
+$valkey->hSet('h', 'key1', 'plop'); /* 0, value was replaced. */
+$valkey->hGet('h', 'key1'); /* returns "plop" */
 ```
 
 ### hSetNx
@@ -44,10 +45,11 @@ _**Description**_: Adds a value to the hash stored at key only if this field isn
 *BOOL* `TRUE` if the field was set, `FALSE` if it was already present.
 
 ##### *Example*
+
 ```php
-$redis->del('h')
-$redis->hSetNx('h', 'key1', 'hello'); /* TRUE, 'key1' => 'hello' in the hash at "h" */
-$redis->hSetNx('h', 'key1', 'world'); /* FALSE, 'key1' => 'hello' in the hash at "h". No change since the field wasn't replaced. */
+$valkey->del('h')
+$valkey->hSetNx('h', 'key1', 'hello'); /* TRUE, 'key1' => 'hello' in the hash at "h" */
+$valkey->hSetNx('h', 'key1', 'world'); /* FALSE, 'key1' => 'hello' in the hash at "h". No change since the field wasn't replaced. */
 ```
 
 
@@ -72,11 +74,12 @@ _**Description**_: Returns the length of a hash, in number of items
 ##### *Return value*
 *LONG* the number of items in a hash, `FALSE` if the key doesn't exist or isn't a hash.
 ##### *Example*
+
 ```php
-$redis->del('h')
-$redis->hSet('h', 'key1', 'hello');
-$redis->hSet('h', 'key2', 'plop');
-$redis->hLen('h'); /* returns 2 */
+$valkey->del('h')
+$valkey->hSet('h', 'key1', 'hello');
+$valkey->hSet('h', 'key2', 'plop');
+$valkey->hLen('h'); /* returns 2 */
 ```
 
 ### hDel
@@ -103,13 +106,14 @@ _**Description**_: Returns the keys in a hash, as an array of strings.
 An array of elements, the keys of the hash. This works like PHP's array_keys().
 
 ##### *Example*
+
 ```php
-$redis->del('h');
-$redis->hSet('h', 'a', 'x');
-$redis->hSet('h', 'b', 'y');
-$redis->hSet('h', 'c', 'z');
-$redis->hSet('h', 'd', 't');
-var_dump($redis->hKeys('h'));
+$valkey->del('h');
+$valkey->hSet('h', 'a', 'x');
+$valkey->hSet('h', 'b', 'y');
+$valkey->hSet('h', 'c', 'z');
+$valkey->hSet('h', 'd', 't');
+var_dump($valkey->hKeys('h'));
 ```
 
 Output:
@@ -138,13 +142,14 @@ _**Description**_: Returns the values in a hash, as an array of strings.
 An array of elements, the values of the hash. This works like PHP's array_values().
 
 ##### *Example*
+
 ```php
-$redis->del('h');
-$redis->hSet('h', 'a', 'x');
-$redis->hSet('h', 'b', 'y');
-$redis->hSet('h', 'c', 'z');
-$redis->hSet('h', 'd', 't');
-var_dump($redis->hVals('h'));
+$valkey->del('h');
+$valkey->hSet('h', 'a', 'x');
+$valkey->hSet('h', 'b', 'y');
+$valkey->hSet('h', 'c', 'z');
+$valkey->hSet('h', 'd', 't');
+var_dump($valkey->hVals('h'));
 ```
 
 Output:
@@ -173,13 +178,14 @@ _**Description**_: Returns the whole hash, as an array of strings indexed by str
 An array of elements, the contents of the hash.
 
 ##### *Example*
+
 ```php
-$redis->del('h');
-$redis->hSet('h', 'a', 'x');
-$redis->hSet('h', 'b', 'y');
-$redis->hSet('h', 'c', 'z');
-$redis->hSet('h', 'd', 't');
-var_dump($redis->hGetAll('h'));
+$valkey->del('h');
+$valkey->hSet('h', 'a', 'x');
+$valkey->hSet('h', 'b', 'y');
+$valkey->hSet('h', 'c', 'z');
+$valkey->hSet('h', 'd', 't');
+var_dump($valkey->hGetAll('h'));
 ```
 
 Output:
@@ -207,9 +213,9 @@ _**Description**_: Verify if the specified member exists in a key.
 *BOOL*: If the member exists in the hash table, return `TRUE`, otherwise return `FALSE`.
 ##### *Examples*
 ```php
-$redis->hSet('h', 'a', 'x');
-$redis->hExists('h', 'a'); /*  TRUE */
-$redis->hExists('h', 'NonExistingKey'); /* FALSE */
+$valkey->hSet('h', 'a', 'x');
+$valkey->hExists('h', 'a'); /*  TRUE */
+$valkey->hExists('h', 'NonExistingKey'); /* FALSE */
 ```
 
 ### hIncrBy
@@ -223,9 +229,9 @@ _**Description**_: Increments the value of a member from a hash by a given amoun
 *LONG* the new value
 ##### *Examples*
 ```php
-$redis->del('h');
-$redis->hIncrBy('h', 'x', 2); /* returns 2: h[x] = 2 now. */
-$redis->hIncrBy('h', 'x', 1); /* h[x] ← 2 + 1. Returns 3 */
+$valkey->del('h');
+$valkey->hIncrBy('h', 'x', 2); /* returns 2: h[x] = 2 now. */
+$valkey->hIncrBy('h', 'x', 1); /* h[x] ← 2 + 1. Returns 3 */
 ```
 
 ### hIncrByFloat
@@ -239,10 +245,10 @@ _**Description**_: Increments the value of a hash member by the provided float v
 *FLOAT* the new value
 ##### *Examples*
 ```php
-$redis->del('h');
-$redis->hIncrByFloat('h','x', 1.5); /* returns 1.5: h[x] = 1.5 now */
-$redis->hIncrByFloat('h', 'x', 1.5); /* returns 3.0: h[x] = 3.0 now */
-$redis->hIncrByFloat('h', 'x', -3.0); /* returns 0.0: h[x] = 0.0 now */
+$valkey->del('h');
+$valkey->hIncrByFloat('h','x', 1.5); /* returns 1.5: h[x] = 1.5 now */
+$valkey->hIncrByFloat('h', 'x', 1.5); /* returns 3.0: h[x] = 3.0 now */
+$valkey->hIncrByFloat('h', 'x', -3.0); /* returns 0.0: h[x] = 0.0 now */
 ```
 
 ### hMSet
@@ -255,9 +261,9 @@ _**Description**_: Fills in a whole hash. Non-string values are converted to str
 *BOOL*
 ##### *Examples*
 ```php
-$redis->del('user:1');
-$redis->hMSet('user:1', ['name' => 'Joe', 'salary' => 2000]);
-$redis->hIncrBy('user:1', 'salary', 100); // Joe earns 100 more now.
+$valkey->del('user:1');
+$valkey->hMSet('user:1', ['name' => 'Joe', 'salary' => 2000]);
+$valkey->hIncrBy('user:1', 'salary', 100); // Joe earns 100 more now.
 ```
 
 ### hMGet
@@ -270,10 +276,10 @@ _**Description**_: Retrieve the values associated to the specified fields in the
 *Array* An array of elements, the values of the specified fields in the hash, with the hash keys as array keys.
 ##### *Examples*
 ```php
-$redis->del('h');
-$redis->hSet('h', 'field1', 'value1');
-$redis->hSet('h', 'field2', 'value2');
-$redis->hMGet('h', ['field1', 'field2']); /* returns ['field1' => 'value1', 'field2' => 'value2'] */
+$valkey->del('h');
+$valkey->hSet('h', 'field1', 'value1');
+$valkey->hSet('h', 'field2', 'value2');
+$valkey->hMGet('h', ['field1', 'field2']); /* returns ['field1' => 'value1', 'field2' => 'value2'] */
 ```
 
 ### hScan
@@ -291,8 +297,8 @@ _**Description**_:  Scan a HASH value for members, with an optional pattern and 
 ```php
 $it = NULL;
 /* Don't ever return an empty array until we're done iterating */
-$redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
-while($arr_keys = $redis->hScan('hash', $it)) {
+$valkey->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
+while($arr_keys = $valkey->hScan('hash', $it)) {
     foreach($arr_keys as $str_field => $str_value) {
         echo "$str_field => $str_value\n"; /* Print the hash member and value */
     }

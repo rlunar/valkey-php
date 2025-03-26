@@ -14,8 +14,9 @@ _**Description**_: Enter and exit transactional mode.
 `multi()` returns the Redis instance and enters multi-mode. Once in multi-mode, all subsequent method calls return the same object until `exec()` is called.
 
 ##### *Example*
+
 ```php
-$ret = $redis->multi()
+$ret = $valkey->multi()
     ->set('key1', 'val1')
     ->get('key1')
     ->set('key2', 'val2')
@@ -37,10 +38,11 @@ If the key is modified between `WATCH` and `EXEC`, the MULTI/EXEC transaction wi
 *keys*: string for one key or array for a list of keys
 
 ##### *Example*
+
 ```php
-$redis->watch('x'); // or for a list of keys: $redis->watch(['x','another key']);
+$valkey->watch('x'); // or for a list of keys: $valkey->watch(['x','another key']);
 /* long code here during the execution of which other clients could well modify `x` */
-$ret = $redis->multi()
+$ret = $valkey->multi()
     ->incr('x')
     ->exec();
 /*

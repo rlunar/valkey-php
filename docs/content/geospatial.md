@@ -5,7 +5,7 @@
 
 ##### *Prototype*  
 ```php
-$redis->geoAdd($key, $longitude, $latitude, $member [, $longitude, $latitude, $member, ...]);
+$valkey->geoAdd($key, $longitude, $latitude, $member [, $longitude, $latitude, $member, ...]);
 ```
 
 _**Description**_:  Add one or more geospatial items to the specified key.  This function must be called with at least one _longitude, latitude, member_ triplet.
@@ -14,11 +14,12 @@ _**Description**_:  Add one or more geospatial items to the specified key.  This
 *Integer*:  The number of elements added to the geospatial key.
 
 ##### *Example*
+
 ```php
-$redis->del("myplaces");
+$valkey->del("myplaces");
 
 /* Since the key will be new, $result will be 2 */
-$result = $redis->geoAdd(
+$result = $valkey->geoAdd(
     "myplaces",
     -122.431, 37.773, "San Francisco",
     -157.858, 21.315, "Honolulu"
@@ -30,7 +31,7 @@ $result = $redis->geoAdd(
 
 ##### *Prototype*
 ```php
-$redis->geoHash($key, $member [, $member, $member, ...]);
+$valkey->geoHash($key, $member [, $member, $member, ...]);
 ```
 
 _**Description**_:  Retrieve Geohash strings for one or more elements of a geospatial index.  
@@ -40,8 +41,8 @@ _**Description**_:  Retrieve Geohash strings for one or more elements of a geosp
 
 ##### *Example*  
 ```php
-$redis->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
-$hashes = $redis->geoHash("hawaii", "Honolulu", "Maui");
+$valkey->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
+$hashes = $valkey->geoHash("hawaii", "Honolulu", "Maui");
 var_dump($hashes);
 ```
 
@@ -60,7 +61,7 @@ array(2) {
 
 ##### *Prototype*  
 ```php
-$redis->geoPos($key, $member [, $member, $member, ...]);
+$valkey->geoPos($key, $member [, $member, $member, ...]);
 ```
 
 _**Description**_:  Return longitude, latitude positions for each requested member.
@@ -70,8 +71,8 @@ _**Description**_:  Return longitude, latitude positions for each requested memb
 
 ##### *Example*  
 ```php
-$redis->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
-$positions = $redis->geoPos("hawaii", "Honolulu", "Maui");
+$valkey->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
+$positions = $valkey->geoPos("hawaii", "Honolulu", "Maui");
 var_dump($positions);
 ```
 
@@ -100,7 +101,7 @@ array(2) {
 
 ##### *Prototype*  
 ```php
-$redis->geoDist($key, $member1, $member2 [, $unit]);
+$valkey->geoDist($key, $member1, $member2 [, $unit]);
 ```
 
 
@@ -115,13 +116,14 @@ _**Description**_:  Return the distance between two members in a geospatial set.
 *Double*:  The distance between the two passed members in the units requested (meters by default).  
 
 ##### *Example*
-```php
-$redis->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
 
-$meters = $redis->geoDist("hawaii", "Honolulu", "Maui");
-$kilometers = $redis->geoDist("hawaii", "Honolulu", "Maui", 'km');
-$miles = $redis->geoDist("hawaii", "Honolulu", "Maui", 'mi');
-$feet = $redis->geoDist("hawaii", "Honolulu", "Maui", 'ft');
+```php
+$valkey->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
+
+$meters = $valkey->geoDist("hawaii", "Honolulu", "Maui");
+$kilometers = $valkey->geoDist("hawaii", "Honolulu", "Maui", 'km');
+$miles = $valkey->geoDist("hawaii", "Honolulu", "Maui", 'mi');
+$feet = $valkey->geoDist("hawaii", "Honolulu", "Maui", 'ft');
 
 echo "Distance between Honolulu and Maui:\n";
 echo "  meters    : $meters\n";
@@ -130,7 +132,7 @@ echo "  miles     : $miles\n";
 echo "  feet      : $feet\n";
 
 /* Bad unit */
-$inches = $redis->geoDist("hawaii", "Honolulu", "Maui", 'in');
+$inches = $valkey->geoDist("hawaii", "Honolulu", "Maui", 'in');
 echo "Invalid unit returned:\n";
 var_dump($inches);
 ```  
@@ -151,7 +153,7 @@ bool(false)
 
 ##### *Prototype*
 ```php
-$redis->geoRadius($key, $longitude, $latitude, $radius, $unit [, Array $options]);
+$valkey->geoRadius($key, $longitude, $latitude, $radius, $unit [, Array $options]);
 ```
 
 _**Description**_:  Return members of a set with geospatial information that are within the radius specified by the caller. 
@@ -177,24 +179,25 @@ The georadius command can be called with various options that control how Redis 
 *Mixed*:  When no `STORE` option is passed, this function returns an array of results.  If it is passed this function returns the number of stored entries.
  
 ##### *Example*
+
 ```php
 /* Add some cities */
-$redis->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
+$valkey->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
 
 echo "Within 300 miles of Honolulu:\n";
-var_dump($redis->geoRadius("hawaii", -157.858, 21.306, 300, 'mi'));
+var_dump($valkey->geoRadius("hawaii", -157.858, 21.306, 300, 'mi'));
 
 echo "\nWithin 300 miles of Honolulu with distances:\n";
 $options = ['WITHDIST'];
-var_dump($redis->geoRadius("hawaii", -157.858, 21.306, 300, 'mi', $options));
+var_dump($valkey->geoRadius("hawaii", -157.858, 21.306, 300, 'mi', $options));
 
 echo "\nFirst result within 300 miles of Honolulu with distances:\n";
 $options['count'] = 1;
-var_dump($redis->geoRadius("hawaii", -157.858, 21.306, 300, 'mi', $options));
+var_dump($valkey->geoRadius("hawaii", -157.858, 21.306, 300, 'mi', $options));
 
 echo "\nFirst result within 300 miles of Honolulu with distances in descending sort order:\n";
 $options[] = 'DESC';
-var_dump($redis->geoRadius("hawaii", -157.858, 21.306, 300, 'mi', $options));
+var_dump($valkey->geoRadius("hawaii", -157.858, 21.306, 300, 'mi', $options));
 ```
 
 ##### *Output*
@@ -252,7 +255,7 @@ array(1) {
 
 ##### *Prototype*
 ```php
-$redis->geoRadiusByMember($key, $member, $radius, $units [, Array $options]);
+$valkey->geoRadiusByMember($key, $member, $radius, $units [, Array $options]);
 ```
 
 _**Description**_: This method is identical to [geoRadius](#georadius) except that instead of passing a longitude and latitude as the "source" you pass an existing member in the geospatial set.
@@ -264,14 +267,15 @@ See [geoRadius](#georadius) command for options array.
 *Array*:  The zero or more entries that are close enough to the member given the distance and radius specified.  
 
 ##### *Example*
+
 ```php
-$redis->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
+$valkey->geoAdd("hawaii", -157.858, 21.306, "Honolulu", -156.331, 20.798, "Maui");
 
 echo "Within 300 miles of Honolulu:\n";
-var_dump($redis->geoRadiusByMember("hawaii", "Honolulu", 300, 'mi'));
+var_dump($valkey->geoRadiusByMember("hawaii", "Honolulu", 300, 'mi'));
 
 echo "\nFirst match within 300 miles of Honolulu:\n";
-var_dump($redis->geoRadiusByMember("hawaii", "Honolulu", 300, 'mi', ['count' => 1]));
+var_dump($valkey->geoRadiusByMember("hawaii", "Honolulu", 300, 'mi', ['count' => 1]));
 ```
 
 ##### *Output*

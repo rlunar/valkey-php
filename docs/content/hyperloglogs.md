@@ -7,7 +7,7 @@ _**Description**_:  Adds the specified elements to the specified HyperLogLog.
 
 ##### *Prototype*  
 ```php
-$redis->pfAdd($key, Array $elements);
+$valkey->pfAdd($key, Array $elements);
 ```
 
 ##### *Parameters*
@@ -18,9 +18,10 @@ _Array of values_
 *Integer*:  1 if at least 1 HyperLogLog internal register was altered. 0 otherwise.
 
 ##### *Example*
+
 ```php
-$redis->pfAdd('hll', ['a', 'b', 'c']); // (int) 1
-$redis->pfAdd('hll', ['a', 'b']); // (int) 0
+$valkey->pfAdd('hll', ['a', 'b', 'c']); // (int) 1
+$valkey->pfAdd('hll', ['a', 'b']); // (int) 0
 ```
 
 ### pfCount
@@ -30,8 +31,8 @@ _**Description**_:  Return the approximated cardinality of the set(s) observed b
 
 ##### *Prototype*  
 ```php
-$redis->pfCount($key);
-$redis->pfCount(Array $keys);
+$valkey->pfCount($key);
+$valkey->pfCount(Array $keys);
 ```
 
 ##### *Parameters*
@@ -41,14 +42,15 @@ _Key_ or _Array of keys_
 *Integer*:  The approximated number of unique elements observed via [pfAdd](#pfAdd).
 
 ##### *Example*
+
 ```php
-$redis->pfAdd('hll1', ['a', 'b', 'c']); // (int) 1
-$redis->pfCount('hll1'); // (int) 3
+$valkey->pfAdd('hll1', ['a', 'b', 'c']); // (int) 1
+$valkey->pfCount('hll1'); // (int) 3
 
-$redis->pfAdd('hll2', ['d', 'e', 'a']); // (int) 1
-$redis->pfCount('hll2'); // (int) 3
+$valkey->pfAdd('hll2', ['d', 'e', 'a']); // (int) 1
+$valkey->pfCount('hll2'); // (int) 3
 
-$redis->pfCount(['hll1', 'hll2']); // (int) 5
+$valkey->pfCount(['hll1', 'hll2']); // (int) 5
 ```
 
 ### pfMerge
@@ -58,7 +60,7 @@ _**Description**_:  Merge N different HyperLogLogs into a single one.
 
 ##### *Prototype*  
 ```php
-$redis->pfMerge($destkey, Array $sourceKeys);
+$valkey->pfMerge($destkey, Array $sourceKeys);
 ```
 
 ##### *Parameters*
@@ -69,11 +71,12 @@ _Array of Source Keys_
 *BOOL*: `TRUE` on success, `FALSE` on error.
 
 ##### *Example*
+
 ```php
-$redis->pfAdd('hll1', ['a', 'b', 'c']); // (int) 1
-$redis->pfAdd('hll2', ['d', 'e', 'a']); // (int) 1
+$valkey->pfAdd('hll1', ['a', 'b', 'c']); // (int) 1
+$valkey->pfAdd('hll2', ['d', 'e', 'a']); // (int) 1
 
-$redis->pfMerge('hll3', ['hll1', 'hll2']); // true
+$valkey->pfMerge('hll3', ['hll1', 'hll2']); // true
 
-$redis->pfCount('hll3'); // (int) 5
+$valkey->pfCount('hll3'); // (int) 5
 ```

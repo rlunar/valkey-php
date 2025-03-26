@@ -97,6 +97,7 @@ _**Description**_: Check if the current Sentinel configuration is able to reach 
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->ckquorum('mymaster');
 ```
@@ -112,6 +113,7 @@ _**Description**_: Force a failover as if the master was not reachable, and with
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->failover('mymaster');
 ```
@@ -127,6 +129,7 @@ _**Description**_: Force Sentinel to rewrite its configuration on disk, includin
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->flushconfig();
 ```
@@ -142,6 +145,7 @@ _**Description**_: Return the ip and port number of the master with that name. I
 *Array*, *Bool*: ['address', 'port'] in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->getMasterAddrByName('mymaster');
 ```
@@ -157,6 +161,7 @@ _**Description**_: Return the state and info of the specified master.
 *Array*, *Bool*: Associative array with info in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->master('mymaster');
 ```
@@ -172,6 +177,7 @@ _**Description**_: Return a list of monitored masters and their state.
 *Array*, *Bool*: List of arrays with info for each master in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->masters();
 ```
@@ -187,6 +193,7 @@ _**Description**_: Ping the sentinel.
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->ping();
 ```
@@ -202,6 +209,7 @@ _**Description**_: This command will reset all the masters with matching name. T
 *Bool*: `TRUE` in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->reset('*');
 ```
@@ -217,6 +225,7 @@ _**Description**_: Return a list of sentinel instances for this master, and thei
 *Array*, *Bool*: List of arrays with info for each sentinels in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->sentinels('mymaster');
 ```
@@ -232,6 +241,7 @@ _**Description**_: Return a list of replicas for this master, and their state.
 *Array*, *Bool*: List of arrays with info for each replicas in case of success, `FALSE` in case of failure.
 
 ##### *Example*
+
 ```php
 $sentinel->slaves('mymaster');
 ```

@@ -113,16 +113,192 @@ We provide compatibility layers to make migration from either library as smooth 
 ```php
 // For PHPRedis users
 use Valkey\Compat\Redis;
-$redis = new Redis();
+$valkey = new Redis();
 
 // For webdcg/redis users
 use Valkey\Compat\WebdcgRedis;
-$redis = new WebdcgRedis();
+$valkey = new WebdcgRedis();
 ```
 
 ## Documentation
 
 Comprehensive documentation is available at [valkey-php.dev/docs](https://valkey-php.dev/docs)
+
+Table of contents
+----
+
+1. [Installation](#installation)
+2. [Classes and methods](#classes-and-methods)
+    - [Usage](#usage)
+    - [Bits](#bits)
+    - [Connection](#connection)
+    - [Geocoding](#Geocoding)
+    - [Hashes](#hashes)
+    - [HyperLogLogs](#HyperLogLogs)
+    - [Introspection](#introspection)
+    - [Keys](#keys)
+    - [Lists](#lists)
+    - [Pub/sub](#pubsub)
+    - [Scripting](#scripting)
+    - [Sets](#sets)
+    - [Sorted sets](#sorted-sets)
+    - [Streams](#Streams)
+    - [Strings](#strings)
+    - [Transactions](#transactions)
+
+## Classes and methods
+
+## Usage
+
+```php
+$valkey = new Valkey();
+```
+
+### [Bits](docs/content/bits.md)
+
+```php
+// Count set bits in a string
+$valkey->bitCount('key');
+$valkey->bitField('key');
+$valkey->bitPos('key');
+$valkey->bitOp('key');
+$valkey->getBit('key');
+$valkey->setBit('key');
+```
+
+### [Connection](docs/content/connection.md)
+
+```php
+$valkey->connect('127.0.0.1', 6379);
+$valkey->open('127.0.0.1', 6379);
+$valkey->pconnect('127.0.0.1', 6379);
+$valkey->popen('127.0.0.1', 6379);
+$valkey->auth('secret');
+$valkey->select(1);
+$valkey->swapdb(0, 1);
+$valkey->close();
+$valkey->setOption(\Redis::OPT_PREFIX, 'redis:');
+$valkey->getOption(\Redis::OPT_PREFIX)
+$valkey->ping('pong');
+$valkey->echo('redis');
+```
+
+### [Geocoding](docs/content/geocoding.md)
+
+```php
+$options = ['WITHDIST'];
+$valkey->geoAdd('Geocoding', -122.431, 37.773, 'San Francisco');
+$valkey->geoAdd('Geocoding', -73.935242, 40.730610, 'New York');
+$valkey->geoHash('Geocoding', 'San Francisco');
+$valkey->geoPos('Geocoding', 'San Francisco');
+$valkey->geoDist('Geocoding', 'San Francisco', 'New York');
+$valkey->geoRadius("Geocoding", -157.858, 21.306, 300, 'mi', $options);
+$valkey->geoRadiusByMember("Geocoding", 'San Francisco', 300, 'mi', $options);
+```
+
+### [Hashes](docs/content/hashes.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [HyperLogLogs](docs/content/hyperloglogs.md)
+
+```php
+$valkey->pfAdd('HyperLogLog', ['a', 'b', 'c']);
+$valkey->pfCount('HyperLogLog'); // 3
+$valkey->pfAdd('HyperLogLog2', ['b', 'd']);
+$valkey->pfMerge('HyperLogLogMerged', ['HyperLogLog', 'HyperLogLog2']);
+$valkey->pfCount('HyperLogLogMerged'); // 4 => a, b, c, d
+```
+
+### [Introspection](docs/content/introspection.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Keys](docs/content/keys.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Lists](docs/content/lists.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Pub/sub](docs/content/pubsub.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Scripting](docs/content/scripting.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Sets](docs/content/sets.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Sorted Sets](docs/content/sorted-sets.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Streams](docs/content/streams.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
+
+### [Strings](docs/content/strings.md)
+
+```php
+// Simple key -> value set
+$valkey->set('key', 'value');
+// Will redirect, and actually make an SETEX call
+$valkey->set('key', 'value', 10);
+// Will set the key, if it doesn't exist, with a ttl of 10 seconds
+$valkey->set('key:'.time(), 'value', ['nx', 'ex' => 10]);
+// Will set a key, if it does exist, with a ttl of 1000 miliseconds
+$valkey->set('key', 'value', ['xx', 'px' => 1000]);
+$valkey->setEx('key', 10, 'value');
+```
+
+### [Transactions](docs/content/transactions.md)
+
+```php
+$valkey->del('key');
+$valkey->delete('key');
+$valkey->unlink('key');
+```
 
 ## Contributing
 
@@ -139,6 +315,12 @@ composer test
 ### License
 
 Valkey-PHP is open-sourced software licensed under the BSD-3-Clause license.
+
+## Credits
+
+- [Roberto Luna Rojas](https://github.com/rlunar)
+- [Adrian Luna Rojas](https://github.com/adrianluna)
+- [All Contributors](../../contributors)
 
 ### Acknowledgements
 
@@ -157,7 +339,7 @@ We thank all the contributors to these projects for their valuable work.
 
 <p align="center"> <a href="https://linuxfoundation.org"> <img src="https://www.linuxfoundation.org/hubfs/LF%20Logo%20White.svg" alt="Linux Foundation" width="200"/> </a> </p> ```
 
-This README provides a comprehensive overview of your project goals, highlighting the merger of phpredis and webdcg/redis under the Linux Foundation with BSD-3 licensing. It emphasizes the key features like 100% Valkey command coverage, high-level abstractions similar to Redisson, and the commitment to open source. The document includes installation instructions, quick start examples, migration paths, and acknowledges the original projects.
+This README provides a comprehensive overview of your project goals, highlighting the merger of PHPRredis and webdcg/redis under the Linux Foundation with BSD-3 licensing. It emphasizes the key features like 100% Valkey command coverage, high-level abstractions similar to Redisson, and the commitment to open source. The document includes installation instructions, quick start examples, migration paths, and acknowledges the original projects.
 
 -----
 

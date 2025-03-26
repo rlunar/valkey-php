@@ -9,8 +9,8 @@ You can set and get the maximum retries upon connection issues using the `OPT_MA
 ##### *Example*
 
 ```php
-$redis->setOption(Redis::OPT_MAX_RETRIES, 5);
-$redis->getOption(Redis::OPT_MAX_RETRIES);
+$valkey->setOption(Redis::OPT_MAX_RETRIES, 5);
+$valkey->getOption(Redis::OPT_MAX_RETRIES);
 ```
 
 ### Backoff algorithms
@@ -29,7 +29,7 @@ These algorithms depend on the _base_ and _cap_ parameters, both in milliseconds
 ##### *Example*
 
 ```php
-$redis->setOption(Redis::OPT_BACKOFF_ALGORITHM, Redis::BACKOFF_ALGORITHM_DECORRELATED_JITTER);
-$redis->setOption(Redis::OPT_BACKOFF_BASE, 500); // base for backoff computation: 500ms
-$redis->setOption(Redis::OPT_BACKOFF_CAP, 750); // backoff time capped at 750ms
+$valkey->setOption(Redis::OPT_BACKOFF_ALGORITHM, Redis::BACKOFF_ALGORITHM_DECORRELATED_JITTER);
+$valkey->setOption(Redis::OPT_BACKOFF_BASE, 500); // base for backoff computation: 500ms
+$valkey->setOption(Redis::OPT_BACKOFF_CAP, 750); // backoff time capped at 750ms
 ```

@@ -14,6 +14,7 @@ _**Description**_: Subscribe to channels by pattern
 *callback*: Either a string or an array with an object and method.  The callback will get four arguments ($redis, $pattern, $channel, $message)  
 *return value*: Mixed.  Any non-null return value in the callback will be returned to the caller.  
 ##### *Example*
+
 ```php
 function pSubscribe($redis, $pattern, $chan, $msg) {
     echo "Pattern: $pattern\n";
@@ -31,8 +32,9 @@ _**Description**_: Publish messages to channels. Warning: this function will pro
 *message*: string
 
 ##### *Example*
+
 ```php
-$redis->publish('chan-1', 'hello, world!'); // send message.
+$valkey->publish('chan-1', 'hello, world!'); // send message.
 ```
 
 ### subscribe
@@ -44,6 +46,7 @@ _**Description**_: Subscribe to channels. Warning: this function will probably c
 *callback*: either a string or [$instance, 'method_name']. The callback function receives 3 parameters: the redis instance, the channel name, and the message.
 *return value*:  Mixed.  Any non-null return value in the callback will be returned to the caller.
 ##### *Example*
+
 ```php
 function f($redis, $chan, $msg) {
     switch($chan) {
@@ -61,7 +64,7 @@ function f($redis, $chan, $msg) {
     }
 }
 
-$redis->subscribe(['chan-1', 'chan-2', 'chan-3'], 'f'); // subscribe to 3 chans
+$valkey->subscribe(['chan-1', 'chan-2', 'chan-3'], 'f'); // subscribe to 3 chans
 ```
 
 ### pubSub
@@ -78,11 +81,12 @@ _**Description**_: A command allowing you to get information on the Redis pub/su
 *NUMPAT*:  Integer return containing the number active pattern subscriptions
 
 ##### *Example*
+
 ```php
-$redis->pubSub("channels"); /*All channels */
-$redis->pubSub("channels", "*pattern*"); /* Just channels matching your pattern */
-$redis->pubSub("numsub", ["chan1", "chan2"]); /*Get subscriber counts for 'chan1' and 'chan2'*/
-$redis->pubSub("numpat"); /* Get the number of pattern subscribers */
+$valkey->pubSub("channels"); /*All channels */
+$valkey->pubSub("channels", "*pattern*"); /* Just channels matching your pattern */
+$valkey->pubSub("numsub", ["chan1", "chan2"]); /*Get subscriber counts for 'chan1' and 'chan2'*/
+$valkey->pubSub("numpat"); /* Get the number of pattern subscribers */
 
 
 ```

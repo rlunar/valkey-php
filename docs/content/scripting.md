@@ -25,14 +25,14 @@ executing the LUA script, the getLastError() function can tell you the message t
 
 ##### *Examples*
 ```php
-$redis->eval("return 1"); // Returns an integer: 1
-$redis->eval("return {1,2,3}"); // Returns [1,2,3]
-$redis->del('mylist');
-$redis->rpush('mylist','a');
-$redis->rpush('mylist','b');
-$redis->rpush('mylist','c');
+$valkey->eval("return 1"); // Returns an integer: 1
+$valkey->eval("return {1,2,3}"); // Returns [1,2,3]
+$valkey->del('mylist');
+$valkey->rpush('mylist','a');
+$valkey->rpush('mylist','b');
+$valkey->rpush('mylist','c');
 // Nested response:  [1,2,3,['a','b','c']];
-$redis->eval("return {1,2,3,redis.call('lrange','mylist',0,-1)}");
+$valkey->eval("return {1,2,3,redis.call('lrange','mylist',0,-1)}");
 ```
 
 ### evalSha
@@ -53,8 +53,8 @@ Mixed.  See EVAL
 ##### *Examples*
 ```php
 $script = 'return 1';
-$sha = $redis->script('load', $script);
-$redis->evalSha($sha); // Returns 1
+$sha = $valkey->script('load', $script);
+$valkey->evalSha($sha); // Returns 1
 ```
 
 ### script
@@ -63,10 +63,10 @@ _**Description**_: Execute the Redis SCRIPT command to perform various operation
 
 ##### *Usage*
 ```php
-$redis->script('load', $script);
-$redis->script('flush');
-$redis->script('kill');
-$redis->script('exists', $script1, [$script2, $script3, ...]);
+$valkey->script('load', $script);
+$valkey->script('flush');
+$valkey->script('kill');
+$valkey->script('exists', $script1, [$script2, $script3, ...]);
 ```
 
 ##### *Return value*
@@ -87,10 +87,10 @@ The Redis CLIENT command can be used in four ways.
 
 ##### *Usage*
 ```php
-$redis->client('list'); // Get a list of clients
-$redis->client('getname'); // Get the name of the current connection
-$redis->client('setname', 'somename'); // Set the name of the current connection
-$redis->client('kill', <ip:port>); // Kill the process at ip:port
+$valkey->client('list'); // Get a list of clients
+$valkey->client('getname'); // Get the name of the current connection
+$valkey->client('setname', 'somename'); // Set the name of the current connection
+$valkey->client('kill', <ip:port>); // Kill the process at ip:port
 ```
 
 ##### *Return value*
@@ -115,8 +115,8 @@ A string with the last returned script based error message, or NULL if there is 
 
 ##### *Examples*
 ```php
-$redis->eval('this-is-not-lua');
-$err = $redis->getLastError();
+$valkey->eval('this-is-not-lua');
+$err = $valkey->getLastError();
 // "ERR Error compiling script (new function): user_script:1: '=' expected near '-'"
 ```
 
@@ -132,12 +132,12 @@ _**Description**_: Clear the last error message
 
 ##### *Examples*
 ```php
-$redis->set('x', 'a');
-$redis->incr('x');
-$err = $redis->getLastError();
+$valkey->set('x', 'a');
+$valkey->incr('x');
+$err = $valkey->getLastError();
 // "ERR value is not an integer or out of range"
-$redis->clearLastError();
-$err = $redis->getLastError();
+$valkey->clearLastError();
+$err = $valkey->getLastError();
 // NULL
 ```
 
@@ -153,8 +153,8 @@ If a prefix is set up, the value now prefixed.  If there is no prefix, the value
 
 ##### *Examples*
 ```php
-$redis->setOption(Redis::OPT_PREFIX, 'my-prefix:');
-$redis->_prefix('my-value'); // Will return 'my-prefix:my-value'
+$valkey->setOption(Redis::OPT_PREFIX, 'my-prefix:');
+$valkey->_prefix('my-value'); // Will return 'my-prefix:my-value'
 ```
 
 ### _serialize
@@ -171,13 +171,13 @@ will change Array values to 'Array', and Objects to 'Object'.
 
 ##### *Examples*
 ```php
-$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
-$redis->_serialize("foo"); // returns "foo"
-$redis->_serialize([]); // Returns "Array"
-$redis->_serialize(new stdClass()); // Returns "Object"
+$valkey->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_NONE);
+$valkey->_serialize("foo"); // returns "foo"
+$valkey->_serialize([]); // Returns "Array"
+$valkey->_serialize(new stdClass()); // Returns "Object"
 
-$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
-$redis->_serialize("foo"); // Returns 's:3:"foo";'
+$valkey->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
+$valkey->_serialize("foo"); // Returns 's:3:"foo";'
 ```
 
 ### _unserialize
@@ -193,6 +193,6 @@ serializing values, and you return something from redis in a LUA script that is 
 
 ##### *Examples*
 ```php
-$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
-$redis->_unserialize('a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}'); // Will return [1,2,3]
+$valkey->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_PHP);
+$valkey->_unserialize('a:3:{i:0;i:1;i:1;i:2;i:2;i:3;}'); // Will return [1,2,3]
 ```

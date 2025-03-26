@@ -1,44 +1,42 @@
-# Valkey PHP - Docs
+# Valkey PHP Usage
 
-## Usage
+1. [Class Valkey](#class-valkey)
+2. [Class ValkeyException](#class-valkeyexception)
+3. [Predefined constants](#predefined-constants)
 
-1. [Class Redis](#class-redis)
-1. [Class RedisException](#class-redisexception)
-1. [Predefined constants](#predefined-constants)
-
-### Class Redis
+## Class Valkey
 
 -----
 
-_**Description**_: Creates a Redis client
+_**Description**_: Creates a Valkey client
 
-#### *Example*
+### *Example*
 
 ```php
-$redis = new Redis();
+$valkey = new Valkey();
 ```
 
 Starting from version 6.0.0 it's possible to specify configuration options.
 This allows to connect lazily to the server without explicitly invoking `connect` command.
 
-#### *Example*
+### *Example*
 
 ```php
-$redis = new Redis([
+$valkey = new Valkey([
     'host' => '127.0.0.1',
     'port' => 6379,
     'connectTimeout' => 2.5,
-    'auth' => ['phpredis', 'phpredis'],
+    'auth' => ['phpvalkey', 'phpvalkey'],
     'ssl' => ['verify_peer' => false],
     'backoff' => [
-        'algorithm' => Redis::BACKOFF_ALGORITHM_DECORRELATED_JITTER,
+        'algorithm' => Valkey::BACKOFF_ALGORITHM_DECORRELATED_JITTER,
         'base' => 500,
         'cap' => 750,
     ],
 ]);
 ```
 
-#### *Parameters*
+### *Parameters*
 
 _host_: string. can be a host, or the path to a unix domain socket.  
 _port_: int (default is 6379, should be -1 for unix domain socket)  
@@ -49,28 +47,28 @@ _persistent_: mixed, if value is string then it used as persistend id, else valu
 _auth_: mixed, authentication information  
 _ssl_: array, SSL context options  
 
-### Class RedisException
+## Class ValkeyException
 
 -----
 
-phpredis throws a [RedisException](#class-redisexception) object if it can't reach the Redis server. That can happen in case of connectivity issues, if the Redis service is down, or if the redis host is overloaded. In any other problematic case that does not involve an
-unreachable server (such as a key not existing, an invalid command, etc), phpredis will return `FALSE`.
+phpvalkey throws a [ValkeyException](#class-valkeyexception) object if it can't reach the Valkey server. That can happen in case of connectivity issues, if the Valkey service is down, or if the valkey host is overloaded. In any other problematic case that does not involve an
+unreachable server (such as a key not existing, an invalid command, etc), phpvalkey will return `FALSE`.
 
-### Predefined constants
+## Predefined constants
 
 -----
 
-_**Description**_: Available Redis Constants
+_**Description**_: Available Valkey Constants
 
-Redis data types, as returned by [type](#type)
+Valkey data types, as returned by [type](#type)
 
 ```php
-Redis::REDIS_STRING - String
-Redis::REDIS_SET - Set
-Redis::REDIS_LIST - List
-Redis::REDIS_ZSET - Sorted set
-Redis::REDIS_HASH - Hash
-Redis::REDIS_NOT_FOUND - Not found / other
+Valkey::REDIS_STRING; // String
+Valkey::REDIS_SET; // Set
+Valkey::REDIS_LIST; // List
+Valkey::REDIS_ZSET; // Sorted set
+Valkey::REDIS_HASH; // Hash
+Valkey::REDIS_NOT_FOUND; // Not found / other
 ```
 
 @TODO: OPT_SERIALIZER, AFTER, BEFORE,...

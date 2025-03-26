@@ -37,28 +37,29 @@ Or
 *ARRAY* ['listName', 'element']
 
 ##### *Example*
+
 ```php
 /* Non blocking feature */
-$redis->lPush('key1', 'A');
-$redis->del('key2');
+$valkey->lPush('key1', 'A');
+$valkey->del('key2');
 
-$redis->blPop('key1', 'key2', 10); /* ['key1', 'A'] */
+$valkey->blPop('key1', 'key2', 10); /* ['key1', 'A'] */
 /* OR */
-$redis->blPop(['key1', 'key2'], 10); /* ['key1', 'A'] */
+$valkey->blPop(['key1', 'key2'], 10); /* ['key1', 'A'] */
 
-$redis->brPop('key1', 'key2', 10); /* ['key1', 'A'] */
+$valkey->brPop('key1', 'key2', 10); /* ['key1', 'A'] */
 /* OR */
-$redis->brPop(['key1', 'key2'], 10); /* ['key1', 'A'] */
+$valkey->brPop(['key1', 'key2'], 10); /* ['key1', 'A'] */
 
 /* Blocking feature */
 
 /* process 1 */
-$redis->del('key1');
-$redis->blPop('key1', 10);
+$valkey->del('key1');
+$valkey->blPop('key1', 10);
 /* blocking for 10 seconds */
 
 /* process 2 */
-$redis->lPush('key1', 'A');
+$valkey->lPush('key1', 'A');
 
 /* process 1 */
 /* ['key1', 'A'] is returned*/
@@ -94,13 +95,14 @@ Return `FALSE` in case of a bad index or a key that doesn't point to a list.
 *Bool* `FALSE` if the key identifies a non-string data type, or no value corresponds to this index in the list `Key`.
 
 ##### *Example*
+
 ```php
-$redis->rPush('key1', 'A');
-$redis->rPush('key1', 'B');
-$redis->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
-$redis->lindex('key1', 0); /* 'A' */
-$redis->lindex('key1', -1); /* 'C' */
-$redis->lindex('key1', 10); /* `FALSE` */
+$valkey->rPush('key1', 'A');
+$valkey->rPush('key1', 'B');
+$valkey->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
+$valkey->lindex('key1', 0); /* 'A' */
+$valkey->lindex('key1', -1); /* 'C' */
+$valkey->lindex('key1', 10); /* `FALSE` */
 ```
 
 ### lInsert
@@ -120,21 +122,22 @@ If the list didn't exists, or the pivot didn't exists, the value is not inserted
 The number of the elements in the list, -1 if the pivot didn't exists.
 
 ##### *Example*
+
 ```php
-$redis->del('key1');
-$redis->lInsert('key1', Redis::AFTER, 'A', 'X'); /* 0 */
+$valkey->del('key1');
+$valkey->lInsert('key1', Redis::AFTER, 'A', 'X'); /* 0 */
 
-$redis->lPush('key1', 'A');
-$redis->lPush('key1', 'B');
-$redis->lPush('key1', 'C');
+$valkey->lPush('key1', 'A');
+$valkey->lPush('key1', 'B');
+$valkey->lPush('key1', 'C');
 
-$redis->lInsert('key1', Redis::BEFORE, 'C', 'X'); /* 4 */
-$redis->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C'] */
+$valkey->lInsert('key1', Redis::BEFORE, 'C', 'X'); /* 4 */
+$valkey->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C'] */
 
-$redis->lInsert('key1', Redis::AFTER, 'C', 'Y'); /* 5 */
-$redis->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C', 'Y'] */
+$valkey->lInsert('key1', Redis::AFTER, 'C', 'Y'); /* 5 */
+$valkey->lRange('key1', 0, -1); /* ['A', 'B', 'X', 'C', 'Y'] */
 
-$redis->lInsert('key1', Redis::AFTER, 'W', 'value'); /* -1 */
+$valkey->lInsert('key1', Redis::AFTER, 'W', 'value'); /* -1 */
 ```
 
 ### lPop
@@ -149,11 +152,12 @@ _**Description**_: Return and remove the first element of the list.
 *BOOL* `FALSE` in case of failure (empty list)
 
 ##### *Example*
+
 ```php
-$redis->rPush('key1', 'A');
-$redis->rPush('key1', 'B');
-$redis->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
-$redis->lPop('key1'); /* key1 => [ 'B', 'C' ] */
+$valkey->rPush('key1', 'A');
+$valkey->rPush('key1', 'B');
+$valkey->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
+$valkey->lPop('key1'); /* key1 => [ 'B', 'C' ] */
 ```
 
 ### lPush
@@ -162,7 +166,7 @@ _**Description**_: Adds one or more values to the head of a LIST.  Creates the l
 
 ##### *Prototype*
 ```php
-$redis->lPush($key, $entry [, $entry, $entry]);
+$valkey->lPush($key, $entry [, $entry, $entry]);
 ```
 
 ##### *Return value*
@@ -170,13 +174,13 @@ $redis->lPush($key, $entry [, $entry, $entry]);
 
 ##### *Examples*
 ```php
-$redis->del('key1');
-$redis->lPush('key1', 'F'); // returns 1
-$redis->lPush('key1', 'E'); // returns 2
-$redis->lPush('key1', 'D'); // returns 3
+$valkey->del('key1');
+$valkey->lPush('key1', 'F'); // returns 1
+$valkey->lPush('key1', 'E'); // returns 2
+$valkey->lPush('key1', 'D'); // returns 3
 /* key1 now contains: [ 'D', 'E', 'F' ] */
 
-$redis->lPush('key1', 'C', 'B', 'A'); // Returns 6
+$valkey->lPush('key1', 'C', 'B', 'A'); // Returns 6
 /* key1 now contains: [ 'A', 'B', 'C', 'D', 'E', 'F' ]
 ```
 
@@ -193,11 +197,11 @@ _**Description**_: Adds the string value to the head (left) of the list if the l
 
 ##### *Examples*
 ```php
-$redis->del('key1');
-$redis->lPushx('key1', 'A'); // returns 0
-$redis->lPush('key1', 'A'); // returns 1
-$redis->lPushx('key1', 'B'); // returns 2
-$redis->lPushx('key1', 'C'); // returns 3
+$valkey->del('key1');
+$valkey->lPushx('key1', 'A'); // returns 0
+$valkey->lPush('key1', 'A'); // returns 1
+$valkey->lPushx('key1', 'B'); // returns 2
+$valkey->lPushx('key1', 'C'); // returns 3
 /* key1 now points to the following list: [ 'A', 'B', 'C' ] */
 ```
 
@@ -216,11 +220,12 @@ _**Description**_: Returns the specified elements of the list stored at the spec
 *Array* containing the values in specified range.
 
 ##### *Example*
+
 ```php
-$redis->rPush('key1', 'A');
-$redis->rPush('key1', 'B');
-$redis->rPush('key1', 'C');
-$redis->lRange('key1', 0, -1); /* ['A', 'B', 'C'] */
+$valkey->rPush('key1', 'A');
+$valkey->rPush('key1', 'B');
+$valkey->rPush('key1', 'C');
+$valkey->lRange('key1', 0, -1); /* ['A', 'B', 'C'] */
 ```
 
 ### lRem
@@ -239,16 +244,17 @@ _**Description**_: Removes the first `count` occurrences of the value element fr
 *BOOL* `FALSE` if the value identified by key is not a list.
 
 ##### *Example*
-```php
-$redis->lPush('key1', 'A');
-$redis->lPush('key1', 'B');
-$redis->lPush('key1', 'C');
-$redis->lPush('key1', 'A');
-$redis->lPush('key1', 'A');
 
-$redis->lRange('key1', 0, -1); /* ['A', 'A', 'C', 'B', 'A'] */
-$redis->lRem('key1', 'A', 2); /* 2 */
-$redis->lRange('key1', 0, -1); /* ['C', 'B', 'A'] */
+```php
+$valkey->lPush('key1', 'A');
+$valkey->lPush('key1', 'B');
+$valkey->lPush('key1', 'C');
+$valkey->lPush('key1', 'A');
+$valkey->lPush('key1', 'A');
+
+$valkey->lRange('key1', 0, -1); /* ['A', 'A', 'C', 'B', 'A'] */
+$valkey->lRem('key1', 'A', 2); /* 2 */
+$valkey->lRange('key1', 0, -1); /* ['C', 'B', 'A'] */
 ```
 
 ### lSet
@@ -264,13 +270,14 @@ _**Description**_: Set the list at index with the new value.
 *BOOL* `TRUE` if the new value was set. `FALSE` if the index is out of range, or data type identified by key is not a list.
 
 ##### *Example*
+
 ```php
-$redis->rPush('key1', 'A');
-$redis->rPush('key1', 'B');
-$redis->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
-$redis->lindex('key1', 0); /* 'A' */
-$redis->lSet('key1', 0, 'X');
-$redis->lindex('key1', 0); /* 'X' */
+$valkey->rPush('key1', 'A');
+$valkey->rPush('key1', 'B');
+$valkey->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
+$valkey->lindex('key1', 0); /* 'A' */
+$valkey->lSet('key1', 0, 'X');
+$valkey->lindex('key1', 0); /* 'X' */
 ```
 
 ### lTrim
@@ -287,13 +294,14 @@ _**Description**_: Trims an existing list so that it will contain only a specifi
 *Bool* return `FALSE` if the key identify a non-list value.
 
 ##### *Example*
+
 ```php
-$redis->rPush('key1', 'A');
-$redis->rPush('key1', 'B');
-$redis->rPush('key1', 'C');
-$redis->lRange('key1', 0, -1); /* ['A', 'B', 'C'] */
-$redis->lTrim('key1', 0, 1);
-$redis->lRange('key1', 0, -1); /* ['A', 'B'] */
+$valkey->rPush('key1', 'A');
+$valkey->rPush('key1', 'B');
+$valkey->rPush('key1', 'C');
+$valkey->lRange('key1', 0, -1); /* ['A', 'B', 'C'] */
+$valkey->lTrim('key1', 0, 1);
+$valkey->lRange('key1', 0, -1); /* ['A', 'B'] */
 ```
 
 ### rPop
@@ -308,11 +316,12 @@ _**Description**_: Returns and removes the last element of the list.
 *BOOL* `FALSE` in case of failure (empty list)
 
 ##### *Example*
+
 ```php
-$redis->rPush('key1', 'A');
-$redis->rPush('key1', 'B');
-$redis->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
-$redis->rPop('key1'); /* key1 => [ 'A', 'B' ] */
+$valkey->rPush('key1', 'A');
+$valkey->rPush('key1', 'B');
+$valkey->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
+$valkey->rPop('key1'); /* key1 => [ 'A', 'B' ] */
 ```
 
 ### rPopLPush
@@ -327,18 +336,19 @@ _**Description**_: Pops a value from the tail of a list, and pushes it to the fr
 *STRING* The element that was moved in case of success, `FALSE` in case of failure.
 
 ##### *Example*
-```php
-$redis->del('x', 'y');
 
-$redis->lPush('x', 'abc');
-$redis->lPush('x', 'def');
-$redis->lPush('y', '123');
-$redis->lPush('y', '456');
+```php
+$valkey->del('x', 'y');
+
+$valkey->lPush('x', 'abc');
+$valkey->lPush('x', 'def');
+$valkey->lPush('y', '123');
+$valkey->lPush('y', '456');
 
 // move the last of x to the front of y.
-var_dump($redis->rPopLPush('x', 'y'));
-var_dump($redis->lRange('x', 0, -1));
-var_dump($redis->lRange('y', 0, -1));
+var_dump($valkey->rPopLPush('x', 'y'));
+var_dump($valkey->lRange('x', 0, -1));
+var_dump($valkey->lRange('y', 0, -1));
 
 ```
 Output:
@@ -364,7 +374,7 @@ _**Description**_: Adds one or more entries to the tail of a LIST. Redis will cr
 
 ##### *Prototype*
 ```php
-$redis->rPush($key, $entry [, $entry, $entry]);
+$valkey->rPush($key, $entry [, $entry, $entry]);
 ```
 
 ##### *Return value*
@@ -372,11 +382,11 @@ $redis->rPush($key, $entry [, $entry, $entry]);
 
 ##### *Examples*
 ```php
-$redis->del('key1');
-$redis->rPush('key1', 'A');           // returns 1
-$redis->rPush('key1', 'B');           // returns 2
-$redis->rPush('key1', 'C');           // returns 3
-$redis->rPush('key1', 'D', 'E', 'F'); // returns 6
+$valkey->del('key1');
+$valkey->rPush('key1', 'A');           // returns 1
+$valkey->rPush('key1', 'B');           // returns 2
+$valkey->rPush('key1', 'C');           // returns 3
+$valkey->rPush('key1', 'D', 'E', 'F'); // returns 6
 /* key1 now contains: [ 'A', 'B', 'C', 'D', 'E', 'F' ] */
 ```
 
@@ -393,11 +403,11 @@ _**Description**_: Adds the string value to the tail (right) of the list if the 
 
 ##### *Examples*
 ```php
-$redis->del('key1');
-$redis->rPushX('key1', 'A'); // returns 0
-$redis->rPush('key1', 'A'); // returns 1
-$redis->rPushX('key1', 'B'); // returns 2
-$redis->rPushX('key1', 'C'); // returns 3
+$valkey->del('key1');
+$valkey->rPushX('key1', 'A'); // returns 0
+$valkey->rPush('key1', 'A'); // returns 1
+$valkey->rPushX('key1', 'B'); // returns 2
+$valkey->rPushX('key1', 'C'); // returns 3
 /* key1 now points to the following list: [ 'A', 'B', 'C' ] */
 ```
 
@@ -415,11 +425,12 @@ If the list didn't exist or is empty, the command returns 0. If the data type id
 *BOOL* `FALSE` if the data type identified by Key is not list
 
 ##### *Example*
+
 ```php
-$redis->rPush('key1', 'A');
-$redis->rPush('key1', 'B');
-$redis->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
-$redis->lLen('key1');/* 3 */
-$redis->rPop('key1');
-$redis->lLen('key1');/* 2 */
+$valkey->rPush('key1', 'A');
+$valkey->rPush('key1', 'B');
+$valkey->rPush('key1', 'C'); /* key1 => [ 'A', 'B', 'C' ] */
+$valkey->lLen('key1');/* 3 */
+$valkey->rPop('key1');
+$valkey->lLen('key1');/* 2 */
 ```
