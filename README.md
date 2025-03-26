@@ -227,9 +227,16 @@ $valkey->pfCount('HyperLogLogMerged'); // 4 => a, b, c, d
 ### [Introspection](docs/content/introspection.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->isConnected();
+$valkey->getHost();
+$valkey->getPort();
+$valkey->getDbNum();
+$valkey->getTimeout();
+$valkey->getReadTimeout();
+$valkey->getPersistentID();
+$valkey->getAuth();
 ```
 
 ### [Keys](docs/content/keys.md)

@@ -11,6 +11,21 @@
 |[getPersistentID](#getPersistentID)|Gets the persistent ID that phpredis is using.                                 |:white\_check\_mark:        |:white\_check\_mark:        |Introspection  |getPersistentID|
 |[getAuth](#getAuth)                |Get the password used to authenticate the phpredis connection.                 |:white\_check\_mark:        |:white\_check\_mark:        |Introspection| getAuth         |
 
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->isConnected();
+$valkey->getHost();
+$valkey->getPort();
+$valkey->getDbNum();
+$valkey->getTimeout();
+$valkey->getReadTimeout();
+$valkey->getPersistentID();
+$valkey->getAuth();
+```
+
 ### isConnected
 -----
 _**Description**_:  A method to determine if a valkey-php object thinks it's connected to a server
