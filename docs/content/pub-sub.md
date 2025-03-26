@@ -125,6 +125,4 @@ $valkey->pubSub("channels"); /*All channels */
 $valkey->pubSub("channels", "*pattern*"); /* Just channels matching your pattern */
 $valkey->pubSub("numsub", ["chan1", "chan2"]); /*Get subscriber counts for 'chan1' and 'chan2'*/
 $valkey->pubSub("numpat"); /* Get the number of pattern subscribers */
-
-
 ```
