@@ -7511,16 +7511,16 @@ class Redis_Test extends TestSuite {
     /* Test high ports if we detect Redis running there */
     public function testHighPorts() {
         $ports = array_filter(array_map(function ($port) {
-            return $this->detectRedis('localhost', $port) ? $port : 0;
+            return $this->detectRedis($this->getHost(), $port) ? $port : 0;
         }, [32768, 32769, 32770]));
-
+        
         if ( ! $ports)
             $this->markTestSkipped();
 
         foreach ($ports as $port) {
             $redis = new Redis();
             try {
-                @$redis->connect('localhost', $port);
+                @$redis->connect($this->getHost(), $port);
                 if ($this->getAuth()) {
                     $this->assertTrue($redis->auth($this->getAuth()));
                 }

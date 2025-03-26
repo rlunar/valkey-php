@@ -602,7 +602,8 @@ class TestSuite
             $rt = new $class_name($host, $port, $auth);
 
             try {
-                $rt->setUp();
+                if ($name != 'testHighPorts')
+                    $rt->setUp();
                 $rt->$name();
 
                 if ($count === count($class_name::$errors)) {
