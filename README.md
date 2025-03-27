@@ -1,8 +1,8 @@
 # Valkey-PHP
 
 <p align="center">
-  <img src="https://valkey.io/img/Valkey-logo.svg" alt="Valkey Logo" width="200"/>
-  <img src="https://www.php.net/images/logos/new-php-logo.svg" alt="PHP Logo" width="200"/>
+  <img src="https://valkey.io/img/Valkey-logo.svg" alt="Valkey Logo" height="200"/>
+  <img src="https://www.php.net/images/logos/new-php-logo.svg" alt="PHP Logo" height="200"/>
 </p>
 
 <p align="center">
