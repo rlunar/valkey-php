@@ -25,17 +25,6 @@ Valkey-PHP is a comprehensive PHP client for [Valkey](https://valkey.io), design
 - **Valkey Compatibility**: Maintained in sync with Valkey development while preserving compatibility with Valkey OSS
 - **Enterprise-Ready**: Clustering, sentinel support, connection pooling, and other features needed for production deployments
 
-## Pre-requisites
-
-```bash
-brew install valkey
-brew services start valkey
-brew services list
-valkey-cli INFO server
-
-brew install autoconf automake libtool php
-```
-
 ## Installation
 
 ### PHP Extension (Recommended for Production)
@@ -331,7 +320,6 @@ $valkey->zAdd('key', 1, 'val1');
 $valkey->zAdd('key', 0, 'val0');
 $valkey->zAdd('key', 5, 'val5');
 $valkey->zRange('key', 0, -1); // [val0, val1, val5]
-
 // From Valkey 3.0.2 it's possible to add options like XX, NX, CH, INCR
 $valkey->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
 ```
@@ -341,28 +329,24 @@ $valkey->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
 ```php
 $valkey = new Valkey();
 $valkey->connect('127.0.0.1', 6379);
-
 $obj_redis->xAdd('mystream', "*", ['field' => 'value']);
 $obj_redis->xAdd('mystream', "*", ['field' => 'value'], 1000); // set max length of stream to 1000
 $obj_redis->xAdd('mystream', "*", ['field' => 'value'], 1000, true); // set max length of stream to ~1000
 $obj_redis->xAck('mystream', 'group1', ['1530063064286-0', '1530063064286-1']);
-
 /* Get everything in this stream */
 $obj_redis->xRange('mystream', '-', '+');
-
 /* Only the first two messages */
 $obj_redis->xRange('mystream', '-', '+', 2);
-
 $obj_redis->xInfo('STREAM', 'mystream', 'FULL', 10);
-
 $obj_redis->xRead(['stream1' => '1535222584555-0', 'stream2' => '1535222584555-0']);
-
 $obj_redis->xDel('mystream', ['1530115304877-0', '1530115305731-0']);
 ```
 
 ### [Strings](docs/content/strings.md)
 
 ```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
 // Simple key -> value set
 $valkey->set('key', 'value');
 // Will redirect, and actually make an SETEX call
@@ -371,7 +355,13 @@ $valkey->set('key', 'value', 10);
 $valkey->set('key:'.time(), 'value', ['nx', 'ex' => 10]);
 // Will set a key, if it does exist, with a ttl of 1000 miliseconds
 $valkey->set('key', 'value', ['xx', 'px' => 1000]);
-$valkey->setEx('key', 10, 'value');
+$valkey->setEx('key', 10, 'value1');
+$valkey->append('key', 'value2'); /* 12 */
+$valkey->get('key'); /* 'value1value2' */
+$valkey->exists('key'); /* 1 */
+$valkey->exists('NonExistingKey'); /* 0 */
+$valkey->mset(['foo' => 'foo', 'bar' => 'bar', 'baz' => 'baz']);
+$valkey->exists(['foo', 'bar', 'baz']); /* 3 */
 ```
 
 ### [Transactions](docs/content/transactions.md)

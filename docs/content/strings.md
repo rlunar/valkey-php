@@ -1,6 +1,71 @@
 # Valkey PHP - Strings
 
------
+|Command                        |Description                                                            |Supported              |Tested                 |Class/Trait    |Method     |
+|---                            |---                                                                    |:-:                    |:-:                    |---            |---        |
+|[append](#append)              |Append a value to a key                                                |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |append   |
+|[decr](#decr)                  |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decr   |
+|[decrBy](#decrBy)              |Decrement the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |decrBy   |
+|[get](#get)                    |Get the value of a key                                                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |get   |
+|[getRange](#getRange)          |Get a substring of the string stored at a key                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getRange   |
+|[getSet](#getSet)              |Set the string value of a key and return its old value                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getSet   |
+|[incr](#incr)                  |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incr   |
+|[incrBy](#incrBy)              |Increment the value of a key                                           |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrBy   |
+|[incrByFloat](#incrByFloat)    |Increment the float value of a key by the given amount                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |incrByFloat   |
+|[mGet](#mGet)                  |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mGet   |
+|[getMultiple](#getMultiple)    |Get the values of all the given keys                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |getMultiple   |
+|[mSet](#mSet)                  |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSet   |
+|[mSetNX](#mSetNX)              |Set multiple keys to multiple values                                   |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |mSetNX   |
+|[set](#set)                    |Set the string value of a key                                          |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |set   |
+|[setEx](#setEx)                |Set the value and expiration of a key                                  |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setEx   |
+|[pSetEx](#pSetEx)              |Set the value and expiration of a key                                  |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |pSetEx   |
+|[setNx](#setNx)                |Set the value of a key, only if the key does not exist                 |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setNx   |
+|[setRange](#setRange)          |Overwrite part of a string at key starting at the specified offset     |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |setRange   |
+|[strLen](#strLen)              |Get the length of the value stored in a key                            |:white\_check\_mark:   |:white\_check\_mark:   |Strings        |strLen   |
+
+- APPEND Appends a string to the value of a key. Creates the key if it doesn't exist.
+- DECR Decrements the integer value of a key by one. Uses 0 as initial value if the key doesn't exist.
+- DECRBY Decrements a number from the integer value of a key. Uses 0 as initial value if the key doesn't exist.
+- GET Returns the string value of a key.
+- GETDEL Returns the string value of a key after deleting the key.
+- GETEX Returns the string value of a key after setting its expiration time.
+- GETRANGE Returns a substring of the string stored at a key.
+- GETSET Returns the previous string value of a key after setting it to a new value.
+- INCR Increments the integer value of a key by one. Uses 0 as initial value if the key doesn't exist.
+- INCRBY Increments the integer value of a key by a number. Uses 0 as initial value if the key doesn't exist.
+- INCRBYFLOAT Increment the floating point value of a key by a number. Uses 0 as initial value if the key doesn't exist.
+- LCS Finds the longest common substring.
+- MGET Atomically returns the string values of one or more keys.
+- MSET Atomically creates or modifies the string values of one or more keys.
+- MSETNX Atomically modifies the string values of one or more keys only when all keys don't exist.
+- PSETEX Sets both string value and expiration time in milliseconds of a key. The key is created if it doesn't exist.
+- SET Sets the string value of a key, ignoring its type. The key is created if it doesn't exist.
+- SETEX Sets the string value and expiration time of a key. Creates the key if it doesn't exist.
+- SETNX Set the string value of a key only when the key doesn't exist.
+- SETRANGE Overwrites a part of a string value with another by an offset. Creates the key if it doesn't exist.
+- STRLEN Returns the length of a string value.
+- SUBSTR Returns a substring from a string value.
+
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+// Simple key -> value set
+$valkey->set('key', 'value');
+// Will redirect, and actually make an SETEX call
+$valkey->set('key', 'value', 10);
+// Will set the key, if it doesn't exist, with a ttl of 10 seconds
+$valkey->set('key:'.time(), 'value', ['nx', 'ex' => 10]);
+// Will set a key, if it does exist, with a ttl of 1000 miliseconds
+$valkey->set('key', 'value', ['xx', 'px' => 1000]);
+$valkey->setEx('key', 10, 'value1');
+$valkey->append('key', 'value2'); /* 12 */
+$valkey->get('key'); /* 'value1value2' */
+$valkey->exists('key'); /* 1 */
+$valkey->exists('NonExistingKey'); /* 0 */
+$valkey->mset(['foo' => 'foo', 'bar' => 'bar', 'baz' => 'baz']);
+$valkey->exists(['foo', 'bar', 'baz']); /* 3 */
+```
 
 * [append](#append) - Append a value to a key
 * [decr, decrBy](#decr-decrby) - Decrement the value of a key
@@ -42,15 +107,6 @@ $valkey->set('key', 'value1');
 $valkey->append('key', 'value2'); /* 12 */
 $valkey->get('key'); /* 'value1value2' */
 ```
-
-
-
-
-
-
-
-
-
 
 ## get
 
@@ -126,7 +182,6 @@ $valkey->set('key', 'value', ['nx', 'ex'=>10]);
 
 // Will set a key, if it does exist, with a ttl of 1000 milliseconds
 $valkey->set('key', 'value', ['xx', 'px'=>1000]);
-
 ```
 
 ## setEx, pSetEx
