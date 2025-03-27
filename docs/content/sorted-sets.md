@@ -1,4 +1,73 @@
-## Sorted sets
+# Valkey PHP - Sorted sets
+
+|Command                                    |Description                                                                                |Supported  |Tested     |Class/Trait    |Method             |
+|---                                        |---                                                                                        |:-:        |:-:        |---            |---                |
+|[bzPop](#bzPop)                            |Block until Redis can pop the highest or lowest scoring member from one or more ZSETs.     |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |bzPop              |
+|[bzPopMin](#bzPopMin)                      |Block until Redis can pop the lowest scoring member from one or more ZSETs.                |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |bzPopMin           |
+|[bzPopMax](#bzPopMax)                      |Block until Redis can pop the highest scoring member from one or more ZSETs.               |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |bzPopMax           |
+|[zAdd](#zAdd)                              |Add one or more members to a sorted set or update its score if it already exists.          |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zAdd               |
+|[zCard](#zCard)                            |Get the number of members in a sorted set.                                                 |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zCard              |
+|[zSize](#zSize)                            |Get the number of members in a sorted set.                                                 |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zSize              |
+|[zCount](#zCount)                          |Count the members in a sorted set with scores within the given values.                     |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zCount             |
+|[zIncrBy](#zIncrBy)                        |Increment the score of a member in a sorted set.                                           |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zIncrBy            |
+|[zinterstore](#zinterstore)                |Intersect multiple sorted sets and store the resulting sorted set in a new key.            |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zinterstore        |
+|[zInter](#zInter)                          |Intersect multiple sorted sets and store the resulting sorted set in a new key.            |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zInter             |
+|[zPop](#zPop)                              |Redis can pop the highest or lowest scoring member from one a ZSET.                        |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zPop               |
+|[zRange](#zRange)                          |Return a range of members in a sorted set, by index.                                       |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRange             |
+|[zRangeByScore](#zRangeByScore)            |Return a range of members in a sorted set, by score.                                       |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRangeByScore      |
+|[zRevRangeByScore](#zRevRangeByScore)      |Return a range of members in a sorted set, by score.                                       |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRevRangeByScore   |
+|[zRangeByLex](#zRangeByLex)                |Return a lexicographical range from members that share the same score.                     |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRangeByLex        |
+|[zRank](#zRank)                            |Determine the index of a member in a sorted set.                                           |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRank              |
+|[zRevRank](#zRevRank)                      |Determine the index of a member in a sorted set.                                           |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRevRank           |
+|[zRem](#zRem)                              |Remove one or more members from a sorted set.                                              |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRem               |
+|[zDelete](#zDelete)                        |Remove one or more members from a sorted set.                                              |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zDelete            |
+|[zRemove](#zRemove)                        |Remove one or more members from a sorted set.                                              |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRemove            |
+|[zRemRangeByRank](#zRemRangeByRank)        |Remove all members in a sorted set within the given indexes.                               |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRemRangeByRank    |
+|[zDeleteRangeByRank](#zDeleteRangeByRank)  |Remove all members in a sorted set within the given indexes.                               |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zDeleteRangeByRank |
+|[zRemRangeByScore](#zRemRangeByScore)      |Remove all members in a sorted set within the given scores.                                |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRemRangeByScore   |
+|[zDeleteRangeByScore](#zDeleteRangeByScore)|Remove all members in a sorted set within the given scores.                                |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zDeleteRangeByScore|
+|[zRemoveRangeByScore](#zRemoveRangeByScore)|Remove all members in a sorted set within the given scores.                                |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRemoveRangeByScore|
+|[zRevRange](#zRevRange)                    |Return a range of members in a sorted set, by index, with scores ordered from high to low. |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zRevRange          |
+|[zScore](#zScore)                          |Get the score associated with the given member in a sorted set.                            |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zScore             |
+|[zunionstore](#zunionstore)                |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zunionstore        |
+|[zUnion](#zUnion)                          |Add multiple sorted sets and store the resulting sorted set in a new key.                  |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zUnion             |
+|[zScan](#zScan)                            |Scan a sorted set for members.                                                             |:white\_check\_mark:        |:white\_check\_mark:        |SortedSets     |zScan              |
+
+BZMPOP Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.
+BZPOPMAX Removes and returns the member with the highest score from one or more sorted sets. Blocks until a member available otherwise. Deletes the sorted set if the last element was popped.
+BZPOPMIN Removes and returns the member with the lowest score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.
+ZADD Adds one or more members to a sorted set, or updates their scores. Creates the key if it doesn't exist.
+ZCARD Returns the number of members in a sorted set.
+ZCOUNT Returns the count of members in a sorted set that have scores within a range.
+ZDIFF Returns the difference between multiple sorted sets.
+ZDIFFSTORE Stores the difference of multiple sorted sets in a key.
+ZINCRBY Increments the score of a member in a sorted set.
+ZINTER Returns the intersect of multiple sorted sets.
+ZINTERCARD Returns the number of members of the intersect of multiple sorted sets.
+ZINTERSTORE Stores the intersect of multiple sorted sets in a key.
+ZLEXCOUNT Returns the number of members in a sorted set within a lexicographical range.
+ZMPOP Returns the highest- or lowest-scoring members from one or more sorted sets after removing them. Deletes the sorted set if the last member was popped.
+ZMSCORE Returns the score of one or more members in a sorted set.
+ZPOPMAX Returns the highest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.
+ZPOPMIN Returns the lowest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.
+ZRANDMEMBER Returns one or more random members from a sorted set.
+ZRANGE Returns members in a sorted set within a range of indexes.
+ZRANGEBYLEX Returns members in a sorted set within a lexicographical range.
+ZRANGEBYSCORE Returns members in a sorted set within a range of scores.
+ZRANGESTORE Stores a range of members from sorted set in a key.
+ZRANK Returns the index of a member in a sorted set ordered by ascending scores.
+ZREM Removes one or more members from a sorted set. Deletes the sorted set if all members were removed.
+ZREMRANGEBYLEX Removes members in a sorted set within a lexicographical range. Deletes the sorted set if all members were removed.
+ZREMRANGEBYRANK Removes members in a sorted set within a range of indexes. Deletes the sorted set if all members were removed.
+ZREMRANGEBYSCORE Removes members in a sorted set within a range of scores. Deletes the sorted set if all members were removed.
+ZREVRANGE Returns members in a sorted set within a range of indexes in reverse order.
+ZREVRANGEBYLEX Returns members in a sorted set within a lexicographical range in reverse order.
+ZREVRANGEBYSCORE Returns members in a sorted set within a range of scores in reverse order.
+ZREVRANK Returns the index of a member in a sorted set ordered by descending scores.
+ZSCAN Iterates over members and scores of a sorted set.
+ZSCORE Returns the score of a member in a sorted set.
+ZUNION Returns the union of multiple sorted sets.
+ZUNIONSTORE Stores the union of multiple sorted sets in a key.
 
 * [bzPop](#bzpop) - Block until Valkey can pop the highest or lowest scoring member from one or more ZSETs.
 * [zAdd](#zadd) - Add one or more members to a sorted set or update its score if it already exists

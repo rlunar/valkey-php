@@ -312,9 +312,14 @@ $valkey->eval("return {1,2,3,redis.call('lrange','mylist',0,-1)}");
 ### [Sets](docs/content/sets.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->sAdd('key1' , 'member1');
+$valkey->sAdd('key1' , 'member2');
+$valkey->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
+$valkey->sCard('key1'); /* 3 */
+$valkey->sIsMember('key1', 'member1'); /* TRUE */
+$valkey->sIsMember('key1', 'memberX'); /* FALSE */
 ```
 
 ### [Sorted Sets](docs/content/sorted-sets.md)

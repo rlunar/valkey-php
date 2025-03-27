@@ -1,5 +1,45 @@
 ## Sets
 
+|Command                    |Description                                                    |Supported  |Tested     |Class/Trait    |Method         |
+|---                        |---                                                            |:-:        |:-:        |---            |---            |
+|[sAdd](#sAdd)              |Add one or more members to a set.                              |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sAdd           |
+|[sCard](#sCard)            |Get the number of members in a set.                            |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sCard          |
+|[sSize](#sSize)            |Get the number of members in a set.                            |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sSize          |
+|[sDiff](#sDiff)            |Subtract multiple sets.                                        |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sDiff          |
+|[sDiffStore](#sDiffStore)  |Subtract multiple sets and store the resulting set in a key.   |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sDiffStore     |
+|[sInter](#sInter)          |Intersect multiple sets.                                       |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sInter         |
+|[sInterStore](#sInterStore)|Intersect multiple sets and store the resulting set in a key.  |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sInterStore    |
+|[sIsMember](#sIsMember)    |Determine if a given value is a member of a set.               |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sIsMember      |
+|[sContains](#sContains)    |Determine if a given value is a member of a set.               |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sContains      |
+|[sMembers](#sMembers)      |Get all the members in a set.                                  |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sMembers       |
+|[sGetMembers](#sGetMembers)|Get all the members in a set.                                  |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sGetMembers    |
+|[sMove](#sMove)            |Move a member from one set to another.                         |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sMove          |
+|[sPop](#sPop)              |Remove and return one or more members of a set at random.      |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sPop           |
+|[sRandMember](#sRandMember)|Get one or multiple random members from a set.                 |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sRandMember    |
+|[sRem](#sRem)              |Remove one or more members from a set.                         |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sRem           |
+|[sRemove](#sRemove)        |Remove one or more members from a set.                         |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sRemove        |
+|[sUnion](#sUnion)          |Add multiple sets.                                             |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sUnion         |
+|[sUnionStore](#sUnionStore)|Add multiple sets and store the resulting set in a key.        |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sUnionStore    |
+|[sScan](#sScan)            |Scan a set for members.                                        |:white\_check\_mark:        |:white\_check\_mark:        |Sets           |sScan          |
+
+SADD Adds one or more members to a set. Creates the key if it doesn't exist.
+SCARD Returns the number of members in a set.
+SDIFF Returns the difference of multiple sets.
+SDIFFSTORE Stores the difference of multiple sets in a key.
+SINTER Returns the intersect of multiple sets.
+SINTERCARD Returns the number of members of the intersect of multiple sets.
+SINTERSTORE Stores the intersect of multiple sets in a key.
+SISMEMBER Determines whether a member belongs to a set.
+SMEMBERS Returns all members of a set.
+SMISMEMBER Determines whether multiple members belong to a set.
+SMOVE Moves a member from one set to another.
+SPOP Returns one or more random members from a set after removing them. Deletes the set if the last member was popped.
+SRANDMEMBER Get one or multiple random members from a set
+SREM Removes one or more members from a set. Deletes the set if the last member was removed.
+SSCAN Iterates over members of a set.
+SUNION Returns the union of multiple sets.
+SUNIONSTORE Stores the union of multiple sets in a key.
+
 * [sAdd](#sadd) - Add one or more members to a set
 * [sCard](#scard) - Get the number of members in a set
 * [sDiff](#sdiff) - Subtract multiple sets
@@ -15,6 +55,19 @@
 * [sUnion](#sunion) - Add multiple sets
 * [sUnionStore](#sunionstore) - Add multiple sets and store the resulting set in a key
 * [sScan](#sscan) - Scan a set for members
+
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->sAdd('key1' , 'member1');
+$valkey->sAdd('key1' , 'member2');
+$valkey->sAdd('key1' , 'member3'); /* 'key1' => {'member1', 'member2', 'member3'}*/
+$valkey->sCard('key1'); /* 3 */
+$valkey->sIsMember('key1', 'member1'); /* TRUE */
+$valkey->sIsMember('key1', 'memberX'); /* FALSE */
+```
 
 ### sAdd
 -----
