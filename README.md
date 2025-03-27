@@ -1,7 +1,8 @@
 # Valkey-PHP
 
 <p align="center">
-  <img src="https://valkey.io/img/Valkey-logo.svg" alt="Valkey-PHP Logo" width="200"/>
+  <img src="https://valkey.io/img/Valkey-logo.svg" alt="Valkey Logo" width="200"/>
+  <img src="https://www.php.net/images/logos/new-php-logo.svg" alt="PHP Logo" width="200"/>
 </p>
 
 <p align="center">
@@ -14,7 +15,7 @@
 
 ## About Valkey-PHP
 
-Valkey-PHP is a comprehensive PHP client for [Valkey](https://valkey.io), designed to provide a unified, high-performance interface for PHP applications. This project merges the best features of [valkey-php/valkey-php](https://github.com/valkey-php/valkey-php) and [webdcg/redis](https://github.com/webdcg/redis) into a single, well-maintained library under the Valkey Project by the Linux Foundation.
+Valkey-PHP is a comprehensive PHP client for [Valkey](https://valkey.io), designed to provide a unified, high-performance interface for PHP applications. This project merges the best features of [phpredis/phpredis](https://github.com/phpredis/phpredis) and [webdcg/redis](https://github.com/webdcg/redis) into a single, well-maintained library under the Valkey Project by the Linux Foundation.
 
 ### Key Features
 
@@ -367,22 +368,19 @@ $valkey->exists(['foo', 'bar', 'baz']); /* 3 */
 ### [Transactions](docs/content/transactions.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$ret = $valkey->multi()
+    ->set('key1', 'val1')
+    ->get('key1')
+    ->set('key2', 'val2')
+    ->get('key2')
+    ->exec();
 ```
 
 ## Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to get started.
-
-## Testing
-
-Valkey-PHP maintains 100% code coverage for all Valkey commands:
-
-```bash
-composer test
-```
 
 ### License
 
@@ -398,8 +396,8 @@ Valkey-PHP is open-sourced software licensed under the BSD-3-Clause license.
 
 This project builds upon the excellent work of:
 
-- valkey-php/valkey-php
-- webdcg/redis
+- [phpredis/phpredis](https://github.com/phpredis/phpredis)
+- [webdcg/redis](https://github.com/webdcg/redis)
 
 We thank all the contributors to these projects for their valuable work.
 
@@ -408,9 +406,3 @@ We thank all the contributors to these projects for their valuable work.
 - GitHub Issues
 - Discord Community
 - Stack Overflow
-
-This README provides a comprehensive overview of your project goals, highlighting the merger of PHPRredis and webdcg/redis under the Linux Foundation with BSD-3 licensing. It emphasizes the key features like 100% Valkey command coverage, high-level abstractions similar to Valkeyson, and the commitment to open source. The document includes installation instructions, quick start examples, migration paths, and acknowledges the original projects.
-
------
-
-## Keys and Strings

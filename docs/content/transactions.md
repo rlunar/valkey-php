@@ -1,4 +1,31 @@
-## Transactions
+# Valkey PHP - Transactions
+
+|Command            |Description                        |Supported  |Tested     |Class/Trait    |Method         |
+|---                |---                                |:-:        |:-:        |---            |---            |
+|[multi](#multi)    |Enter and exit transactional mode. |:white\_check\_mark:        |:white\_check\_mark:        |Transactions   |multi          |
+|[exec](#exec)      |Enter and exit transactional mode. |:white\_check\_mark:        |:white\_check\_mark:        |Transactions   |exec           |
+|[discard](#discard)|Enter and exit transactional mode. |:white\_check\_mark:        |:white\_check\_mark:        |Transactions   |discard        |
+|[watch](#watch)    |Enter and exit transactional mode. |:white\_check\_mark:        |:white\_check\_mark:        |Transactions   |watch          |
+|[unwatch](#unwatch)|Enter and exit transactional mode. |:white\_check\_mark:        |:white\_check\_mark:        |Transactions   |unwatch        |
+
+- DISCARD Discards a transaction.
+- EXEC Executes all commands in a transaction.
+- MULTI Starts a transaction.
+- UNWATCH Forgets about watched keys of a transaction.
+- WATCH Monitors changes to keys to determine the execution of a transaction.
+
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$ret = $valkey->multi()
+    ->set('key1', 'val1')
+    ->get('key1')
+    ->set('key2', 'val2')
+    ->get('key2')
+    ->exec();
+```
 
 1. [multi, exec, discard](#multi-exec-discard) - Enter and exit transactional mode
 2. [watch, unwatch](#watch-unwatch) - Watches a key for modifications by another client.
