@@ -11,21 +11,21 @@ pecl install redis
 To build this extension for the sources tree:
 
 ```bash
-git clone https://github.com/phpredis/phpredis.git
-cd phpredis
+git clone https://github.com/valkey-php/valkey-php.git
+cd valkey-php
 phpize
 ./configure [--enable-redis-igbinary] [--enable-redis-msgpack] [--enable-redis-lzf [--with-liblzf[=DIR]]] [--enable-redis-zstd] [--enable-redis-lz4]
 make && make install
 ```
 
-If you would like phpredis to serialize your data using the igbinary library, run configure with `--enable-redis-igbinary`.
+If you would like valkey-php to serialize your data using the igbinary library, run configure with `--enable-redis-igbinary`.
 If you would like to use the msgpack serializer, run configure with `--enable-redis-msgpack` (note:  Requires php-msgpack >= 2.0.3)
-The extension also may compress data before sending it to Redis server, if you run configure with `--enable-redis-lzf`. If you want to use lzf library pre-installed into your system use `--with-liblzf` configuration option to specify the path where to search files.
+The extension also may compress data before sending it to Valkey server, if you run configure with `--enable-redis-lzf`. If you want to use lzf library pre-installed into your system use `--with-liblzf` configuration option to specify the path where to search files.
 `make install` copies `redis.so` to an appropriate location, but you still need to enable the module in the PHP config file. To do so, either edit your php.ini or add a redis.ini file in `/etc/php5/conf.d` with the following contents: `extension=redis.so`.
 
 You can generate a debian package for PHP5, accessible from Apache 2 by running `./mkdeb-apache2.sh` or with `dpkg-buildpackage` or `svn-buildpackage`.
 
-This extension exports a single class, [Redis](./README.md#class-redis) (and [RedisException](./README.md#class-redisexception) used in case of errors). Check out https://github.com/ukko/phpredis-phpdoc for a PHP stub that you can use in your IDE for code completion.
+This extension exports a single class, [Valkey](./README.md#class-redis) (and [ValkeyException](./README.md#class-redisexception) used in case of errors). Check out https://github.com/ukko/valkey-php-phpdoc for a PHP stub that you can use in your IDE for code completion.
 
 # Binary packages
 
@@ -78,9 +78,9 @@ export CFLAGS CXXFLAGS LDFLAGS CCFLAGS MACOSX_DEPLOYMENT_TARGET
 
 If that still fails and you are running Zend Server CE, try this right before "make": `./configure CFLAGS="-arch i386"`.
 
-Taken from [Compiling phpredis on Zend Server CE/OSX ](http://www.tumblr.com/tagged/phpredis).
+Taken from [Compiling valkey-php on Zend Server CE/OSX ](http://www.tumblr.com/tagged/valkey-php).
 
-See also: [Install Redis & PHP Extension PHPRedis with Macports](http://www.lecloud.net/post/3378834922/install-redis-php-extension-phpredis-with-macports).
+See also: [Install Valkey & PHP Extension PHPValkey with Macports](http://www.lecloud.net/post/3378834922/install-redis-php-extension-valkey-php-with-macports).
 
 You can install it using MacPorts:
 
@@ -89,4 +89,4 @@ You can install it using MacPorts:
 
 # Building on Windows
 
-See [instructions from @char101](https://github.com/phpredis/phpredis/issues/213#issuecomment-11361242) on how to build phpredis on Windows.
+See [instructions from @char101](https://github.com/valkey-php/valkey-php/issues/213#issuecomment-11361242) on how to build valkey-php on Windows.
