@@ -1,4 +1,46 @@
-## Streams
+# Valkey PHP - Streams
+
+|Command                    |Description                                    |Supported  |Tested     |Class/Trait    |Method         |
+|---                        |---                                            |:-:        |:-:        |---            |---            |
+|[xAck](#xAck)              |Acknowledge one or more pending messages.      |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xAck           |
+|[xAdd](#xAdd)              |Add a message to a stream.                     |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xAdd           |
+|[xClaim](#xClaim)          |Acquire ownership of a pending message.        |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xClaim         |
+|[xDel](#xDel)              |Remove a message from a stream.                |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xDel           |
+|[xGroup](#xGroup)          |Manage consumer groups.                        |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xGroup         |
+|[xInfo](#xInfo)            |Get information about a stream.                |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xInfo          |
+|[xLen](#xLen)              |Get the length of a stream.                    |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xLen           |
+|[xPending](#xPending)      |Inspect pending messages in a stream.          |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xPending       |
+|[xRange](#xRange)          |Query a range of messages from a stream.       |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xRange         |
+|[xRead](#xRead)            |Read message(s) from a stream.                 |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xRead          |
+|[xReadGroup](#xReadGroup)  |Read stream messages with a group and consumer.|:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xReadGroup     |
+|[xRevRange](#xRevRange)    |Query one or more messages from end to start.  |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xRevRange      |
+|[xTrim](#xTrim)            |Trim a stream's size.                          |:white\_check\_mark:        |:white\_check\_mark:        |Streams        |xTrim          |
+
+- XACK Returns the number of messages that were successfully acknowledged by the consumer group member of a stream.
+- XADD Appends a new message to a stream. Creates the key if it doesn't exist.
+- XAUTOCLAIM Changes, or acquires, ownership of messages in a consumer group, as if the messages were delivered to as consumer group member.
+- XCLAIM Changes, or acquires, ownership of a message in a consumer group, as if the message was delivered a consumer group member.
+- XDEL Returns the number of messages after removing them from a stream.
+- XGROUP A container for consumer groups commands.
+- XGROUP CREATE Creates a consumer group.
+- XGROUP CREATECONSUMER Creates a consumer in a consumer group.
+- XGROUP DELCONSUMER Deletes a consumer from a consumer group.
+- XGROUP DESTROY Destroys a consumer group.
+- XGROUP HELP Returns helpful text about the different subcommands.
+- XGROUP SETID Sets the last-delivered ID of a consumer group.
+- XINFO A container for stream introspection commands.
+- XINFO CONSUMERS Returns a list of the consumers in a consumer group.
+- XINFO GROUPS Returns a list of the consumer groups of a stream.
+- XINFO HELP Returns helpful text about the different subcommands.
+- XINFO STREAM Returns information about a stream.
+- XLEN Return the number of messages in a stream.
+- XPENDING Returns the information and entries from a stream consumer group's pending entries list.
+- XRANGE Returns the messages from a stream within a range of IDs.
+- XREAD Returns messages from multiple streams with IDs greater than the ones requested. Blocks until a message is available otherwise.
+- XREADGROUP Returns new or historical messages from a stream for a consumer in a group. Blocks until a message is available otherwise.
+- XREVRANGE Returns the messages from a stream within a range of IDs in reverse order.
+- XSETID An internal command for replicating stream values.
+- XTRIM Deletes messages from the beginning of a stream.
 
 * [xAck](#xack) - Acknowledge one or more pending messages
 * [xAdd](#xadd) - Add a message to a stream
@@ -13,6 +55,30 @@
 * [xReadGroup](#xreadgroup) - Read stream messages with a group and consumer
 * [xRevRange](#xrevrange) - Query one or more messages from end to start
 * [xTrim](#xtrim) - Trim a stream's size
+
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+
+$obj_redis->xAdd('mystream', "*", ['field' => 'value']);
+$obj_redis->xAdd('mystream', "*", ['field' => 'value'], 1000); // set max length of stream to 1000
+$obj_redis->xAdd('mystream', "*", ['field' => 'value'], 1000, true); // set max length of stream to ~1000
+$obj_redis->xAck('mystream', 'group1', ['1530063064286-0', '1530063064286-1']);
+
+/* Get everything in this stream */
+$obj_redis->xRange('mystream', '-', '+');
+
+/* Only the first two messages */
+$obj_redis->xRange('mystream', '-', '+', 2);
+
+$obj_redis->xInfo('STREAM', 'mystream', 'FULL', 10);
+
+$obj_redis->xRead(['stream1' => '1535222584555-0', 'stream2' => '1535222584555-0']);
+
+$obj_redis->xDel('mystream', ['1530115304877-0', '1530115305731-0']);
+```
 
 ### xAck
 -----

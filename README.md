@@ -339,9 +339,25 @@ $valkey->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
 ### [Streams](docs/content/streams.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+
+$obj_redis->xAdd('mystream', "*", ['field' => 'value']);
+$obj_redis->xAdd('mystream', "*", ['field' => 'value'], 1000); // set max length of stream to 1000
+$obj_redis->xAdd('mystream', "*", ['field' => 'value'], 1000, true); // set max length of stream to ~1000
+$obj_redis->xAck('mystream', 'group1', ['1530063064286-0', '1530063064286-1']);
+
+/* Get everything in this stream */
+$obj_redis->xRange('mystream', '-', '+');
+
+/* Only the first two messages */
+$obj_redis->xRange('mystream', '-', '+', 2);
+
+$obj_redis->xInfo('STREAM', 'mystream', 'FULL', 10);
+
+$obj_redis->xRead(['stream1' => '1535222584555-0', 'stream2' => '1535222584555-0']);
+
+$obj_redis->xDel('mystream', ['1530115304877-0', '1530115305731-0']);
 ```
 
 ### [Strings](docs/content/strings.md)
@@ -402,8 +418,6 @@ We thank all the contributors to these projects for their valuable work.
 - GitHub Issues
 - Discord Community
 - Stack Overflow
-
-<p align="center"> <a href="https://linuxfoundation.org"> <img src="https://www.linuxfoundation.org/hubfs/LF%20Logo%20White.svg" alt="Linux Foundation" width="200"/> </a> </p> ```
 
 This README provides a comprehensive overview of your project goals, highlighting the merger of PHPRredis and webdcg/redis under the Linux Foundation with BSD-3 licensing. It emphasizes the key features like 100% Valkey command coverage, high-level abstractions similar to Valkeyson, and the commitment to open source. The document includes installation instructions, quick start examples, migration paths, and acknowledges the original projects.
 
