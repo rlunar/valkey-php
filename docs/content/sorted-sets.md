@@ -93,6 +93,20 @@ ZUNIONSTORE Stores the union of multiple sorted sets in a key.
 * [zunionstore](#zunionstore) - Add multiple sorted sets and store the resulting sorted set in a new key
 * [zScan](#zscan) - Scan a sorted set for members
 
+## Usage
+
+```php
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->zAdd('key', 1, 'val1');
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 5, 'val5');
+$valkey->zRange('key', 0, -1); // [val0, val1, val5]
+
+// From Valkey 3.0.2 it's possible to add options like XX, NX, CH, INCR
+$valkey->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
+```
+
 ### bzPop
 -----
 _**Description**_: Block until Valkey can pop the highest or lowest scoring members from one or more ZSETs.  There are two commands (`BZPOPMIN` and `BZPOPMAX` for popping the lowest and highest scoring elements respectively.)

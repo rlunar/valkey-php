@@ -325,9 +325,15 @@ $valkey->sIsMember('key1', 'memberX'); /* FALSE */
 ### [Sorted Sets](docs/content/sorted-sets.md)
 
 ```php
-$valkey->del('key');
-$valkey->delete('key');
-$valkey->unlink('key');
+$valkey = new Valkey();
+$valkey->connect('127.0.0.1', 6379);
+$valkey->zAdd('key', 1, 'val1');
+$valkey->zAdd('key', 0, 'val0');
+$valkey->zAdd('key', 5, 'val5');
+$valkey->zRange('key', 0, -1); // [val0, val1, val5]
+
+// From Valkey 3.0.2 it's possible to add options like XX, NX, CH, INCR
+$valkey->zAdd('key', ['CH'], 5, 'val5', 10, 'val10', 15, 'val15');
 ```
 
 ### [Streams](docs/content/streams.md)
