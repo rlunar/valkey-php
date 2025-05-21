@@ -101,13 +101,13 @@ Valkey-PHP provides Valkeyson-like abstractions for complex data structures:
 We provide compatibility layers to make migration from either library as smooth as possible:
 
 ```php
-// For PHPValkey users
-use Valkey\Compat\Valkey;
-$valkey = new Valkey();
+// For PHPRedis users
+use Valkey\Compat\Redis;
+$redis = new Redis();
 
 // For webdcg/redis users
-use Valkey\Compat\WebdcgValkey;
-$valkey = new WebdcgValkey();
+use Valkey\Compat\WebdcgRedis;
+$redis = new WebdcgRedis();
 ```
 
 ## Documentation
